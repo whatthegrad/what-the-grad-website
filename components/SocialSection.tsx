@@ -1,15 +1,13 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const PD = "Playfair Display, Georgia, serif";
-const DS = "Dancing Script, cursive";
 
 const SOCIALS = [
   {
     id: 'facebook',
     name: 'Facebook',
     handle: 'What The Grad',
-    color: 'rgba(255,255,255,0.85)',
     accent: '#3B5998',
     icon: (
       <svg width="44" height="44" viewBox="0 0 48 48" fill="none">
@@ -26,7 +24,6 @@ const SOCIALS = [
     id: 'instagram',
     name: 'Instagram',
     handle: 'whatthegrad',
-    color: 'rgba(255,255,255,0.85)',
     accent: '#9B59B6',
     icon: (
       <svg width="44" height="44" viewBox="0 0 48 48" fill="none">
@@ -44,7 +41,6 @@ const SOCIALS = [
     id: 'linkedin',
     name: 'LinkedIn',
     handle: 'What The Grad',
-    color: 'rgba(255,255,255,0.85)',
     accent: '#0077B5',
     icon: (
       <svg width="44" height="44" viewBox="0 0 48 48" fill="none">
@@ -61,141 +57,94 @@ const SOCIALS = [
   },
 ];
 
-function SocialCard({ social }: { social: typeof SOCIALS[0] }) {
+function SocialCard({ social, isMobile }: { social: typeof SOCIALS[0]; isMobile: boolean }) {
   const [hovered, setHovered] = useState(false);
 
   return (
     <div
+      style={{
+        display: 'flex', flexDirection: 'column', alignItems: 'center',
+        gap: '14px',
+        flex: isMobile ? 'none' : 1,
+        width: isMobile ? '100%' : 'auto',
+      }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '18px' }}
     >
-      {/* Place card */}
       <div style={{
         width: '100%',
         borderRadius: '20px',
-        background: social.color,
-        backdropFilter: 'blur(8px)',
-        border: '1px solid rgba(255,255,255,0.6)',
+        background: 'rgba(255,255,255,0.85)',
         overflow: 'hidden',
-        transform: hovered ? 'translateY(-10px) scale(1.02)' : 'translateY(0) scale(1)',
+        transform: (!isMobile && hovered) ? 'translateY(-8px) scale(1.02)' : 'none',
         transition: 'transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease',
-        boxShadow: hovered ? '0 28px 56px rgba(44,24,16,0.18)' : '0 4px 24px rgba(44,24,16,0.1)',
-        cursor: 'pointer',
+        boxShadow: hovered ? '0 20px 48px rgba(44,24,16,0.15)' : '0 4px 20px rgba(44,24,16,0.08)',
       }}>
-        {/* Image area */}
+        {/* image */}
         <div style={{
           width: '100%',
-          height: '220px',
-          overflow: 'hidden',
-          position: 'relative',
-          background: '#D6E8F5',
+          height: isMobile ? '180px' : '220px',
+          overflow: 'hidden', position: 'relative', background: '#D6E8F5',
         }}>
           <img
-            src={social.image}
-            alt={social.name}
+            src={social.image} alt={social.name}
             style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
+              width: '100%', height: '100%', objectFit: 'cover',
               transform: hovered ? 'scale(1.06)' : 'scale(1)',
               transition: 'transform 0.5s ease',
             }}
-            onError={(e) => {
-              // fallback if image not found
-              (e.target as HTMLImageElement).style.display = 'none';
-            }}
           />
-          {/* Followers badge */}
           <div style={{
-            position: 'absolute',
-            top: '12px',
-            right: '12px',
-            background: 'rgba(255,255,255,0.85)',
-            borderRadius: '100px',
-            padding: '4px 10px',
-            fontFamily: PD,
-            fontSize: '11px',
-            color: '#5C4A3A',
-            opacity: hovered ? 1 : 0,
-            transition: 'opacity 0.3s ease',
+            position: 'absolute', top: '10px', right: '10px',
+            background: 'rgba(255,255,255,0.88)', borderRadius: '100px',
+            padding: '3px 10px', fontFamily: PD, fontSize: '11px', color: '#5C4A3A',
           }}>
             {social.followers}
           </div>
         </div>
 
-        {/* Card body */}
-        <div style={{ padding: '20px 24px 24px', textAlign: 'center' }}>
-          {/* Icon — centred */}
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            marginBottom: '12px',
-            transform: hovered ? 'scale(1.1)' : 'scale(1)',
-            transition: 'transform 0.3s ease',
-          }}>
+        {/* body */}
+        <div style={{ padding: isMobile ? '16px 18px 18px' : '20px 24px 24px', textAlign: 'center' }}>
+          <div style={{ display:'flex', justifyContent:'center', marginBottom:'10px' }}>
             {social.icon}
           </div>
-
-          {/* Name */}
-          <h3 style={{
-            fontFamily: PD,
-            fontSize: '20px',
-            fontWeight: '700',
-            color: '#2C1810',
-            marginBottom: '4px',
-          }}>
+          <h3 style={{ fontFamily:PD, fontSize: isMobile ? '18px' : '20px', fontWeight:'700', color:'#2C1810', marginBottom:'3px' }}>
             {social.name}
           </h3>
-
-          {/* Handle — plain font not cursive */}
-          <p style={{
-            fontFamily: PD,
-            fontSize: '13px',
-            color: social.accent,
-            marginBottom: '12px',
-            fontStyle: 'italic',
-          }}>
+          <p style={{ fontFamily:PD, fontSize:'13px', color:social.accent, marginBottom:'10px', fontStyle:'italic' }}>
             @{social.handle}
           </p>
-
-          {/* Description */}
+          {/* always visible on mobile, hover-only on desktop */}
           <p style={{
-            fontFamily: PD,
-            fontSize: '13px',
-            color: '#5C4A3A',
-            lineHeight: '1.6',
-            opacity: hovered ? 1 : 0,
-            transform: hovered ? 'translateY(0)' : 'translateY(8px)',
-            transition: 'opacity 0.3s ease, transform 0.3s ease',
-            maxHeight: hovered ? '60px' : '0',
-            overflow: 'hidden',
+            fontFamily:PD, fontSize:'13px', color:'#5C4A3A', lineHeight:'1.6',
+            opacity: isMobile ? 1 : (hovered ? 1 : 0),
+            transition: 'opacity 0.3s ease',
           }}>
             {social.desc}
           </p>
         </div>
       </div>
 
-      {/* Button */}
+      {/* always visible button — no hover dependency */}
       <a
         href={social.url}
         target="_blank"
         rel="noopener noreferrer"
         style={{
           display: 'inline-block',
-          padding: '13px 40px',
-          background: hovered ? '#2C1810' : 'rgba(255,255,255,0.8)',
-          color: hovered ? '#FFF8EC' : '#2C1810',
+          padding: isMobile ? '11px 32px' : '13px 40px',
+          background: 'rgba(255,255,255,0.8)',
+          color: '#2C1810',
           border: '2px solid #2C1810',
           borderRadius: '100px',
-          fontFamily: PD,
-          fontSize: '14px',
-          fontWeight: '700',
-          letterSpacing: '0.04em',
-          textDecoration: 'none',
-          transition: 'background 0.25s ease, color 0.25s ease',
-          cursor: 'pointer',
+          fontFamily: PD, fontSize: '14px', fontWeight: '700',
+          letterSpacing: '0.04em', textDecoration: 'none',
+          transition: 'background 0.25s, color 0.25s',
+          width: isMobile ? '100%' : 'auto',
+          textAlign: 'center',
         }}
+        onMouseEnter={e => { e.currentTarget.style.background = '#2C1810'; e.currentTarget.style.color = '#FFF8EC'; }}
+        onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.8)'; e.currentTarget.style.color = '#2C1810'; }}
       >
         {social.name}
       </a>
@@ -204,102 +153,58 @@ function SocialCard({ social }: { social: typeof SOCIALS[0] }) {
 }
 
 export default function SocialSection() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
   return (
     <section style={{
-      position: 'relative',
-      paddingBottom: '80px',
-      overflow: 'hidden',
-      // background transitions from hero blue to gingham
+      position: 'relative', paddingBottom: '80px', overflow: 'hidden',
       background: 'linear-gradient(180deg, #D6E8F5 0%, transparent 120px)',
       backgroundColor: 'transparent',
     }}>
-      {/* Gingham background image */}
-      <div style={{
-        position: 'absolute',
-        inset: 0,
-        backgroundImage: 'url(/images/gingham-bg.jpg)',
-        backgroundSize: '300px',
-        backgroundRepeat: 'repeat',
-        opacity: 0.55,
-        zIndex: 0,
-      }} />
+      <div style={{ position:'absolute', inset:0, backgroundImage:'url(/images/gingham-bg.jpg)', backgroundSize:'300px', backgroundRepeat:'repeat', opacity:0.55, zIndex:0 }}/>
+      <div style={{ position:'absolute', inset:0, background:'rgba(255,255,255,0.35)', zIndex:0 }}/>
+      <div style={{ position:'absolute', top:0, left:0, right:0, height:'120px', background:'linear-gradient(180deg, #D6E8F5 0%, transparent 100%)', zIndex:1, pointerEvents:'none' }}/>
 
-      {/* Soft white overlay to keep it light */}
+      {/* ticker */}
       <div style={{
-        position: 'absolute',
-        inset: 0,
-        background: 'rgba(255,255,255,0.35)',
-        zIndex: 0,
-      }} />
-
-      {/* Transition fade from blue above */}
-      <div style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        height: '120px',
-        background: 'linear-gradient(180deg, #D6E8F5 0%, transparent 100%)',
-        zIndex: 1,
-        pointerEvents: 'none',
-      }} />
-
-      {/* Ticker */}
-      <div style={{
-        position: 'relative',
-        zIndex: 2,
-        borderTop: '1px solid rgba(44,24,16,0.08)',
-        borderBottom: '1px solid rgba(44,24,16,0.08)',
-        padding: '18px 0',
-        overflow: 'hidden',
-        marginBottom: '64px',
-        background: 'rgba(255,252,245,0.75)',
-        backdropFilter: 'blur(6px)',
+        position:'relative', zIndex:2,
+        borderTop:'1px solid rgba(44,24,16,0.08)', borderBottom:'1px solid rgba(44,24,16,0.08)',
+        padding:'16px 0', overflow:'hidden', marginBottom: isMobile ? '36px' : '64px',
+        background:'rgba(255,252,245,0.75)',
       }}>
-        <div style={{
-          display: 'flex',
-          animation: 'ticker 20s linear infinite',
-          whiteSpace: 'nowrap',
-          width: 'max-content',
-        }}>
+        <div style={{ display:'flex', animation:'ticker 20s linear infinite', whiteSpace:'nowrap', width:'max-content' }}>
           {[...Array(8)].map((_, i) => (
             <span key={i} style={{
-              fontFamily: PD,
-              fontSize: 'clamp(26px, 3vw, 42px)',
-              fontWeight: '700',
-              color: '#2C1810',
-              letterSpacing: '-0.01em',
-              paddingRight: '40px',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '20px',
+              fontFamily:PD,
+              fontSize: isMobile ? 'clamp(18px, 5vw, 28px)' : 'clamp(26px, 3vw, 42px)',
+              fontWeight:'700', color:'#2C1810', letterSpacing:'-0.01em',
+              paddingRight:'32px', display:'inline-flex', alignItems:'center', gap:'16px',
             }}>
               We&apos;re out there. Come find us
-              <span style={{
-                width: '10px',
-                height: '10px',
-                borderRadius: '50%',
-                background: '#F5A623',
-                display: 'inline-block',
-                flexShrink: 0,
-              }} />
+              <span style={{ width:'8px', height:'8px', borderRadius:'50%', background:'#F5A623', display:'inline-block', flexShrink:0 }}/>
             </span>
           ))}
         </div>
       </div>
 
-      {/* Cards */}
+      {/* cards */}
       <div style={{
-        position: 'relative',
-        zIndex: 2,
-        maxWidth: '1100px',
-        margin: '0 auto',
-        padding: '0 5vw',
-        display: 'flex',
-        gap: '28px',
-        alignItems: 'flex-start',
+        position:'relative', zIndex:2,
+        maxWidth:'1100px', margin:'0 auto',
+        padding:'0 5vw',
+        display: isMobile ? 'flex' : 'flex',
+        flexDirection: isMobile ? 'column' : 'row',
+        gap: isMobile ? '28px' : '28px',
+        alignItems:'flex-start',
       }}>
-        {SOCIALS.map(s => <SocialCard key={s.id} social={s} />)}
+        {SOCIALS.map(s => <SocialCard key={s.id} social={s} isMobile={isMobile}/>)}
       </div>
 
       <style>{`
