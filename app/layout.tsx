@@ -4,7 +4,7 @@ import './globals.css';
 import { CartProvider } from '@/components/CartContext';
 import CustomCursor from '@/components/CustomCursor';
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
