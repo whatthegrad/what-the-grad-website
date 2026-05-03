@@ -153,16 +153,17 @@ export default function HeroSection() {
   // mobile: scroll-driven animation
   useEffect(() => {
     if (!isMobile) return;
-    const onScroll = () => {
-      const stage = stageRef.current;
-      if (!stage) return;
-      const rect  = stage.getBoundingClientRect();
-      const viewH = window.innerHeight;
-      // progress 0→1 as stage scrolls from entering viewport to leaving
-      const raw = (viewH - rect.top) / (viewH + rect.height);
-      targetRef.current  = clamp(raw, 0, 1);
-      insideRef.current  = raw > 0 && raw < 1;
-    };
+   const onScroll = () => {
+  const stage = stageRef.current;
+  if (!stage) return;
+  const rect  = stage.getBoundingClientRect();
+  const viewH = window.innerHeight;
+  // starts at 0 when stage top is at bottom of screen
+  // reaches 1 only when user has scrolled past the stage
+  const raw = (viewH - rect.top) / rect.height;
+  targetRef.current = clamp(raw, 0, 1);
+  insideRef.current = raw > 0 && raw < 1;
+}; 
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener('scroll', onScroll);
