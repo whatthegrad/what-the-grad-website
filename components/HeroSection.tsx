@@ -527,7 +527,7 @@ export default function HeroSection() {
             </h1>
 
             <div style={{ display:'flex', justifyContent: isMobile ? 'center' : 'flex-start' }}>
-              <a href="/#about" className="learn-btn">Learn more</a>
+              <a href="/#services" className="learn-btn">Book a Discovery Call</a>
             </div>
 
             {/* progress bar + hint */}
