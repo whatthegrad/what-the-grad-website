@@ -527,7 +527,13 @@ export default function HeroSection() {
             </h1>
 
             <div style={{ display:'flex', justifyContent: isMobile ? 'center' : 'flex-start' }}>
-              <a href="/#services" className="learn-btn">Book a Discovery Call</a>
+           <button
+            onClick={() => window.location.href = '/contact'}
+            className="learn-btn"
+            style={{ cursor: 'pointer' }}
+           >
+            Book a Discovery Call
+          </button>
             </div>
 
             {/* progress bar + hint */}
