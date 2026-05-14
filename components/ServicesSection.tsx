@@ -241,10 +241,10 @@ export default function ServicesSection() {
 
                 {/* colour band */}
                 <div style={{
-                  height: '100px', background: pkg.color,
+                  height: '160px', position: 'relative', overflow: 'hidden', background: pkg.color,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                 }}>
-                  <span style={{ fontSize: '44px' }}>{pkg.emoji}</span>
+                  <img src={pkg.image || ''} alt={pkg.name} style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center' }}/>
                 </div>
 
                 <div style={{ padding: '20px 20px 24px' }}>
@@ -435,7 +435,7 @@ export default function ServicesSection() {
                  />
                  {!pkg.image && (
                    <span style={{ fontSize: '52px', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }}>
-                     {pkg.emoji}
+                     <img src={pkg.image || ''} alt={pkg.name} style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center' }}/>
                    </span>
                  )}
                </div>
