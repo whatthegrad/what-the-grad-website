@@ -494,12 +494,85 @@ export default function ServicesSection() {
         </p>
       </div>
 
-      {/* add-on services — after the sticky scroll section */}
-      <div style={{
-        position: 'absolute', bottom: 0, left: 0, right: 0,
-        padding: '80px 5vw 100px',
-        background: '#FFF8EC',
-      }}>
+      {/* add-on services */}
+<div style={{
+  position: 'absolute', bottom: 0, left: 0, right: 0,
+  padding: '80px 5vw 100px',
+}}>
+  {/* background image with fade blends top and bottom */}
+  <div style={{
+    position: 'absolute', inset: 0,
+    backgroundImage: 'url(/images/linen-bg.jpg)',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    opacity: 0.9,
+  }}/>
+  {/* fade from #FFF8EC at top */}
+  <div style={{
+    position: 'absolute', top: 0, left: 0, right: 0, height: '120px',
+    background: 'linear-gradient(to bottom, #FFF8EC 0%, transparent 100%)',
+    zIndex: 1, pointerEvents: 'none',
+  }}/>
+  {/* fade to #FFF8EC at bottom */}
+  <div style={{
+    position: 'absolute', bottom: 0, left: 0, right: 0, height: '120px',
+    background: 'linear-gradient(to top, #FFF8EC 0%, transparent 100%)',
+    zIndex: 1, pointerEvents: 'none',
+  }}/>
+
+  <div style={{ maxWidth: '1100px', margin: '0 auto', position: 'relative', zIndex: 2 }}>
+    <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+      <p style={{ fontFamily: PD, fontSize: '12px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#9B8B7A', marginBottom: '8px' }}>
+        Bolt-on services
+      </p>
+      <h3 style={{ fontFamily: PD, fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: '700', color: '#2C1810', letterSpacing: '-0.02em' }}>
+        Add-ons to any package
+      </h3>
+    </div>
+
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
+      {ADDONS.map((addon) => {
+        const justAdded = added === addon.id;
+        return (
+          <div
+            key={addon.id}
+            style={{
+              background: 'rgba(255,255,255,0.75)',
+              backdropFilter: 'blur(8px)',
+              border: '1px solid rgba(255,255,255,0.9)',
+              borderRadius: '16px', padding: '20px',
+              display: 'flex', flexDirection: 'column', gap: '8px',
+              transition: 'box-shadow 0.2s, transform 0.2s',
+            }}
+            onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = '0 8px 24px rgba(44,24,16,0.1)'; (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-2px)'; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = 'none'; (e.currentTarget as HTMLDivElement).style.transform = 'none'; }}
+          >
+            <p style={{ fontFamily: PD, fontSize: '15px', fontWeight: '700', color: '#2C1810' }}>{addon.name}</p>
+            <p style={{ fontFamily: PD, fontSize: '12px', color: '#9B8B7A', fontStyle: 'italic', flex: 1 }}>{addon.desc}</p>
+            <p style={{ fontFamily: PD, fontSize: '18px', fontWeight: '700', color: '#2C1810' }}>{addon.price}</p>
+            <button
+              onClick={(e) => handleAddToCart(e, addon)}
+              style={{
+                padding: '10px',
+                background: justAdded ? '#22C55E' : 'transparent',
+                color: justAdded ? 'white' : '#2C1810',
+                border: `1.5px solid ${justAdded ? '#22C55E' : 'rgba(44,24,16,0.2)'}`,
+                borderRadius: '100px', fontFamily: PD,
+                fontSize: '12px', fontWeight: '700',
+                cursor: 'pointer', transition: 'all 0.25s',
+              }}
+              onMouseEnter={e => { if (!justAdded) { (e.currentTarget as HTMLButtonElement).style.background = '#2C1810'; (e.currentTarget as HTMLButtonElement).style.color = '#FFF8EC'; } }}
+              onMouseLeave={e => { if (!justAdded) { (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; (e.currentTarget as HTMLButtonElement).style.color = '#2C1810'; } }}
+            >
+              {justAdded ? '✓ Added to cart!' : '+ Add to cart'}
+            </button>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</div>
+
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
             <p style={{ fontFamily: PD, fontSize: '12px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#9B8B7A', marginBottom: '8px' }}>
