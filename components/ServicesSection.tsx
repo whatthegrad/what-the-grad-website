@@ -16,7 +16,7 @@ const PACKAGES = [
     priceNum: 499,
     badge: null,
     color: '#D6E8F5',
-    image: null,
+    image: '/images/pkg-discovery-call.png',
     emoji: '🔍',
     for: 'Any student, any stage',
     shortDesc: 'A short, honest 1:1 conversation to figure out exactly where you are and what you need.',
@@ -37,7 +37,7 @@ const PACKAGES = [
     priceNum: 1499,
     badge: null,
     color: '#E8D5F5',
-    image: null,
+    image: '/images/pkg-streamsense.png',
     emoji: '🎯',
     for: 'Class 9–10 students choosing stream after 10th',
     shortDesc: 'Choosing the right stream after 10th is your first big decision. Make it the right one.',
@@ -60,7 +60,7 @@ const PACKAGES = [
     priceNum: 3499,
     badge: 'Most popular',
     color: '#F5A623',
-    image: null,
+    image: '/images/pkg-core-package.png',
     emoji: '⭐',
     for: 'Any student confused about direction',
     shortDesc: 'Deep diagnostic + session + written summary. The complete What The Grad experience.',
@@ -69,7 +69,7 @@ const PACKAGES = [
       'Full pattern analysis before session',
       '1:1 deep-dive session (75 min)',
       'Top 2–3 career directions with reasoning',
-      'Elimination of paths that don\'t fit',
+      "Elimination of paths that don't fit",
       'Written personalised summary (48 hrs)',
       '1 month WhatsApp support',
     ],
@@ -84,7 +84,7 @@ const PACKAGES = [
     priceNum: 2999,
     badge: null,
     color: '#D6F0E8',
-    image: null,
+    image: '/images/pkg-ug-pathway.png',
     emoji: '🎓',
     for: 'Class 12 students and gap year students choosing college and course',
     shortDesc: 'Top 3–5 course and college matches for India and abroad, with a real application plan.',
@@ -107,10 +107,10 @@ const PACKAGES = [
     priceNum: 7999,
     badge: null,
     color: '#FFF3D6',
-    image: null,
+    image: '/images/pkg-gradglow.png',
     emoji: '✨',
-    for: 'Undergrads deciding between a master\'s, job, or career switch',
-    shortDesc: 'MS vs MBA vs job — mapped out clearly with a written roadmap you can actually follow.',
+    for: "Undergrads deciding between a master's, job, or career switch",
+    shortDesc: "MS vs MBA vs job — mapped out clearly with a written roadmap you can actually follow.",
     includes: [
       '1:1 career mapping session',
       'MS vs MBA vs job pathway analysis',
@@ -130,10 +130,10 @@ const PACKAGES = [
     priceNum: 13999,
     badge: 'Premium',
     color: '#2C1810',
-    image: null,
+    image: '/images/pkg-total-admit.png',
     emoji: '🏆',
-    for: 'Students applying to master\'s or competitive UG programs abroad or in India',
-    shortDesc: 'Everything from university selection to final review — we\'re with you the whole way.',
+    for: "Students applying to master's or competitive UG programs abroad or in India",
+    shortDesc: "Everything from university selection to final review — we're with you the whole way.",
     includes: [
       'University selection (3–5 programs)',
       'SOP writing support — brainstorm + 2 rounds of editing',
@@ -420,13 +420,25 @@ export default function ServicesSection() {
 
                 {/* colour band */}
                 <div style={{
-                  height: '160px', background: pkg.color, flexShrink: 0,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  height: '200px', flexShrink: 0,
                   position: 'relative', overflow: 'hidden',
+                  background: pkg.color,
                 }}>
-                  <div style={{ position: 'absolute', width: '120px', height: '120px', borderRadius: '50%', background: 'rgba(255,255,255,0.15)', top: '-20px', right: '-20px' }}/>
-                  <span style={{ fontSize: '52px', position: 'relative', zIndex: 1 }}>{pkg.emoji}</span>
-                </div>
+                  <img
+                    src={pkg.image || ''}
+                    alt={pkg.name}
+                    style={{
+                      width: '100%', height: '100%',
+                      objectFit: 'cover', objectPosition: 'center',
+                      display: pkg.image ? 'block' : 'none',
+                    }}
+                 />
+                 {!pkg.image && (
+                   <span style={{ fontSize: '52px', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }}>
+                     {pkg.emoji}
+                   </span>
+                 )}
+               </div>
 
                 <div style={{ padding: '22px 22px 24px', display: 'flex', flexDirection: 'column', flex: 1 }}>
                   <h3 style={{ fontFamily: PD, fontSize: '20px', fontWeight: '700', color: '#2C1810', marginBottom: '4px' }}>{pkg.name}</h3>

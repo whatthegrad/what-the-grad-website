@@ -533,7 +533,7 @@ export default function HeroSection() {
             style={{ cursor: 'pointer' }}
            >
             Book a Discovery Call
-          </button>
+           </button>
             </div>
 
             {/* progress bar + hint */}
