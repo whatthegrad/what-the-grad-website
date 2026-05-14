@@ -5,7 +5,7 @@ const DS = "Dancing Script, cursive";
 const PD = "Playfair Display, Georgia, serif";
 
 const POLAROIDS = [
-  { id:1, rotation:-12, top:'2%',  left:'5%',  width:170, imgHeight:165, delay:0.05, tape:{ top:'-11px', left:'50%',  transform:'translateX(-50%) rotate(-3deg)' }, caption:'France, 2019',   bg:'#D6E8F5', zIndex:3 },
+  { id:1, rotation:-12, top:'2%',  left:'5%',  width:170, imgHeight:165, delay:0.05, tape:{ top:'-11px', left:'50%',  transform:'translateX(-50%) rotate(-3deg)' }, caption:'France, 2023',   bg:'#D6E8F5', zIndex:3 },
   { id:2, rotation:8,   top:'3%',  left:'44%', width:155, imgHeight:150, delay:0.2,  tape:{ top:'-10px', right:'14px', transform:'rotate(7deg)' },                  caption:'First day abroad', bg:'#E8D5F5', zIndex:4 },
   { id:3, rotation:-5,  top:'36%', left:'0%',  width:145, imgHeight:140, delay:0.38, tape:{ top:'-9px',  left:'12px',  transform:'rotate(-6deg)' },                 caption:'Always lost',     bg:'#FFF3D6', zIndex:2 },
   { id:4, rotation:10,  top:'32%', left:'36%', width:175, imgHeight:170, delay:0.15, tape:{ top:'-11px', left:'50%',  transform:'translateX(-50%) rotate(4deg)' },  caption:'The big idea',    bg:'#F5E6D5', zIndex:5 },
