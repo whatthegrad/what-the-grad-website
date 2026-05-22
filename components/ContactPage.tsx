@@ -11,7 +11,7 @@ export default function ContactPage() {
   const [email, setEmail]         = useState('');
   const [message, setMessage]     = useState('');
   const [focused, setFocused]     = useState('');
-  const [showForm, setShowForm]   = useState(false);
+  const [status, setStatus]       = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
   const inputStyle = (field: string): React.CSSProperties => ({
     width: '100%', padding: '12px 16px', borderRadius: '10px',
@@ -19,6 +19,23 @@ export default function ContactPage() {
     background: 'rgba(255,255,255,0.6)', fontFamily: PD, fontSize: '14px',
     color: '#2C1810', outline: 'none', transition: 'border-color 0.2s', boxSizing: 'border-box' as const,
   });
+
+  async function handleSubmit() {
+    if (!firstName || !lastName || !email || !message) return;
+    setStatus('loading');
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ firstName, lastName, email, message }),
+      });
+      if (!res.ok) throw new Error();
+      setStatus('success');
+      setFirstName(''); setLastName(''); setEmail(''); setMessage('');
+    } catch {
+      setStatus('error');
+    }
+  }
 
   return (
     <div style={{ minHeight: '100vh', background: '#FFF8EC', fontFamily: PD }}>
@@ -51,15 +68,14 @@ export default function ContactPage() {
         </div>
 
         <div style={{ background: 'rgba(255,255,255,0.9)', borderRadius: '24px', padding: '40px', boxShadow: '0 8px 40px rgba(44,24,16,0.08)', border: '1px solid rgba(44,24,16,0.06)' }}>
-          {showForm ? (
-            <div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                <h3 style={{ fontFamily: PD, fontSize: '18px', fontWeight: '700', color: '#2C1810' }}>Complete your message ✦</h3>
-                <button onClick={() => setShowForm(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '20px', color: '#9B8B7A' }}>×</button>
-              </div>
-              <iframe width="100%" height="520px" src="https://forms.cloud.microsoft/r/kqCQ5Py0uZ?embed=true"
-                frameBorder="0" marginWidth={0} marginHeight={0}
-                style={{ border: 'none', borderRadius: '12px', width: '100%' }} allowFullScreen />
+          {status === 'success' ? (
+            <div style={{ textAlign: 'center', padding: '40px 0' }}>
+              <div style={{ fontSize: '48px', marginBottom: '16px' }}>✦</div>
+              <h3 style={{ fontFamily: PD, fontSize: '22px', fontWeight: '700', color: '#2C1810', marginBottom: '12px' }}>Message sent!</h3>
+              <p style={{ fontFamily: PD, fontSize: '15px', color: '#5C4A3A' }}>We&apos;ll get back to you soon.</p>
+              <button onClick={() => setStatus('idle')} style={{ marginTop: '24px', padding: '10px 28px', background: 'none', border: '1.5px solid #2C1810', borderRadius: '100px', fontFamily: PD, fontSize: '14px', color: '#2C1810', cursor: 'pointer' }}>
+                Send another
+              </button>
             </div>
           ) : (
             <>
@@ -83,10 +99,17 @@ export default function ContactPage() {
                 <p style={{ fontFamily: PD, fontSize: '12px', color: '#9B8B7A', marginBottom: '6px' }}>A short description will help us get to know you.</p>
                 <textarea value={message} onChange={e => setMessage(e.target.value)} onFocus={() => setFocused('msg')} onBlur={() => setFocused('')} rows={4} style={{ ...inputStyle('msg'), resize: 'vertical', minHeight: '100px' }} />
               </div>
+              {status === 'error' && (
+                <p style={{ fontFamily: PD, fontSize: '13px', color: '#E8713A', marginBottom: '12px' }}>Something went wrong. Please try again.</p>
+              )}
               <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <button onClick={() => setShowForm(true)} style={{ padding: '14px 48px', background: '#2C1810', color: '#FFF8EC', border: 'none', borderRadius: '100px', fontFamily: PD, fontSize: '15px', fontWeight: '700', cursor: 'pointer' }}
-                  onMouseEnter={e => (e.currentTarget.style.background = '#E8713A')} onMouseLeave={e => (e.currentTarget.style.background = '#2C1810')}>
-                  Send
+                <button
+                  onClick={handleSubmit}
+                  disabled={status === 'loading'}
+                  style={{ padding: '14px 48px', background: status === 'loading' ? '#9B8B7A' : '#2C1810', color: '#FFF8EC', border: 'none', borderRadius: '100px', fontFamily: PD, fontSize: '15px', fontWeight: '700', cursor: status === 'loading' ? 'not-allowed' : 'pointer', transition: 'background 0.2s' }}
+                  onMouseEnter={e => { if (status !== 'loading') e.currentTarget.style.background = '#E8713A'; }}
+                  onMouseLeave={e => { if (status !== 'loading') e.currentTarget.style.background = '#2C1810'; }}>
+                  {status === 'loading' ? 'Sending…' : 'Send'}
                 </button>
               </div>
             </>
