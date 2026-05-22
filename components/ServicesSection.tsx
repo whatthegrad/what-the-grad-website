@@ -576,7 +576,7 @@ export default function ServicesSection() {
               onMouseEnter={e => { if (!justAdded) { (e.currentTarget as HTMLButtonElement).style.background = '#2C1810'; (e.currentTarget as HTMLButtonElement).style.color = '#FFF8EC'; } }}
               onMouseLeave={e => { if (!justAdded) { (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; (e.currentTarget as HTMLButtonElement).style.color = '#2C1810'; } }}
             >
-              {justAdded ? '✓ Added to cart!' : '+ Add to cart'}
+              {justAdded ? 'Added!' : 'Add to cart'}
             </button>
           </div>
         );
