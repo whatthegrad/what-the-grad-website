@@ -13,7 +13,7 @@ const PACKAGES = [
     badge: null, color: '#D6E8F5', image: '/images/pkg-discovery-call.png', emoji: '🔍',
     for: 'Any student, any stage',
     shortDesc: 'A short, honest 1:1 conversation to figure out exactly where you are and what you need.',
-    includes: ['20–30 min 1:1 conversation','Quick assessment of where you are','Verbal direction + recommended next step','Honest conversation — no hard sell'],
+    includes: ['20–30 min 1:1 conversation', 'Quick assessment of where you are', 'Verbal direction + recommended next step', 'Honest conversation — no hard sell'],
     btnLabel: 'Save my spot',
   },
   {
@@ -22,7 +22,7 @@ const PACKAGES = [
     badge: null, color: '#E8D5F5', image: '/images/pkg-streamsense.png', emoji: '🎯',
     for: 'Class 9–10 students choosing stream after 10th',
     shortDesc: 'Choosing the right stream after 10th is your first big decision. Make it the right one.',
-    includes: ['28-question diagnostic questionnaire','Interest and aptitude mapping','1:1 guidance session (45–60 min)','Personalised stream recommendation','Written summary document','1 month WhatsApp support'],
+    includes: ['28-question diagnostic questionnaire', 'Interest and aptitude mapping', '1:1 guidance session (45–60 min)', 'Personalised stream recommendation', 'Written summary document', '1 month WhatsApp support'],
     btnLabel: 'Count me in',
   },
   {
@@ -31,7 +31,7 @@ const PACKAGES = [
     badge: 'Most popular', color: '#F5A623', image: '/images/pkg-core-package.png', emoji: '⭐',
     for: 'Any student confused about direction',
     shortDesc: 'Deep diagnostic + session + written summary. The complete What The Grad experience.',
-    includes: ['28-question diagnostic questionnaire','Full pattern analysis before session','1:1 deep-dive session (75 min)','Top 2–3 career directions with reasoning',"Elimination of paths that don't fit",'Written personalised summary (48 hrs)','1 month WhatsApp support'],
+    includes: ['28-question diagnostic questionnaire', 'Full pattern analysis before session', '1:1 deep-dive session (75 min)', 'Top 2–3 career directions with reasoning', "Elimination of paths that don't fit", 'Written personalised summary (48 hrs)', '1 month WhatsApp support'],
     btnLabel: 'Get started',
   },
   {
@@ -40,7 +40,7 @@ const PACKAGES = [
     badge: null, color: '#D6F0E8', image: '/images/pkg-ug-pathway.png', emoji: '🎓',
     for: 'Class 12 students and gap year students',
     shortDesc: 'Top 3–5 course and college matches for India and abroad, with a real application plan.',
-    includes: ['28-question diagnostic questionnaire','1:1 guidance session (60–75 min)','Top 3–5 course and college matches','Basic SOP/resume direction','Application timeline guidance','Written summary document'],
+    includes: ['28-question diagnostic questionnaire', '1:1 guidance session (60–75 min)', 'Top 3–5 course and college matches', 'Basic SOP/resume direction', 'Application timeline guidance', 'Written summary document'],
     btnLabel: 'Find my path',
   },
   {
@@ -49,7 +49,7 @@ const PACKAGES = [
     badge: null, color: '#FFF3D6', image: '/images/pkg-gradglow.png', emoji: '✨',
     for: "Undergrads deciding between master's, job, or career switch",
     shortDesc: "MS vs MBA vs job — mapped out clearly with a written roadmap you can actually follow.",
-    includes: ['1:1 career mapping session','MS vs MBA vs job pathway analysis','Course and university shortlisting','CV/resume feedback','SOP structure and review support','Written roadmap document'],
+    includes: ['1:1 career mapping session', 'MS vs MBA vs job pathway analysis', 'Course and university shortlisting', 'CV/resume feedback', 'SOP structure and review support', 'Written roadmap document'],
     btnLabel: 'Glow up',
   },
   {
@@ -58,7 +58,7 @@ const PACKAGES = [
     badge: 'Premium', color: '#2C1810', image: '/images/pkg-total-admit.png', emoji: '🏆',
     for: "Students applying to master's or competitive UG programs",
     shortDesc: "Everything from university selection to final review — we're with you the whole way.",
-    includes: ['University selection (3–5 programs)','SOP writing support — brainstorm + 2 rounds of editing','CV formatting and editing','LOR strategy and template','Application calendar and checklist','WhatsApp/email support for 1 month','Final review before submission'],
+    includes: ['University selection (3–5 programs)', 'SOP writing support — brainstorm + 2 rounds of editing', 'CV formatting and editing', 'LOR strategy and template', 'Application calendar and checklist', 'WhatsApp/email support for 1 month', 'Final review before submission'],
     btnLabel: 'Get me in',
   },
 ];
@@ -105,83 +105,127 @@ function AddonsSection({ added, handleAddToCart }: { added: string | null; handl
     <div
       ref={ref}
       style={{
-        background: '#FFF8EC',
+        position: 'relative',
         padding: '80px 5vw 100px',
-        borderTop: '1px solid rgba(44,24,16,0.07)',
+        overflow: 'hidden',
       }}
     >
-      {/* Header */}
+      {/* Gingham background */}
       <div style={{
-        textAlign: 'center', marginBottom: '52px',
-        opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0)' : 'translateY(30px)',
-        transition: 'opacity 0.7s ease, transform 0.7s ease',
-      }}>
-        <p style={{ fontFamily: PD, fontSize: '12px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#9B8B7A', marginBottom: '8px' }}>
-          Bolt-on services
-        </p>
-        <h3 style={{ fontFamily: PD, fontSize: 'clamp(24px, 3vw, 40px)', fontWeight: '700', color: '#2C1810', letterSpacing: '-0.02em' }}>
-          Add-ons to any package
-        </h3>
-        <p style={{ fontFamily: PD, fontSize: '15px', fontStyle: 'italic', color: '#9B8B7A', marginTop: '12px' }}>
-          Stack these onto any session for extra support
-        </p>
-      </div>
+        position: 'absolute',
+        inset: 0,
+        backgroundImage: 'url(/images/gingham-bg.jpg)',
+        backgroundSize: '300px',
+        backgroundRepeat: 'repeat',
+        opacity: 0.45,
+        zIndex: 0,
+      }} />
 
-      {/* Grid — centred */}
+      {/* Soft white overlay */}
       <div style={{
-        maxWidth: '1000px',
-        margin: '0 auto',
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-        gap: '20px',
-        justifyItems: 'center',
-      }}>
-        {ADDONS.map((addon, i) => {
-          const justAdded = added === addon.id;
-          return (
-            <div
-              key={addon.id}
-              style={{
-                width: '100%',
-                maxWidth: '300px',
-                background: 'white',
-                borderRadius: '20px',
-                padding: '24px',
-                boxShadow: '0 4px 24px rgba(44,24,16,0.08)',
-                border: '1px solid rgba(44,24,16,0.06)',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '8px',
-                opacity: visible ? 1 : 0,
-                transform: visible ? 'translateY(0)' : 'translateY(40px)',
-                transition: `opacity 0.6s ease ${0.1 + i * 0.07}s, transform 0.6s ease ${0.1 + i * 0.07}s, box-shadow 0.2s`,
-              }}
-              onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = '0 12px 36px rgba(44,24,16,0.14)'; (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-4px)'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 24px rgba(44,24,16,0.08)'; (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)'; }}
-            >
-              <p style={{ fontFamily: PD, fontSize: '16px', fontWeight: '700', color: '#2C1810' }}>{addon.name}</p>
-              <p style={{ fontFamily: PD, fontSize: '13px', color: '#9B8B7A', fontStyle: 'italic', flex: 1 }}>{addon.desc}</p>
-              <p style={{ fontFamily: PD, fontSize: '22px', fontWeight: '700', color: '#2C1810' }}>{addon.price}</p>
-              <button
-                onClick={(e) => handleAddToCart(e, addon)}
+        position: 'absolute',
+        inset: 0,
+        background: 'rgba(255,255,255,0.45)',
+        zIndex: 0,
+      }} />
+
+      {/* All content sits above the background */}
+      <div style={{ position: 'relative', zIndex: 1 }}>
+
+        {/* Header */}
+        <div style={{
+          textAlign: 'center',
+          marginBottom: '52px',
+          opacity: visible ? 1 : 0,
+          transform: visible ? 'translateY(0)' : 'translateY(30px)',
+          transition: 'opacity 0.7s ease, transform 0.7s ease',
+        }}>
+          <p style={{ fontFamily: PD, fontSize: '12px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#9B8B7A', marginBottom: '8px' }}>
+            Bolt-on services
+          </p>
+          <h3 style={{ fontFamily: PD, fontSize: 'clamp(24px, 3vw, 40px)', fontWeight: '700', color: '#2C1810', letterSpacing: '-0.02em' }}>
+            Add-ons to any package
+          </h3>
+          <p style={{ fontFamily: PD, fontSize: '15px', fontStyle: 'italic', color: '#9B8B7A', marginTop: '12px' }}>
+            Stack these onto any session for extra support
+          </p>
+        </div>
+
+        {/* Grid */}
+        <div style={{
+          maxWidth: '1000px',
+          margin: '0 auto',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+          gap: '20px',
+          justifyItems: 'center',
+        }}>
+          {ADDONS.map((addon, i) => {
+            const justAdded = added === addon.id;
+            return (
+              <div
+                key={addon.id}
                 style={{
-                  padding: '12px',
-                  background: justAdded ? '#22C55E' : 'transparent',
-                  color: justAdded ? 'white' : '#2C1810',
-                  border: `1.5px solid ${justAdded ? '#22C55E' : 'rgba(44,24,16,0.2)'}`,
-                  borderRadius: '100px', fontFamily: PD,
-                  fontSize: '13px', fontWeight: '700', cursor: 'pointer',
-                  transition: 'all 0.25s',
+                  width: '100%',
+                  maxWidth: '300px',
+                  background: 'rgba(255,255,255,0.88)',
+                  backdropFilter: 'blur(8px)',
+                  borderRadius: '20px',
+                  padding: '24px',
+                  boxShadow: '0 4px 24px rgba(44,24,16,0.08)',
+                  border: '1px solid rgba(255,255,255,0.95)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '8px',
+                  opacity: visible ? 1 : 0,
+                  transform: visible ? 'translateY(0)' : 'translateY(40px)',
+                  transition: `opacity 0.6s ease ${0.1 + i * 0.07}s, transform 0.6s ease ${0.1 + i * 0.07}s, box-shadow 0.2s, transform 0.2s`,
                 }}
-                onMouseEnter={e => { if (!justAdded) { (e.currentTarget as HTMLButtonElement).style.background = '#2C1810'; (e.currentTarget as HTMLButtonElement).style.color = '#FFF8EC'; (e.currentTarget as HTMLButtonElement).style.borderColor = '#2C1810'; } }}
-                onMouseLeave={e => { if (!justAdded) { (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; (e.currentTarget as HTMLButtonElement).style.color = '#2C1810'; (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(44,24,16,0.2)'; } }}
+                onMouseEnter={e => {
+                  (e.currentTarget as HTMLDivElement).style.boxShadow = '0 12px 36px rgba(44,24,16,0.14)';
+                  (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-4px)';
+                }}
+                onMouseLeave={e => {
+                  (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 24px rgba(44,24,16,0.08)';
+                  (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)';
+                }}
               >
-                {justAdded ? 'Added to cart!' : '+ Add to cart'}
-              </button>
-            </div>
-          );
-        })}
+                <p style={{ fontFamily: PD, fontSize: '16px', fontWeight: '700', color: '#2C1810' }}>{addon.name}</p>
+                <p style={{ fontFamily: PD, fontSize: '13px', color: '#9B8B7A', fontStyle: 'italic', flex: 1 }}>{addon.desc}</p>
+                <p style={{ fontFamily: PD, fontSize: '22px', fontWeight: '700', color: '#2C1810' }}>{addon.price}</p>
+                <button
+                  onClick={(e) => handleAddToCart(e, addon)}
+                  style={{
+                    padding: '12px',
+                    background: justAdded ? '#22C55E' : 'transparent',
+                    color: justAdded ? 'white' : '#2C1810',
+                    border: `1.5px solid ${justAdded ? '#22C55E' : 'rgba(44,24,16,0.2)'}`,
+                    borderRadius: '100px', fontFamily: PD,
+                    fontSize: '13px', fontWeight: '700', cursor: 'pointer',
+                    transition: 'all 0.25s',
+                  }}
+                  onMouseEnter={e => {
+                    if (!justAdded) {
+                      (e.currentTarget as HTMLButtonElement).style.background = '#2C1810';
+                      (e.currentTarget as HTMLButtonElement).style.color = '#FFF8EC';
+                      (e.currentTarget as HTMLButtonElement).style.borderColor = '#2C1810';
+                    }
+                  }}
+                  onMouseLeave={e => {
+                    if (!justAdded) {
+                      (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
+                      (e.currentTarget as HTMLButtonElement).style.color = '#2C1810';
+                      (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(44,24,16,0.2)';
+                    }
+                  }}
+                >
+                  {justAdded ? 'Added to cart!' : '+ Add to cart'}
+                </button>
+              </div>
+            );
+          })}
+        </div>
+
       </div>
     </div>
   );
@@ -198,10 +242,9 @@ export default function ServicesSection() {
   const [added, setAdded]           = useState<string | null>(null);
   const [isMobile, setIsMobile]     = useState(false);
 
-  // Drag-to-scroll state
-  const isDragging    = useRef(false);
-  const dragStartX    = useRef(0);
-  const dragStartScroll = useRef(0);
+  const isDragging      = useRef(false);
+  const dragStartX      = useRef(0);
+  const dragStartOffset = useRef(0);
   const [manualOffset, setManualOffset] = useState(0);
 
   useEffect(() => {
@@ -228,35 +271,31 @@ export default function ServicesSection() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Drag handlers for manual scroll
   const onMouseDown = useCallback((e: React.MouseEvent) => {
     isDragging.current = true;
     dragStartX.current = e.clientX;
-    dragStartScroll.current = manualOffset;
+    dragStartOffset.current = manualOffset;
     e.preventDefault();
   }, [manualOffset]);
 
   const onMouseMove = useCallback((e: React.MouseEvent) => {
     if (!isDragging.current) return;
     const dx = e.clientX - dragStartX.current;
-    const maxOffset = 300;
-    setManualOffset(Math.max(-maxOffset, Math.min(maxOffset, dragStartScroll.current + dx * 0.4)));
+    setManualOffset(Math.max(-300, Math.min(300, dragStartOffset.current + dx * 0.4)));
   }, []);
 
   const onMouseUp = useCallback(() => { isDragging.current = false; }, []);
 
-  // Touch drag
   const onTouchStart = useCallback((e: React.TouchEvent) => {
     isDragging.current = true;
     dragStartX.current = e.touches[0].clientX;
-    dragStartScroll.current = manualOffset;
+    dragStartOffset.current = manualOffset;
   }, [manualOffset]);
 
   const onTouchMove = useCallback((e: React.TouchEvent) => {
     if (!isDragging.current) return;
     const dx = e.touches[0].clientX - dragStartX.current;
-    const maxOffset = 300;
-    setManualOffset(Math.max(-maxOffset, Math.min(maxOffset, dragStartScroll.current + dx * 0.4)));
+    setManualOffset(Math.max(-300, Math.min(300, dragStartOffset.current + dx * 0.4)));
   }, []);
 
   const onTouchEnd = useCallback(() => { isDragging.current = false; }, []);
@@ -268,7 +307,7 @@ export default function ServicesSection() {
     setTimeout(() => setAdded(null), 1500);
   };
 
-  const baseTranslate = 45 - progress * 90;
+  const baseTranslate  = 45 - progress * 90;
   const trackTranslate = isMobile ? manualOffset : baseTranslate + manualOffset * 0.3;
 
   // ── MOBILE ────────────────────────────────────────────────────────────────
@@ -284,21 +323,21 @@ export default function ServicesSection() {
             const justAdded = added === pkg.id;
             return (
               <div key={pkg.id} style={{ background: '#FFFEF9', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 4px 20px rgba(44,24,16,0.08)', border: pkg.badge ? '2px solid #F5A623' : '1.5px solid rgba(44,24,16,0.07)', position: 'relative' }}>
-                {pkg.badge && <div style={{ position:'absolute', top:'12px', left:'12px', background:'#F5A623', color:'#2C1810', fontFamily:PD, fontSize:'10px', fontWeight:'700', letterSpacing:'0.08em', textTransform:'uppercase', padding:'4px 10px', borderRadius:'100px', zIndex:2 }}>★ {pkg.badge}</div>}
-                <PackageImageBand pkg={pkg} height={180}/>
+                {pkg.badge && <div style={{ position: 'absolute', top: '12px', left: '12px', background: '#F5A623', color: '#2C1810', fontFamily: PD, fontSize: '10px', fontWeight: '700', letterSpacing: '0.08em', textTransform: 'uppercase', padding: '4px 10px', borderRadius: '100px', zIndex: 2 }}>★ {pkg.badge}</div>}
+                <PackageImageBand pkg={pkg} height={180} />
                 <div style={{ padding: '20px 20px 24px' }}>
-                  <h3 style={{ fontFamily:PD, fontSize:'20px', fontWeight:'700', color:'#2C1810', marginBottom:'4px' }}>{pkg.name}</h3>
-                  <p style={{ fontFamily:PD, fontSize:'12px', color:'#9B8B7A', fontStyle:'italic', marginBottom:'8px' }}>{pkg.tagline}</p>
-                  <p style={{ fontFamily:PD, fontSize:'13px', color:'#5C4A3A', lineHeight:'1.6', marginBottom:'14px' }}>{pkg.shortDesc}</p>
-                  <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'14px' }}>
-                    <span style={{ fontFamily:PD, fontSize:'24px', fontWeight:'700', color:'#2C1810' }}>{pkg.price}</span>
-                    <span style={{ fontFamily:PD, fontSize:'11px', color:'#9B8B7A' }}>one-time</span>
+                  <h3 style={{ fontFamily: PD, fontSize: '20px', fontWeight: '700', color: '#2C1810', marginBottom: '4px' }}>{pkg.name}</h3>
+                  <p style={{ fontFamily: PD, fontSize: '12px', color: '#9B8B7A', fontStyle: 'italic', marginBottom: '8px' }}>{pkg.tagline}</p>
+                  <p style={{ fontFamily: PD, fontSize: '13px', color: '#5C4A3A', lineHeight: '1.6', marginBottom: '14px' }}>{pkg.shortDesc}</p>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
+                    <span style={{ fontFamily: PD, fontSize: '24px', fontWeight: '700', color: '#2C1810' }}>{pkg.price}</span>
+                    <span style={{ fontFamily: PD, fontSize: '11px', color: '#9B8B7A' }}>one-time</span>
                   </div>
-                  <div style={{ display:'flex', gap:'10px' }}>
-                    <button onClick={(e) => handleAddToCart(e, pkg)} style={{ flex:1, padding:'12px', background: justAdded ? '#22C55E' : (pkg.badge === 'Most popular' ? '#F5A623' : '#2C1810'), color: justAdded ? 'white' : (pkg.badge === 'Most popular' ? '#2C1810' : '#FFFEF9'), border:'none', borderRadius:'100px', fontFamily:PD, fontSize:'13px', fontWeight:'700', cursor:'pointer', transition:'background 0.3s' }}>
+                  <div style={{ display: 'flex', gap: '10px' }}>
+                    <button onClick={(e) => handleAddToCart(e, pkg)} style={{ flex: 1, padding: '12px', background: justAdded ? '#22C55E' : (pkg.badge === 'Most popular' ? '#F5A623' : '#2C1810'), color: justAdded ? 'white' : (pkg.badge === 'Most popular' ? '#2C1810' : '#FFFEF9'), border: 'none', borderRadius: '100px', fontFamily: PD, fontSize: '13px', fontWeight: '700', cursor: 'pointer', transition: 'background 0.3s' }}>
                       {justAdded ? 'Added!' : 'Add to cart'}
                     </button>
-                    <button onClick={() => router.push(`/services/${pkg.slug}`)} style={{ flex:1, padding:'12px', background:'transparent', color:'#2C1810', border:'1.5px solid rgba(44,24,16,0.2)', borderRadius:'100px', fontFamily:PD, fontSize:'13px', fontWeight:'700', cursor:'pointer' }}>
+                    <button onClick={() => router.push(`/services/${pkg.slug}`)} style={{ flex: 1, padding: '12px', background: 'transparent', color: '#2C1810', border: '1.5px solid rgba(44,24,16,0.2)', borderRadius: '100px', fontFamily: PD, fontSize: '13px', fontWeight: '700', cursor: 'pointer' }}>
                       View details
                     </button>
                   </div>
@@ -315,7 +354,6 @@ export default function ServicesSection() {
   // ── DESKTOP ────────────────────────────────────────────────────────────────
   return (
     <div id="services">
-      {/* Scroll-linked sticky section */}
       <section
         ref={sectionRef}
         style={{ height: '500vh', position: 'relative', background: 'linear-gradient(180deg, #D6E8F5 0%, #FFF8EC 20%, #FFF8EC 100%)' }}
@@ -327,12 +365,10 @@ export default function ServicesSection() {
             <h2 style={{ fontFamily: PD, fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: '700', color: '#2C1810', letterSpacing: '-0.02em' }}>Find your package</h2>
           </div>
 
-          {/* Drag hint */}
           <div style={{ position: 'absolute', top: '130px', left: '50%', transform: 'translateX(-50%)', opacity: Math.min(1, progress * 8) * 0.6, whiteSpace: 'nowrap' }}>
-            <p style={{ fontFamily: PD, fontSize: '11px', color: '#9B8B7A', fontStyle: 'italic' }}>← drag to browse manually too →</p>
+            <p style={{ fontFamily: PD, fontSize: '11px', color: '#9B8B7A', fontStyle: 'italic' }}>scroll or drag to browse →</p>
           </div>
 
-          {/* Card track — scroll-linked + draggable */}
           <div
             ref={trackRef}
             onMouseDown={onMouseDown}
@@ -368,7 +404,7 @@ export default function ServicesSection() {
                     background: '#FFFEF9', borderRadius: '24px', padding: 0,
                     cursor: 'pointer',
                     opacity: cardProgress,
-                    transform: `translateY(${(1-cardProgress)*30}px) scale(${isHovered ? 1.03 : 1})`,
+                    transform: `translateY(${(1 - cardProgress) * 30}px) scale(${isHovered ? 1.03 : 1})`,
                     transition: 'transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s ease, box-shadow 0.3s ease',
                     boxShadow: isHovered ? '0 32px 64px rgba(44,24,16,0.18)' : '0 8px 32px rgba(44,24,16,0.08)',
                     position: 'relative', overflow: 'hidden',
@@ -377,40 +413,43 @@ export default function ServicesSection() {
                   }}
                 >
                   {pkg.badge && (
-                    <div style={{ position:'absolute', top:'14px', left:'14px', background:'#F5A623', color:'#2C1810', fontFamily:PD, fontSize:'10px', fontWeight:'700', letterSpacing:'0.1em', textTransform:'uppercase', padding:'4px 10px', borderRadius:'100px', zIndex:2 }}>★ {pkg.badge}</div>
+                    <div style={{ position: 'absolute', top: '14px', left: '14px', background: '#F5A623', color: '#2C1810', fontFamily: PD, fontSize: '10px', fontWeight: '700', letterSpacing: '0.1em', textTransform: 'uppercase', padding: '4px 10px', borderRadius: '100px', zIndex: 2 }}>★ {pkg.badge}</div>
                   )}
 
-                  <PackageImageBand pkg={pkg} height={200}/>
+                  <PackageImageBand pkg={pkg} height={200} />
 
                   <div style={{ padding: '22px 22px 24px', display: 'flex', flexDirection: 'column', flex: 1 }}>
-                    <h3 style={{ fontFamily:PD, fontSize:'20px', fontWeight:'700', color:'#2C1810', marginBottom:'4px' }}>{pkg.name}</h3>
-                    <p style={{ fontFamily:PD, fontSize:'12px', color:'#9B8B7A', fontStyle:'italic', marginBottom:'6px' }}>{pkg.tagline}</p>
-                    <p style={{ fontFamily:PD, fontSize:'11px', color:'#B0A090', marginBottom:'10px' }}>For: {pkg.for}</p>
-                    <p style={{ fontFamily:PD, fontSize:'13px', color:'#5C4A3A', lineHeight:'1.6', marginBottom:'14px' }}>{pkg.shortDesc}</p>
+                    <h3 style={{ fontFamily: PD, fontSize: '20px', fontWeight: '700', color: '#2C1810', marginBottom: '4px' }}>{pkg.name}</h3>
+                    <p style={{ fontFamily: PD, fontSize: '12px', color: '#9B8B7A', fontStyle: 'italic', marginBottom: '6px' }}>{pkg.tagline}</p>
+                    <p style={{ fontFamily: PD, fontSize: '11px', color: '#B0A090', marginBottom: '10px' }}>For: {pkg.for}</p>
+                    <p style={{ fontFamily: PD, fontSize: '13px', color: '#5C4A3A', lineHeight: '1.6', marginBottom: '14px' }}>{pkg.shortDesc}</p>
 
-                    <div style={{ maxHeight: isHovered ? '200px' : '0', overflow:'hidden', transition:'max-height 0.4s ease', marginBottom: isHovered ? '14px' : '0' }}>
+                    <div style={{ maxHeight: isHovered ? '200px' : '0', overflow: 'hidden', transition: 'max-height 0.4s ease', marginBottom: isHovered ? '14px' : '0' }}>
                       {pkg.includes.map((item, j) => (
-                        <div key={j} style={{ display:'flex', gap:'6px', alignItems:'flex-start', marginBottom:'4px' }}>
-                          <span style={{ color:'#F5A623', fontWeight:'700', flexShrink:0, fontSize:'11px', marginTop:'2px' }}>✦</span>
-                          <p style={{ fontFamily:PD, fontSize:'11px', color:'#5C4A3A', lineHeight:'1.5' }}>{item}</p>
+                        <div key={j} style={{ display: 'flex', gap: '6px', alignItems: 'flex-start', marginBottom: '4px' }}>
+                          <span style={{ color: '#F5A623', fontWeight: '700', flexShrink: 0, fontSize: '11px', marginTop: '2px' }}>✦</span>
+                          <p style={{ fontFamily: PD, fontSize: '11px', color: '#5C4A3A', lineHeight: '1.5' }}>{item}</p>
                         </div>
                       ))}
                     </div>
 
                     <div style={{ marginTop: 'auto' }}>
-                      <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'14px' }}>
-                        <span style={{ fontFamily:PD, fontSize:'24px', fontWeight:'700', color:'#2C1810' }}>{pkg.price}</span>
-                        <span style={{ fontFamily:PD, fontSize:'11px', color:'#9B8B7A' }}>one-time</span>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
+                        <span style={{ fontFamily: PD, fontSize: '24px', fontWeight: '700', color: '#2C1810' }}>{pkg.price}</span>
+                        <span style={{ fontFamily: PD, fontSize: '11px', color: '#9B8B7A' }}>one-time</span>
                       </div>
                       <button
                         onClick={(e) => handleAddToCart(e, pkg)}
-                        style={{ width:'100%', padding:'13px', background: justAdded ? '#22C55E' : (pkg.badge === 'Most popular' ? '#F5A623' : '#2C1810'), color: justAdded ? 'white' : (pkg.badge === 'Most popular' ? '#2C1810' : '#FFFEF9'), border:'none', borderRadius:'100px', fontFamily:PD, fontSize:'13px', fontWeight:'700', letterSpacing:'0.04em', cursor:'pointer', transition:'background 0.3s, transform 0.2s', marginBottom:'10px' }}
+                        style={{ width: '100%', padding: '13px', background: justAdded ? '#22C55E' : (pkg.badge === 'Most popular' ? '#F5A623' : '#2C1810'), color: justAdded ? 'white' : (pkg.badge === 'Most popular' ? '#2C1810' : '#FFFEF9'), border: 'none', borderRadius: '100px', fontFamily: PD, fontSize: '13px', fontWeight: '700', letterSpacing: '0.04em', cursor: 'pointer', transition: 'background 0.3s, transform 0.2s', marginBottom: '10px' }}
                         onMouseEnter={e => { if (!justAdded) (e.target as HTMLButtonElement).style.transform = 'scale(1.02)'; }}
                         onMouseLeave={e => { (e.target as HTMLButtonElement).style.transform = 'scale(1)'; }}
                       >
                         {justAdded ? 'Added to cart!' : `Add to cart — ${pkg.btnLabel}`}
                       </button>
-                      <p onClick={(e) => { e.stopPropagation(); router.push(`/services/${pkg.slug}`); }} style={{ textAlign:'center', fontFamily:PD, fontSize:'11px', color:'#9B8B7A', textDecoration:'underline', cursor:'pointer', margin:0 }}>
+                      <p
+                        onClick={(e) => { e.stopPropagation(); router.push(`/services/${pkg.slug}`); }}
+                        style={{ textAlign: 'center', fontFamily: PD, fontSize: '11px', color: '#9B8B7A', textDecoration: 'underline', cursor: 'pointer', margin: 0 }}
+                      >
                         View full details
                       </p>
                     </div>
@@ -420,13 +459,13 @@ export default function ServicesSection() {
             })}
           </div>
 
-          <p style={{ position:'absolute', bottom:'32px', left:'50%', transform:'translateX(-50%)', fontFamily:PD, fontSize:'12px', color:'#9B8B7A', fontStyle:'italic', opacity: progress < 0.05 ? 1 : Math.max(0, 1-(progress-0.05)*20), whiteSpace:'nowrap' }}>
+          <p style={{ position: 'absolute', bottom: '32px', left: '50%', transform: 'translateX(-50%)', fontFamily: PD, fontSize: '12px', color: '#9B8B7A', fontStyle: 'italic', opacity: progress < 0.05 ? 1 : Math.max(0, 1 - (progress - 0.05) * 20), whiteSpace: 'nowrap' }}>
             scroll to explore all packages →
           </p>
         </div>
       </section>
 
-      {/* Add-ons — completely separate section below, white background, animated entry */}
+      {/* Add-ons section — completely separate, gingham background */}
       <AddonsSection added={added} handleAddToCart={handleAddToCart} />
     </div>
   );
