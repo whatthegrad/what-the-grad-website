@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 interface CartItem {
   id: string;
@@ -29,6 +29,31 @@ const CartContext = createContext<CartContextType>({
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
+  const [mounted, setMounted] = useState(false);
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    setMounted(true);
+    try {
+      const saved = localStorage.getItem('wtg-cart');
+      if (saved) {
+        setItems(JSON.parse(saved));
+      }
+    } catch (e) {
+      console.error('Failed to load cart:', e);
+    }
+  }, []);
+
+  // Save to localStorage whenever items change
+  useEffect(() => {
+    if (mounted) {
+      try {
+        localStorage.setItem('wtg-cart', JSON.stringify(items));
+      } catch (e) {
+        console.error('Failed to save cart:', e);
+      }
+    }
+  }, [items, mounted]);
 
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -36,7 +61,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setItems(prev => {
       const existing = prev.find(i => i.id === newItem.id);
       if (existing) {
-        return prev.map(i => i.id === newItem.id ? { ...i, quantity: i.quantity + 1 } : i);
+        return prev.map(i =>
+          i.id === newItem.id ? { ...i, quantity: i.quantity + 1 } : i
+        );
       }
       return [...prev, { ...newItem, quantity: 1 }];
     });
@@ -51,10 +78,15 @@ export function CartProvider({ children }: { children: ReactNode }) {
       removeItem(id);
       return;
     }
-    setItems(prev => prev.map(i => i.id === id ? { ...i, quantity } : i));
+    setItems(prev =>
+      prev.map(i => i.id === id ? { ...i, quantity } : i)
+    );
   };
 
-  const clearCart = () => setItems([]);
+  const clearCart = () => {
+    setItems([]);
+    localStorage.removeItem('wtg-cart');
+  };
 
   return (
     <CartContext.Provider value={{ items, totalItems, addItem, removeItem, updateQuantity, clearCart }}>
