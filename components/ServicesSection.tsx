@@ -88,142 +88,182 @@ function PackageImageBand({ pkg, height }: { pkg: typeof PACKAGES[0]; height: nu
   );
 }
 
-function AddonsSection({ added, handleAddToCart }: { added: string | null; handleAddToCart: (e: React.MouseEvent, item: { id: string; name: string; price: string }) => void }) {
+// ── STAMP SHAPE ──────────────────────────────────────────────────────────────
+function StampBox({ addon, justAdded, onAdd, visible, delay }: {
+  addon: typeof ADDONS[0];
+  justAdded: boolean;
+  onAdd: (e: React.MouseEvent) => void;
+  visible: boolean;
+  delay: number;
+}) {
+  const TOOTH = 10;   // tooth radius
+  const TEETH = 9;    // teeth per side (approx)
+  const W = 220;
+  const H = 260;
+
+  // build perforated border using radial-gradient repeating pattern
+  // We'll simulate stamp edge with CSS outline + border-radius tricks
+  // Using a clip-path polygon isn't great for round teeth, so we use
+  // a box with repeated radial-gradient mask instead
+  return (
+    <div
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0) rotate(0deg)' : 'translateY(40px)',
+        transition: `opacity 0.6s ease ${delay}s, transform 0.6s ease ${delay}s`,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
+    >
+      <div
+        style={{
+          width: W,
+          height: H,
+          position: 'relative',
+          // stamp perforated edge via CSS mask
+          background: 'white',
+          boxShadow: '0 6px 28px rgba(44,24,16,0.14)',
+          // stamp teeth using repeating radial-gradient mask
+          maskImage: `
+            radial-gradient(circle at 50% 0%, transparent ${TOOTH}px, white ${TOOTH}px) top / ${100/TEETH}% 100%,
+            radial-gradient(circle at 50% 100%, transparent ${TOOTH}px, white ${TOOTH}px) bottom / ${100/TEETH}% 100%,
+            radial-gradient(circle at 0% 50%, transparent ${TOOTH}px, white ${TOOTH}px) left / 100% ${100/TEETH}%,
+            radial-gradient(circle at 100% 50%, transparent ${TOOTH}px, white ${TOOTH}px) right / 100% ${100/TEETH}%
+          `,
+          maskRepeat: 'repeat-x, repeat-x, repeat-y, repeat-y',
+          WebkitMaskImage: `
+            radial-gradient(circle at 50% 0%, transparent ${TOOTH}px, white ${TOOTH}px) top / ${100/TEETH}% 100%,
+            radial-gradient(circle at 50% 100%, transparent ${TOOTH}px, white ${TOOTH}px) bottom / ${100/TEETH}% 100%,
+            radial-gradient(circle at 0% 50%, transparent ${TOOTH}px, white ${TOOTH}px) left / 100% ${100/TEETH}%,
+            radial-gradient(circle at 100% 50%, transparent ${TOOTH}px, white ${TOOTH}px) right / 100% ${100/TEETH}%
+          `,
+          WebkitMaskRepeat: 'repeat-x, repeat-x, repeat-y, repeat-y',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '24px 18px 18px',
+        }}
+      >
+        {/* inner border line like a real stamp */}
+        <div style={{
+          position: 'absolute',
+          inset: '14px',
+          border: '1px solid rgba(44,24,16,0.12)',
+          borderRadius: '2px',
+          pointerEvents: 'none',
+        }}/>
+
+        {/* content */}
+        <div style={{ textAlign: 'center', position: 'relative', zIndex: 1, flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '6px' }}>
+          <p style={{ fontFamily: PD, fontSize: '15px', fontWeight: '700', color: '#2C1810', lineHeight: '1.3' }}>{addon.name}</p>
+          <p style={{ fontFamily: PD, fontSize: '12px', color: '#9B8B7A', fontStyle: 'italic' }}>{addon.desc}</p>
+          <p style={{ fontFamily: PD, fontSize: '22px', fontWeight: '700', color: '#2C1810', margin: '4px 0' }}>{addon.price}</p>
+        </div>
+
+        {/* add to cart */}
+        <button
+          onClick={onAdd}
+          style={{
+            position: 'relative', zIndex: 1,
+            width: '100%', padding: '10px',
+            background: justAdded ? '#22C55E' : 'transparent',
+            color: justAdded ? 'white' : '#2C1810',
+            border: `1.5px solid ${justAdded ? '#22C55E' : 'rgba(44,24,16,0.25)'}`,
+            borderRadius: '100px', fontFamily: PD,
+            fontSize: '12px', fontWeight: '700', cursor: 'pointer',
+            transition: 'all 0.25s',
+          }}
+          onMouseEnter={e => {
+            if (!justAdded) {
+              (e.currentTarget).style.background = '#2C1810';
+              (e.currentTarget).style.color = '#FFF8EC';
+              (e.currentTarget).style.borderColor = '#2C1810';
+            }
+          }}
+          onMouseLeave={e => {
+            if (!justAdded) {
+              (e.currentTarget).style.background = 'transparent';
+              (e.currentTarget).style.color = '#2C1810';
+              (e.currentTarget).style.borderColor = 'rgba(44,24,16,0.25)';
+            }
+          }}
+        >
+          {justAdded ? '✓ Added!' : '+ Add to cart'}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ── ADDONS SECTION ───────────────────────────────────────────────────────────
+function AddonsSection({ added, handleAddToCart }: {
+  added: string | null;
+  handleAddToCart: (e: React.MouseEvent, item: { id: string; name: string; price: string }) => void;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) setVisible(true); },
-      { threshold: 0.1 }
+      { threshold: 0.08 }
     );
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, []);
 
   return (
-    <div
-      ref={ref}
-      style={{
-        position: 'relative',
-        padding: '80px 5vw 100px',
-        overflow: 'hidden',
-      }}
-    >
-      {/* Gingham background */}
-      <div style={{
-        position: 'absolute',
-        inset: 0,
-        backgroundImage: 'url(/images/gingham-bg.jpg)',
-        backgroundSize: '300px',
-        backgroundRepeat: 'repeat',
-        opacity: 0.45,
-        zIndex: 0,
-      }} />
+    <div ref={ref} style={{ position: 'relative', padding: '100px 5vw 120px', overflow: 'hidden' }}>
 
-      {/* Soft white overlay */}
-      <div style={{
-        position: 'absolute',
-        inset: 0,
-        background: 'rgba(255,255,255,0.45)',
-        zIndex: 0,
-      }} />
+      {/* gingham bg */}
+      <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(/images/gingham-bg.jpg)', backgroundSize: '300px', backgroundRepeat: 'repeat', opacity: 0.45, zIndex: 0 }}/>
+      <div style={{ position: 'absolute', inset: 0, background: 'rgba(255,255,255,0.38)', zIndex: 0 }}/>
 
-      {/* All content sits above the background */}
-      <div style={{ position: 'relative', zIndex: 1 }}>
+      {/* fade from above — matches #FFF8EC */}
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '160px', background: 'linear-gradient(to bottom, #FFF8EC 0%, transparent 100%)', zIndex: 1, pointerEvents: 'none' }}/>
+      {/* fade to below — matches next section bg */}
+      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '160px', background: 'linear-gradient(to top, #FFF8EC 0%, transparent 100%)', zIndex: 1, pointerEvents: 'none' }}/>
 
-        {/* Header */}
+      <div style={{ position: 'relative', zIndex: 2, maxWidth: '1100px', margin: '0 auto' }}>
+
+        {/* header — centred */}
         <div style={{
-          textAlign: 'center',
-          marginBottom: '52px',
+          textAlign: 'center', marginBottom: '60px',
           opacity: visible ? 1 : 0,
-          transform: visible ? 'translateY(0)' : 'translateY(30px)',
+          transform: visible ? 'translateY(0)' : 'translateY(24px)',
           transition: 'opacity 0.7s ease, transform 0.7s ease',
         }}>
           <p style={{ fontFamily: PD, fontSize: '12px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#9B8B7A', marginBottom: '8px' }}>
             Bolt-on services
           </p>
-          <h3 style={{ fontFamily: PD, fontSize: 'clamp(24px, 3vw, 40px)', fontWeight: '700', color: '#2C1810', letterSpacing: '-0.02em' }}>
+          <h3 style={{ fontFamily: PD, fontSize: 'clamp(24px, 3vw, 40px)', fontWeight: '700', color: '#2C1810', letterSpacing: '-0.02em', marginBottom: '12px' }}>
             Add-ons to any package
           </h3>
-          <p style={{ fontFamily: PD, fontSize: '15px', fontStyle: 'italic', color: '#9B8B7A', marginTop: '12px' }}>
+          <p style={{ fontFamily: PD, fontSize: '15px', fontStyle: 'italic', color: '#9B8B7A' }}>
             Stack these onto any session for extra support
           </p>
         </div>
 
-        {/* Grid */}
+        {/* stamps — centred flex wrap */}
         <div style={{
-          maxWidth: '1000px',
-          margin: '0 auto',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-          gap: '20px',
-          justifyItems: 'center',
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '32px',
+          justifyContent: 'center',
+          alignItems: 'flex-start',
         }}>
-          {ADDONS.map((addon, i) => {
-            const justAdded = added === addon.id;
-            return (
-              <div
-                key={addon.id}
-                style={{
-                  width: '100%',
-                  maxWidth: '300px',
-                  background: 'rgba(255,255,255,0.88)',
-                  backdropFilter: 'blur(8px)',
-                  borderRadius: '20px',
-                  padding: '24px',
-                  boxShadow: '0 4px 24px rgba(44,24,16,0.08)',
-                  border: '1px solid rgba(255,255,255,0.95)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '8px',
-                  opacity: visible ? 1 : 0,
-                  transform: visible ? 'translateY(0)' : 'translateY(40px)',
-                  transition: `opacity 0.6s ease ${0.1 + i * 0.07}s, transform 0.6s ease ${0.1 + i * 0.07}s, box-shadow 0.2s, transform 0.2s`,
-                }}
-                onMouseEnter={e => {
-                  (e.currentTarget as HTMLDivElement).style.boxShadow = '0 12px 36px rgba(44,24,16,0.14)';
-                  (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-4px)';
-                }}
-                onMouseLeave={e => {
-                  (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 24px rgba(44,24,16,0.08)';
-                  (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)';
-                }}
-              >
-                <p style={{ fontFamily: PD, fontSize: '16px', fontWeight: '700', color: '#2C1810' }}>{addon.name}</p>
-                <p style={{ fontFamily: PD, fontSize: '13px', color: '#9B8B7A', fontStyle: 'italic', flex: 1 }}>{addon.desc}</p>
-                <p style={{ fontFamily: PD, fontSize: '22px', fontWeight: '700', color: '#2C1810' }}>{addon.price}</p>
-                <button
-                  onClick={(e) => handleAddToCart(e, addon)}
-                  style={{
-                    padding: '12px',
-                    background: justAdded ? '#22C55E' : 'transparent',
-                    color: justAdded ? 'white' : '#2C1810',
-                    border: `1.5px solid ${justAdded ? '#22C55E' : 'rgba(44,24,16,0.2)'}`,
-                    borderRadius: '100px', fontFamily: PD,
-                    fontSize: '13px', fontWeight: '700', cursor: 'pointer',
-                    transition: 'all 0.25s',
-                  }}
-                  onMouseEnter={e => {
-                    if (!justAdded) {
-                      (e.currentTarget as HTMLButtonElement).style.background = '#2C1810';
-                      (e.currentTarget as HTMLButtonElement).style.color = '#FFF8EC';
-                      (e.currentTarget as HTMLButtonElement).style.borderColor = '#2C1810';
-                    }
-                  }}
-                  onMouseLeave={e => {
-                    if (!justAdded) {
-                      (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
-                      (e.currentTarget as HTMLButtonElement).style.color = '#2C1810';
-                      (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(44,24,16,0.2)';
-                    }
-                  }}
-                >
-                  {justAdded ? 'Added to cart!' : '+ Add to cart'}
-                </button>
-              </div>
-            );
-          })}
+          {ADDONS.map((addon, i) => (
+            <StampBox
+              key={addon.id}
+              addon={addon}
+              justAdded={added === addon.id}
+              onAdd={(e) => handleAddToCart(e, addon)}
+              visible={visible}
+              delay={0.08 + i * 0.08}
+            />
+          ))}
         </div>
 
       </div>
@@ -231,6 +271,7 @@ function AddonsSection({ added, handleAddToCart }: { added: string | null; handl
   );
 }
 
+// ── MAIN COMPONENT ───────────────────────────────────────────────────────────
 export default function ServicesSection() {
   const sectionRef  = useRef<HTMLDivElement>(null);
   const trackRef    = useRef<HTMLDivElement>(null);
@@ -351,13 +392,10 @@ export default function ServicesSection() {
     );
   }
 
-  // ── DESKTOP ────────────────────────────────────────────────────────────────
+  // ── DESKTOP ───────────────────────────────────────────────────────────────
   return (
     <div id="services">
-      <section
-        ref={sectionRef}
-        style={{ height: '500vh', position: 'relative', background: 'linear-gradient(180deg, #D6E8F5 0%, #FFF8EC 20%, #FFF8EC 100%)' }}
-      >
+      <section ref={sectionRef} style={{ height: '500vh', position: 'relative', background: 'linear-gradient(180deg, #D6E8F5 0%, #FFF8EC 20%, #FFF8EC 100%)' }}>
         <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
 
           <div style={{ position: 'absolute', top: '48px', left: '50%', transform: 'translateX(-50%)', textAlign: 'center', opacity: Math.min(1, progress * 5), whiteSpace: 'nowrap' }}>
@@ -465,7 +503,6 @@ export default function ServicesSection() {
         </div>
       </section>
 
-      {/* Add-ons section — completely separate, gingham background */}
       <AddonsSection added={added} handleAddToCart={handleAddToCart} />
     </div>
   );
