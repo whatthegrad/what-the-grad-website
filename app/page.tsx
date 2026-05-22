@@ -1,6 +1,6 @@
 import HeroSection from '@/components/HeroSection';
 import ServicesSection from '@/components/ServicesSection';
-import VideoSection from '@/components/VideoSection';
+// import VideoSection from '@/components/VideoSection';
 import CTASection from '@/components/CTASection';
 import AboutSection from '@/components/AboutSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
@@ -13,7 +13,7 @@ export default function Home() {
     <main>
       <HeroSection />
       <ServicesSection />
-      <VideoSection />
+      {/* <VideoSection /> */}
       <CTASection />
       <div id="about"><AboutSection /></div>
       <TestimonialsSection />

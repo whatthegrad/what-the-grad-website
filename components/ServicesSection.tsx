@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useCart } from './CartContext';
+import { useCart } from '@/components/CartContext';
 
 const PD = "Playfair Display, Georgia, serif";
 
