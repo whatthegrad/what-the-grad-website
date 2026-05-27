@@ -189,6 +189,27 @@ export default function CartPage() {
     );
   }
 
+  // live total recalculated from current items state
+  const liveTotal = items.reduce((sum, item) => {
+    const num = parseInt(item.price.replace(/[^\d]/g, ''));
+    return sum + (isNaN(num) ? 0 : num * (item.quantity ?? 1));
+  }, 0);
+
+  const qtyBtn = (label: string, onClick: () => void) => (
+    <button
+      onClick={onClick}
+      style={{
+        width:'24px', height:'24px', borderRadius:'50%',
+        border:'1px solid rgba(44,24,16,0.25)',
+        background:'transparent', cursor:'pointer',
+        fontSize:'14px', lineHeight:1,
+        display:'flex', alignItems:'center', justifyContent:'center',
+        color:'#2C1810', fontFamily:MONO,
+        flexShrink:0,
+      }}
+    >{label}</button>
+  );
+
   const renderLine = (line: Line, i: number) => {
     switch (line.type) {
       case 'logo':
@@ -199,26 +220,60 @@ export default function CartPage() {
         return <div key={i} style={{ borderTop:'1px dashed #CCC', margin:'10px 0' }}/>;
       case 'header':
         return <div key={i} style={{ textAlign:'center', fontSize:'14px', fontWeight:'700', color:'#2C1810', letterSpacing:'0.18em', marginBottom:'6px' }}>{line.content}</div>;
-      case 'item':
-        return <div key={i} style={{ fontSize:'15px', fontWeight:'700', color:'#2C1810', marginBottom:'2px' }}>{line.content}</div>;
+
+      // item row — find matching cart item and render inline qty controls
+      case 'item': {
+        const cartItem = items.find(it => it.name === line.content);
+        if (!cartItem) return <div key={i} style={{ fontSize:'15px', fontWeight:'700', color:'#2C1810', marginBottom:'2px' }}>{line.content}</div>;
+        const itemTotal = parseInt(cartItem.price.replace(/[^\d]/g, '')) * (cartItem.quantity ?? 1);
+        return (
+          <div key={i} style={{ marginBottom:'10px' }}>
+            <div style={{ fontSize:'14px', fontWeight:'700', color:'#2C1810', marginBottom:'6px' }}>{cartItem.name}</div>
+            <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', gap:'8px' }}>
+              {/* qty controls */}
+              <div style={{ display:'flex', alignItems:'center', gap:'8px' }}>
+                {qtyBtn('−', () => updateQuantity(cartItem.id, (cartItem.quantity ?? 1) - 1))}
+                <span style={{ fontFamily:MONO, fontSize:'14px', fontWeight:'700', color:'#2C1810', minWidth:'18px', textAlign:'center' }}>{cartItem.quantity ?? 1}</span>
+                {qtyBtn('+', () => updateQuantity(cartItem.id, (cartItem.quantity ?? 1) + 1))}
+                <button
+                  onClick={() => removeItem(cartItem.id)}
+                  style={{ background:'none', border:'none', cursor:'pointer', color:'#CCC', fontSize:'15px', lineHeight:1, padding:'0 2px' }}
+                >×</button>
+              </div>
+              {/* line total */}
+              <span style={{ fontFamily:MONO, fontSize:'13px', color:'#5C4A3A' }}>
+                {cartItem.price} × {cartItem.quantity ?? 1} = ₹{itemTotal.toLocaleString('en-IN')}
+              </span>
+            </div>
+          </div>
+        );
+      }
+
+      // skip static price line — we rendered it inline above
       case 'price':
-        return <div key={i} style={{ fontSize:'13px', color:'#5C4A3A', textAlign:'right', marginBottom:'10px' }}>{line.content}</div>;
+        return null;
+
+      // live total — always reflects current qty
       case 'total':
-        return <div key={i} style={{ fontSize:'18px', fontWeight:'900', color:'#2C1810', marginBottom:'4px' }}>{line.content}</div>;
+        return (
+          <div key={i} style={{ fontSize:'18px', fontWeight:'900', color:'#2C1810', marginBottom:'4px' }}>
+            TOTAL    :  ₹{liveTotal.toLocaleString('en-IN')}
+          </div>
+        );
+
       case 'row':
         return <div key={i} style={{ fontSize:'13px', color:'#5C4A3A', marginBottom:'4px' }}>{line.content}</div>;
 
-      // highlighted next steps box
       case 'nextsteps':
         return (
-          <div key={i} style={{ background:'#FFF8E1', border:'1.5px solid #F5A623', borderRadius:'8px', padding:'10px 14px 6px', marginBottom:'0' }}>
-            <div style={{ fontSize:'13px', fontWeight:'900', color:'#2C1810', letterSpacing:'0.14em', marginBottom:'6px' }}>★ {line.content}</div>
+          <div key={i} style={{ background:'#FFF8E1', border:'1.5px solid #F5A623', borderRadius:'8px 8px 0 0', padding:'10px 14px 6px' }}>
+            <div style={{ fontSize:'13px', fontWeight:'900', color:'#2C1810', letterSpacing:'0.14em' }}>★ {line.content}</div>
           </div>
         );
       case 'step':
         return (
-          <div key={i} style={{ background:'#FFF8E1', borderLeft:'1.5px solid #F5A623', borderRight:'1.5px solid #F5A623', padding:'0 14px 0 14px', marginBottom:'0' }}>
-            <div style={{ fontSize:'13px', color:'#5C4A3A', paddingBottom:'5px' }}>{line.content}</div>
+          <div key={i} style={{ background:'#FFF8E1', borderLeft:'1.5px solid #F5A623', borderRight:'1.5px solid #F5A623', padding:'2px 14px' }}>
+            <div style={{ fontSize:'13px', color:'#5C4A3A', paddingBottom:'4px' }}>{line.content}</div>
           </div>
         );
 
@@ -237,7 +292,6 @@ export default function CartPage() {
                 </div>
                 <div style={{ fontSize:'11px', color:'#9B8B7A', marginBottom:'2px' }}>Scan to pay via UPI</div>
                 <div style={{ fontSize:'13px', fontWeight:'700', color:'#2C1810', marginBottom:'16px' }}>whatthegrad@upi</div>
-
                 {confirmed ? (
                   <ConfirmedSeal />
                 ) : (
@@ -275,36 +329,6 @@ export default function CartPage() {
         <h1 style={{ fontFamily:PD, fontSize:'28px', fontWeight:'700', color:'#2C1810', marginBottom:'16px', textAlign:'center', opacity: printingDone ? 1 : 0.3, transition:'opacity 1s ease' }}>
           {confirmed ? 'Payment Confirmed! ✦' : 'Your Order'}
         </h1>
-
-        {/* qty controls — visible before printing done */}
-        {!printingDone && mounted && (
-          <div style={{ width:'min(380px, 84vw)', marginBottom:'20px' }}>
-            <p style={{ fontFamily:PD, fontSize:'13px', color:'#9B8B7A', marginBottom:'12px', textAlign:'center', fontStyle:'italic' }}>Adjust your order before we print it</p>
-            {items.map(item => (
-              <div key={item.id} style={{ display:'flex', alignItems:'center', justifyContent:'space-between', background:'white', borderRadius:'12px', padding:'12px 16px', marginBottom:'8px', boxShadow:'0 2px 12px rgba(44,24,16,0.07)' }}>
-                <div style={{ flex:1 }}>
-                  <p style={{ fontFamily:PD, fontSize:'14px', fontWeight:'700', color:'#2C1810', marginBottom:'2px' }}>{item.name}</p>
-                  <p style={{ fontFamily:PD, fontSize:'12px', color:'#9B8B7A' }}>{item.price}</p>
-                </div>
-                <div style={{ display:'flex', alignItems:'center', gap:'10px' }}>
-                  <button
-                    onClick={() => updateQuantity(item.id, (item.quantity ?? 1) - 1)}
-                    style={{ width:'28px', height:'28px', borderRadius:'50%', border:'1.5px solid rgba(44,24,16,0.2)', background:'transparent', cursor:'pointer', fontSize:'16px', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:PD, color:'#2C1810' }}
-                  >−</button>
-                  <span style={{ fontFamily:PD, fontSize:'16px', fontWeight:'700', color:'#2C1810', minWidth:'20px', textAlign:'center' }}>{item.quantity ?? 1}</span>
-                  <button
-                    onClick={() => updateQuantity(item.id, (item.quantity ?? 1) + 1)}
-                    style={{ width:'28px', height:'28px', borderRadius:'50%', border:'1.5px solid rgba(44,24,16,0.2)', background:'transparent', cursor:'pointer', fontSize:'16px', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:PD, color:'#2C1810' }}
-                  >+</button>
-                  <button
-                    onClick={() => removeItem(item.id)}
-                    style={{ background:'none', border:'none', cursor:'pointer', color:'#9B8B7A', fontSize:'18px', marginLeft:'4px' }}
-                  >×</button>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
 
         {/* printer machine */}
         <div style={{ width:'min(420px, 90vw)', background:'linear-gradient(180deg, #2A2A2A 0%, #1A1A1A 100%)', borderRadius:'20px 20px 6px 6px', padding:'24px 28px 0', boxShadow:'0 16px 48px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08)' }}>
