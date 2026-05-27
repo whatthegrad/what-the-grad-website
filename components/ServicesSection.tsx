@@ -96,99 +96,91 @@ function StampBox({ addon, justAdded, onAdd, visible, delay }: {
   visible: boolean;
   delay: number;
 }) {
-  const TOOTH = 10;   // tooth radius
-  const TEETH = 9;    // teeth per side (approx)
+  // perforated stamp edge using SVG as background image
+  // each "tooth" is a semicircle cut into the border
+  const toothR  = 8;
+  const toothD  = toothR * 2;
   const W = 220;
-  const H = 260;
+  const H = 270;
+  const hTeeth  = Math.floor(W / toothD);   // teeth along top/bottom
+  const vTeeth  = Math.floor(H / toothD);   // teeth along left/right
+  const hStep   = W / hTeeth;
+  const vStep   = H / vTeeth;
 
-  // build perforated border using radial-gradient repeating pattern
-  // We'll simulate stamp edge with CSS outline + border-radius tricks
-  // Using a clip-path polygon isn't great for round teeth, so we use
-  // a box with repeated radial-gradient mask instead
+  // build SVG path that carves perforations into a rectangle
+  let path = '';
+  // top edge — left to right, biting upward
+  path += `M ${toothR},0 `;
+  for (let i = 0; i < hTeeth; i++) {
+    const cx = toothR + i * hStep + hStep / 2;
+    path += `H ${cx - toothR} a${toothR},${toothR} 0 0 0 ${toothD},0 `;
+  }
+  path += `H ${W - toothR} `;
+  // right edge — top to bottom, biting rightward
+  path += `V ${toothR} `;
+  for (let i = 0; i < vTeeth; i++) {
+    const cy = toothR + i * vStep + vStep / 2;
+    path += `V ${cy - toothR} a${toothR},${toothR} 0 0 1 0,${toothD} `;
+  }
+  path += `V ${H - toothR} `;
+  // bottom edge — right to left, biting downward
+  path += `H ${W - toothR} `;
+  for (let i = hTeeth - 1; i >= 0; i--) {
+    const cx = toothR + i * hStep + hStep / 2;
+    path += `H ${cx + toothR} a${toothR},${toothR} 0 0 0 ${-toothD},0 `;
+  }
+  path += `H ${toothR} `;
+  // left edge — bottom to top, biting leftward
+  path += `V ${H - toothR} `;
+  for (let i = vTeeth - 1; i >= 0; i--) {
+    const cy = toothR + i * vStep + vStep / 2;
+    path += `V ${cy + toothR} a${toothR},${toothR} 0 0 1 0,${-toothD} `;
+  }
+  path += `V ${toothR} Z`;
+
   return (
-    <div
-      style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0) rotate(0deg)' : 'translateY(40px)',
-        transition: `opacity 0.6s ease ${delay}s, transform 0.6s ease ${delay}s`,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
-    >
-      <div
-        style={{
-          width: W,
-          height: H,
-          position: 'relative',
-          // stamp perforated edge via CSS mask
-          background: 'white',
-          boxShadow: '0 6px 28px rgba(44,24,16,0.14)',
-          // stamp teeth using repeating radial-gradient mask
-          maskImage: `
-            radial-gradient(circle at 50% 0%, transparent ${TOOTH}px, white ${TOOTH}px) top / ${100/TEETH}% 100%,
-            radial-gradient(circle at 50% 100%, transparent ${TOOTH}px, white ${TOOTH}px) bottom / ${100/TEETH}% 100%,
-            radial-gradient(circle at 0% 50%, transparent ${TOOTH}px, white ${TOOTH}px) left / 100% ${100/TEETH}%,
-            radial-gradient(circle at 100% 50%, transparent ${TOOTH}px, white ${TOOTH}px) right / 100% ${100/TEETH}%
-          `,
-          maskRepeat: 'repeat-x, repeat-x, repeat-y, repeat-y',
-          WebkitMaskImage: `
-            radial-gradient(circle at 50% 0%, transparent ${TOOTH}px, white ${TOOTH}px) top / ${100/TEETH}% 100%,
-            radial-gradient(circle at 50% 100%, transparent ${TOOTH}px, white ${TOOTH}px) bottom / ${100/TEETH}% 100%,
-            radial-gradient(circle at 0% 50%, transparent ${TOOTH}px, white ${TOOTH}px) left / 100% ${100/TEETH}%,
-            radial-gradient(circle at 100% 50%, transparent ${TOOTH}px, white ${TOOTH}px) right / 100% ${100/TEETH}%
-          `,
-          WebkitMaskRepeat: 'repeat-x, repeat-x, repeat-y, repeat-y',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '24px 18px 18px',
-        }}
-      >
-        {/* inner border line like a real stamp */}
-        <div style={{
-          position: 'absolute',
-          inset: '14px',
-          border: '1px solid rgba(44,24,16,0.12)',
-          borderRadius: '2px',
-          pointerEvents: 'none',
-        }}/>
+    <div style={{
+      opacity: visible ? 1 : 0,
+      transform: visible ? 'translateY(0)' : 'translateY(40px)',
+      transition: `opacity 0.6s ease ${delay}s, transform 0.6s ease ${delay}s`,
+      display: 'flex', flexDirection: 'column', alignItems: 'center',
+      filter: 'drop-shadow(0 6px 18px rgba(44,24,16,0.14))',
+    }}>
+      <svg width={W} height={H} style={{ position: 'absolute', pointerEvents: 'none' }} aria-hidden="true">
+        <path d={path} fill="white"/>
+        {/* inner border */}
+        <rect x="16" y="16" width={W - 32} height={H - 32} fill="none" stroke="rgba(44,24,16,0.1)" strokeWidth="1" rx="2"/>
+      </svg>
 
-        {/* content */}
-        <div style={{ textAlign: 'center', position: 'relative', zIndex: 1, flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '6px' }}>
+      <div style={{
+        width: W, height: H,
+        clipPath: `path('${path}')`,
+        WebkitClipPath: `path('${path}')`,
+        background: 'white',
+        display: 'flex', flexDirection: 'column',
+        alignItems: 'center', justifyContent: 'space-between',
+        padding: '28px 20px 20px',
+        position: 'relative',
+      }}>
+        <div style={{ textAlign: 'center', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '6px' }}>
           <p style={{ fontFamily: PD, fontSize: '15px', fontWeight: '700', color: '#2C1810', lineHeight: '1.3' }}>{addon.name}</p>
           <p style={{ fontFamily: PD, fontSize: '12px', color: '#9B8B7A', fontStyle: 'italic' }}>{addon.desc}</p>
           <p style={{ fontFamily: PD, fontSize: '22px', fontWeight: '700', color: '#2C1810', margin: '4px 0' }}>{addon.price}</p>
         </div>
 
-        {/* add to cart */}
         <button
           onClick={onAdd}
           style={{
-            position: 'relative', zIndex: 1,
             width: '100%', padding: '10px',
             background: justAdded ? '#22C55E' : 'transparent',
             color: justAdded ? 'white' : '#2C1810',
             border: `1.5px solid ${justAdded ? '#22C55E' : 'rgba(44,24,16,0.25)'}`,
             borderRadius: '100px', fontFamily: PD,
             fontSize: '12px', fontWeight: '700', cursor: 'pointer',
-            transition: 'all 0.25s',
+            transition: 'all 0.25s', position: 'relative', zIndex: 1,
           }}
-          onMouseEnter={e => {
-            if (!justAdded) {
-              (e.currentTarget).style.background = '#2C1810';
-              (e.currentTarget).style.color = '#FFF8EC';
-              (e.currentTarget).style.borderColor = '#2C1810';
-            }
-          }}
-          onMouseLeave={e => {
-            if (!justAdded) {
-              (e.currentTarget).style.background = 'transparent';
-              (e.currentTarget).style.color = '#2C1810';
-              (e.currentTarget).style.borderColor = 'rgba(44,24,16,0.25)';
-            }
-          }}
+          onMouseEnter={e => { if (!justAdded) { e.currentTarget.style.background = '#2C1810'; e.currentTarget.style.color = '#FFF8EC'; e.currentTarget.style.borderColor = '#2C1810'; }}}
+          onMouseLeave={e => { if (!justAdded) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#2C1810'; e.currentTarget.style.borderColor = 'rgba(44,24,16,0.25)'; }}}
         >
           {justAdded ? '✓ Added!' : '+ Add to cart'}
         </button>
