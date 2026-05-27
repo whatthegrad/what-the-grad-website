@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
@@ -20,7 +20,7 @@ function playPrinterClick() {
     }
     const source = ctx.createBufferSource();
     source.buffer = buffer;
-    const filter = ctx.createBiquadFilter();
+    const filter  = ctx.createBiquadFilter();
     filter.type = 'bandpass';
     filter.frequency.value = 900;
     filter.Q.value = 0.6;
@@ -31,9 +31,57 @@ function playPrinterClick() {
   } catch (e) {}
 }
 
+// ── ROUND STAMP SEAL ──────────────────────────────────────────────────────────
+function ConfirmedSeal() {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setVisible(true), 80); return () => clearTimeout(t); }, []);
+
+  return (
+    <div style={{
+      display: 'flex', justifyContent: 'center', alignItems: 'center',
+      margin: '16px 0',
+    }}>
+      <div style={{
+        width: 160, height: 160,
+        borderRadius: '50%',
+        border: '5px solid #22C55E',
+        display: 'flex', flexDirection: 'column',
+        alignItems: 'center', justifyContent: 'center',
+        position: 'relative',
+        transform: visible ? 'scale(1) rotate(-8deg)' : 'scale(2.2) rotate(-8deg)',
+        opacity: visible ? 1 : 0,
+        transition: 'transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease',
+        background: 'rgba(34,197,94,0.08)',
+        boxShadow: '0 0 0 2px #22C55E, 0 0 0 8px rgba(34,197,94,0.12)',
+      }}>
+        {/* outer ring text */}
+        <svg width="160" height="160" style={{ position:'absolute', inset:0 }}>
+          <defs>
+            <path id="topArc" d="M 20,80 A 60,60 0 0,1 140,80"/>
+            <path id="botArc" d="M 18,88 A 62,62 0 0,0 142,88"/>
+          </defs>
+          <text fontFamily={MONO} fontSize="9" fill="#22C55E" letterSpacing="3">
+            <textPath href="#topArc">✦ WHAT THE GRAD ✦ CONFIRMED ✦</textPath>
+          </text>
+          <text fontFamily={MONO} fontSize="8" fill="#22C55E" letterSpacing="2">
+            <textPath href="#botArc">PAID · BOOKED · SORTED</textPath>
+          </text>
+        </svg>
+        {/* inner content */}
+        <div style={{ textAlign:'center', zIndex:1 }}>
+          <div style={{ fontSize:'36px', lineHeight:1 }}>✓</div>
+          <div style={{ fontFamily:MONO, fontSize:'11px', fontWeight:'700', color:'#22C55E', letterSpacing:'0.12em', marginTop:'4px' }}>CONFIRMED</div>
+        </div>
+        {/* dashed inner circle */}
+        <div style={{ position:'absolute', inset:'12px', borderRadius:'50%', border:'1.5px dashed rgba(34,197,94,0.4)' }}/>
+      </div>
+    </div>
+  );
+}
+
 export default function CartPage() {
-  const router     = useRouter();
-  const { items, clearCart } = useCart();
+  const router = useRouter();
+  const { items, clearCart, updateQuantity, removeItem } = useCart();
 
   const [visibleLines, setVisibleLines] = useState(0);
   const [receiptHeight, setReceiptHeight] = useState(0);
@@ -43,7 +91,6 @@ export default function CartPage() {
   const [started, setStarted]     = useState(false);
   const [mounted, setMounted]     = useState(false);
 
-  // mount guard
   useEffect(() => { setMounted(true); }, []);
 
   const today = new Date().toLocaleDateString('en-IN', {
@@ -55,46 +102,46 @@ export default function CartPage() {
     return sum + (isNaN(num) ? 0 : num * (item.quantity ?? 1));
   }, 0);
 
-  type LineType = 'logo' | 'sub' | 'divider' | 'header' | 'item' | 'price' | 'total' | 'row' | 'step' | 'thanks' | 'qr';
+  type LineType = 'logo' | 'sub' | 'divider' | 'header' | 'item' | 'price' | 'total' | 'row' | 'nextsteps' | 'step' | 'thanks' | 'qr';
   interface Line { type: LineType; content: string; }
 
   const lines: Line[] = [
-    { type: 'logo',    content: 'WHAT THE GRAD' },
-    { type: 'sub',     content: 'Your wise older sibling' },
-    { type: 'divider', content: '' },
-    { type: 'row',     content: `Date     :  ${today}` },
-    { type: 'row',     content: 'From     :  Sakshi & Nupoor' },
-    { type: 'row',     content: 'To       :  You :)' },
-    { type: 'divider', content: '' },
-    { type: 'header',  content: 'ORDER SUMMARY' },
-    { type: 'divider', content: '' },
+    { type: 'logo',      content: 'WHAT THE GRAD' },
+    { type: 'sub',       content: 'Your wise older sibling' },
+    { type: 'divider',   content: '' },
+    { type: 'row',       content: `Date     :  ${today}` },
+    { type: 'row',       content: 'From     :  Sakshi & Nupoor' },
+    { type: 'row',       content: 'To       :  You :)' },
+    { type: 'divider',   content: '' },
+    { type: 'header',    content: 'ORDER SUMMARY' },
+    { type: 'divider',   content: '' },
     ...items.flatMap(item => ([
       { type: 'item'  as LineType, content: item.name },
       { type: 'price' as LineType, content: `${item.price} x ${item.quantity ?? 1}` },
     ])),
-    { type: 'divider', content: '' },
-    { type: 'total',   content: `TOTAL    :  \u20B9${totalPrice.toLocaleString('en-IN')}` },
-    { type: 'row',     content: 'Confusion tax  :  \u20B90.00' },
-    { type: 'divider', content: '' },
-    { type: 'row',     content: 'Next steps:' },
-    { type: 'step',    content: '\u2192 Scan QR below to pay' },
-    { type: 'step',    content: '\u2192 Check email for booking link' },
-    { type: 'step',    content: '\u2192 Show up. We handle the rest.' },
-    { type: 'divider', content: '' },
-    { type: 'thanks',  content: 'Thank you \u2726' },
-    { type: 'sub',     content: 'Your future just got clearer.' },
-    { type: 'divider', content: '' },
-    { type: 'qr',      content: '' },
+    { type: 'divider',   content: '' },
+    { type: 'total',     content: `TOTAL    :  \u20B9${totalPrice.toLocaleString('en-IN')}` },
+    { type: 'row',       content: 'Confusion tax  :  \u20B90.00' },
+    { type: 'divider',   content: '' },
+    { type: 'nextsteps', content: 'NEXT STEPS' },
+    { type: 'step',      content: '\u2192 Scan QR below to pay' },
+    { type: 'step',      content: '\u2192 Check email for booking link' },
+    { type: 'step',      content: '\u2192 Show up. We handle the rest.' },
+    { type: 'divider',   content: '' },
+    { type: 'thanks',    content: 'Thank you \u2726' },
+    { type: 'sub',       content: 'Your future just got clearer.' },
+    { type: 'divider',   content: '' },
+    { type: 'qr',        content: '' },
   ];
 
-  // ── start printing 800ms after mount — no conditions ──────────────────────
+  // start printing 800ms after mount
   useEffect(() => {
     if (!mounted) return;
     const t = setTimeout(() => setStarted(true), 800);
     return () => clearTimeout(t);
   }, [mounted]);
 
-  // ── print lines one by one ─────────────────────────────────────────────────
+  // print lines one by one
   useEffect(() => {
     if (!started) return;
     if (visibleLines >= lines.length) {
@@ -103,17 +150,20 @@ export default function CartPage() {
     }
     const lineType = lines[visibleLines]?.type;
     const delay =
-      lineType === 'divider' ? 100 :
-      lineType === 'logo'    ? 280 :
-      lineType === 'thanks'  ? 240 :
-      lineType === 'qr'      ? 50  : 160;
+      lineType === 'divider'   ? 90  :
+      lineType === 'logo'      ? 260 :
+      lineType === 'thanks'    ? 220 :
+      lineType === 'nextsteps' ? 180 :
+      lineType === 'qr'        ? 50  : 140;
 
     const t = setTimeout(() => {
       playPrinterClick();
       const lineHeight =
-        lineType === 'divider' ? 18  :
-        lineType === 'logo'    ? 34  :
-        lineType === 'qr'      ? 200 : 22;
+        lineType === 'divider'   ? 20  :
+        lineType === 'logo'      ? 40  :
+        lineType === 'nextsteps' ? 42  :
+        lineType === 'step'      ? 26  :
+        lineType === 'qr'        ? 240 : 26;
       setReceiptHeight(h => h + lineHeight);
       setVisibleLines(v => v + 1);
     }, delay);
@@ -121,23 +171,16 @@ export default function CartPage() {
     return () => clearTimeout(t);
   }, [started, visibleLines, lines.length]);
 
-  // ── empty cart ─────────────────────────────────────────────────────────────
+  // empty cart
   if (mounted && items.length === 0 && !confirmed) {
     return (
-      <div style={{ minHeight: '100vh', background: '#FFF8EC', fontFamily: PD }}>
+      <div style={{ minHeight:'100vh', background:'#FFF8EC', fontFamily:PD }}>
         <Nav />
-        <div style={{ maxWidth: '500px', margin: '0 auto', padding: '80px 5vw', textAlign: 'center' }}>
-          <div style={{ fontSize: '72px', marginBottom: '24px' }}>🎓</div>
-          <h1 style={{ fontFamily: PD, fontSize: '36px', fontWeight: '700', color: '#2C1810', marginBottom: '16px' }}>
-            Your cart is empty
-          </h1>
-          <p style={{ fontFamily: PD, fontSize: '16px', fontStyle: 'italic', color: '#9B8B7A', marginBottom: '40px' }}>
-            Your future does not have to be.
-          </p>
-          <button
-            onClick={() => router.push('/#services')}
-            style={{ padding: '14px 40px', background: '#F5A623', color: '#2C1810', border: 'none', borderRadius: '100px', fontFamily: PD, fontSize: '15px', fontWeight: '700', cursor: 'pointer' }}
-          >
+        <div style={{ maxWidth:'500px', margin:'0 auto', padding:'80px 5vw', textAlign:'center' }}>
+          <div style={{ fontSize:'72px', marginBottom:'24px' }}>🎓</div>
+          <h1 style={{ fontFamily:PD, fontSize:'36px', fontWeight:'700', color:'#2C1810', marginBottom:'16px' }}>Your cart is empty</h1>
+          <p style={{ fontFamily:PD, fontSize:'16px', fontStyle:'italic', color:'#9B8B7A', marginBottom:'40px' }}>Your future does not have to be.</p>
+          <button onClick={() => router.push('/#services')} style={{ padding:'14px 40px', background:'#F5A623', color:'#2C1810', border:'none', borderRadius:'100px', fontFamily:PD, fontSize:'15px', fontWeight:'700', cursor:'pointer' }}>
             View our packages
           </button>
         </div>
@@ -149,45 +192,58 @@ export default function CartPage() {
   const renderLine = (line: Line, i: number) => {
     switch (line.type) {
       case 'logo':
-        return <div key={i} style={{ textAlign:'center', fontSize:'18px', fontWeight:'900', color:'#2C1810', letterSpacing:'0.08em', marginBottom:'4px' }}>{line.content}</div>;
+        return <div key={i} style={{ textAlign:'center', fontSize:'22px', fontWeight:'900', color:'#2C1810', letterSpacing:'0.08em', marginBottom:'4px' }}>{line.content}</div>;
       case 'sub':
-        return <div key={i} style={{ textAlign:'center', fontSize:'10px', color:'#9B8B7A', fontStyle:'italic', marginBottom:'4px' }}>{line.content}</div>;
+        return <div key={i} style={{ textAlign:'center', fontSize:'12px', color:'#9B8B7A', fontStyle:'italic', marginBottom:'4px' }}>{line.content}</div>;
       case 'divider':
-        return <div key={i} style={{ borderTop:'1px dashed #CCC', margin:'8px 0' }}/>;
+        return <div key={i} style={{ borderTop:'1px dashed #CCC', margin:'10px 0' }}/>;
       case 'header':
-        return <div key={i} style={{ textAlign:'center', fontSize:'11px', fontWeight:'700', color:'#2C1810', letterSpacing:'0.18em', marginBottom:'4px' }}>{line.content}</div>;
+        return <div key={i} style={{ textAlign:'center', fontSize:'14px', fontWeight:'700', color:'#2C1810', letterSpacing:'0.18em', marginBottom:'6px' }}>{line.content}</div>;
       case 'item':
-        return <div key={i} style={{ fontSize:'12px', fontWeight:'700', color:'#2C1810', marginBottom:'2px' }}>{line.content}</div>;
+        return <div key={i} style={{ fontSize:'15px', fontWeight:'700', color:'#2C1810', marginBottom:'2px' }}>{line.content}</div>;
       case 'price':
-        return <div key={i} style={{ fontSize:'11px', color:'#5C4A3A', textAlign:'right', marginBottom:'8px' }}>{line.content}</div>;
+        return <div key={i} style={{ fontSize:'13px', color:'#5C4A3A', textAlign:'right', marginBottom:'10px' }}>{line.content}</div>;
       case 'total':
-        return <div key={i} style={{ fontSize:'14px', fontWeight:'900', color:'#2C1810', marginBottom:'4px' }}>{line.content}</div>;
+        return <div key={i} style={{ fontSize:'18px', fontWeight:'900', color:'#2C1810', marginBottom:'4px' }}>{line.content}</div>;
       case 'row':
-        return <div key={i} style={{ fontSize:'11px', color:'#5C4A3A', marginBottom:'3px' }}>{line.content}</div>;
+        return <div key={i} style={{ fontSize:'13px', color:'#5C4A3A', marginBottom:'4px' }}>{line.content}</div>;
+
+      // highlighted next steps box
+      case 'nextsteps':
+        return (
+          <div key={i} style={{ background:'#FFF8E1', border:'1.5px solid #F5A623', borderRadius:'8px', padding:'10px 14px 6px', marginBottom:'0' }}>
+            <div style={{ fontSize:'13px', fontWeight:'900', color:'#2C1810', letterSpacing:'0.14em', marginBottom:'6px' }}>★ {line.content}</div>
+          </div>
+        );
       case 'step':
-        return <div key={i} style={{ fontSize:'10px', color:'#5C4A3A', paddingLeft:'8px', marginBottom:'3px' }}>{line.content}</div>;
+        return (
+          <div key={i} style={{ background:'#FFF8E1', borderLeft:'1.5px solid #F5A623', borderRight:'1.5px solid #F5A623', padding:'0 14px 0 14px', marginBottom:'0' }}>
+            <div style={{ fontSize:'13px', color:'#5C4A3A', paddingBottom:'5px' }}>{line.content}</div>
+          </div>
+        );
+
       case 'thanks':
-        return <div key={i} style={{ textAlign:'center', fontSize:'16px', fontWeight:'900', color:'#2C1810', margin:'8px 0 4px', letterSpacing:'0.05em' }}>{line.content}</div>;
+        return <div key={i} style={{ textAlign:'center', fontSize:'20px', fontWeight:'900', color:'#2C1810', margin:'10px 0 4px', letterSpacing:'0.05em' }}>{line.content}</div>;
+
       case 'qr':
         return (
-          <div key={i} style={{ textAlign:'center', marginTop:'12px' }}>
+          <div key={i} style={{ textAlign:'center', marginTop:'14px' }}>
             {showQR && (
               <>
-                <div style={{ width:'160px', height:'160px', margin:'0 auto 8px', border:'2px solid #2C1810', borderRadius:'8px', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', background:'#F9F9F9', gap:'8px' }}>
+                <div style={{ width:'160px', height:'160px', margin:'0 auto 10px', border:'2px solid #2C1810', borderRadius:'8px', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', background:'#F9F9F9', gap:'8px' }}>
                   {/* SWAP: <img src="/images/upi-qr.png" style={{width:'100%',height:'100%',objectFit:'contain',borderRadius:'6px'}}/> */}
                   <div style={{ fontSize:'40px' }}>📱</div>
-                  <div style={{ fontSize:'9px', color:'#9B8B7A', textAlign:'center', lineHeight:'1.5' }}>Your UPI QR<br/>goes here</div>
+                  <div style={{ fontSize:'10px', color:'#9B8B7A', textAlign:'center', lineHeight:'1.5' }}>Your UPI QR<br/>goes here</div>
                 </div>
-                <div style={{ fontSize:'10px', color:'#9B8B7A', marginBottom:'2px' }}>Scan to pay via UPI</div>
-                <div style={{ fontSize:'11px', fontWeight:'700', color:'#2C1810', marginBottom:'16px' }}>whatthegrad@upi</div>
+                <div style={{ fontSize:'11px', color:'#9B8B7A', marginBottom:'2px' }}>Scan to pay via UPI</div>
+                <div style={{ fontSize:'13px', fontWeight:'700', color:'#2C1810', marginBottom:'16px' }}>whatthegrad@upi</div>
+
                 {confirmed ? (
-                  <div style={{ border:'3px solid #22C55E', borderRadius:'8px', padding:'10px', color:'#22C55E', fontWeight:'900', fontSize:'16px', letterSpacing:'0.12em', animation:'stamp 0.4s cubic-bezier(0.34,1.56,0.64,1)' }}>
-                    CONFIRMED ✦
-                  </div>
+                  <ConfirmedSeal />
                 ) : (
                   <button
                     onClick={() => { setConfirmed(true); clearCart(); }}
-                    style={{ width:'100%', padding:'12px', background:'#2C1810', color:'#FFF8EC', border:'none', borderRadius:'100px', fontFamily:PD, fontSize:'14px', fontWeight:'700', cursor:'pointer', letterSpacing:'0.04em' }}
+                    style={{ width:'100%', padding:'14px', background:'#2C1810', color:'#FFF8EC', border:'none', borderRadius:'100px', fontFamily:PD, fontSize:'15px', fontWeight:'700', cursor:'pointer', letterSpacing:'0.04em' }}
                     onMouseEnter={e => (e.currentTarget.style.background = '#F5A623')}
                     onMouseLeave={e => (e.currentTarget.style.background = '#2C1810')}
                   >
@@ -214,15 +270,44 @@ export default function CartPage() {
         <Nav />
       </div>
 
-      {/* content */}
       <div style={{ position:'relative', zIndex:5, display:'flex', flexDirection:'column', alignItems:'center', padding:'32px 5vw 80px' }}>
 
-        <h1 style={{ fontFamily:PD, fontSize:'28px', fontWeight:'700', color:'#2C1810', marginBottom:'32px', textAlign:'center', opacity: printingDone ? 1 : 0.3, transition:'opacity 1s ease' }}>
+        <h1 style={{ fontFamily:PD, fontSize:'28px', fontWeight:'700', color:'#2C1810', marginBottom:'16px', textAlign:'center', opacity: printingDone ? 1 : 0.3, transition:'opacity 1s ease' }}>
           {confirmed ? 'Payment Confirmed! ✦' : 'Your Order'}
         </h1>
 
+        {/* qty controls — visible before printing done */}
+        {!printingDone && mounted && (
+          <div style={{ width:'min(380px, 84vw)', marginBottom:'20px' }}>
+            <p style={{ fontFamily:PD, fontSize:'13px', color:'#9B8B7A', marginBottom:'12px', textAlign:'center', fontStyle:'italic' }}>Adjust your order before we print it</p>
+            {items.map(item => (
+              <div key={item.id} style={{ display:'flex', alignItems:'center', justifyContent:'space-between', background:'white', borderRadius:'12px', padding:'12px 16px', marginBottom:'8px', boxShadow:'0 2px 12px rgba(44,24,16,0.07)' }}>
+                <div style={{ flex:1 }}>
+                  <p style={{ fontFamily:PD, fontSize:'14px', fontWeight:'700', color:'#2C1810', marginBottom:'2px' }}>{item.name}</p>
+                  <p style={{ fontFamily:PD, fontSize:'12px', color:'#9B8B7A' }}>{item.price}</p>
+                </div>
+                <div style={{ display:'flex', alignItems:'center', gap:'10px' }}>
+                  <button
+                    onClick={() => updateQuantity(item.id, (item.quantity ?? 1) - 1)}
+                    style={{ width:'28px', height:'28px', borderRadius:'50%', border:'1.5px solid rgba(44,24,16,0.2)', background:'transparent', cursor:'pointer', fontSize:'16px', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:PD, color:'#2C1810' }}
+                  >−</button>
+                  <span style={{ fontFamily:PD, fontSize:'16px', fontWeight:'700', color:'#2C1810', minWidth:'20px', textAlign:'center' }}>{item.quantity ?? 1}</span>
+                  <button
+                    onClick={() => updateQuantity(item.id, (item.quantity ?? 1) + 1)}
+                    style={{ width:'28px', height:'28px', borderRadius:'50%', border:'1.5px solid rgba(44,24,16,0.2)', background:'transparent', cursor:'pointer', fontSize:'16px', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:PD, color:'#2C1810' }}
+                  >+</button>
+                  <button
+                    onClick={() => removeItem(item.id)}
+                    style={{ background:'none', border:'none', cursor:'pointer', color:'#9B8B7A', fontSize:'18px', marginLeft:'4px' }}
+                  >×</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
         {/* printer machine */}
-        <div style={{ width:'min(420px, 90vw)', background:'linear-gradient(180deg, #2A2A2A 0%, #1A1A1A 100%)', borderRadius:'20px 20px 6px 6px', padding:'24px 28px 0', boxShadow:'0 16px 48px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08)', position:'relative' }}>
+        <div style={{ width:'min(420px, 90vw)', background:'linear-gradient(180deg, #2A2A2A 0%, #1A1A1A 100%)', borderRadius:'20px 20px 6px 6px', padding:'24px 28px 0', boxShadow:'0 16px 48px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08)' }}>
           <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'20px' }}>
             <div style={{ fontFamily:MONO, fontSize:'11px', color:'rgba(255,255,255,0.5)', letterSpacing:'0.15em' }}>WTG RECEIPT PRINTER</div>
             <div style={{ display:'flex', gap:'8px', alignItems:'center' }}>
@@ -243,7 +328,6 @@ export default function CartPage() {
           width:'min(380px, 84vw)',
           background:'white',
           boxShadow:'0 8px 32px rgba(0,0,0,0.15), 2px 0 0 rgba(0,0,0,0.05), -2px 0 0 rgba(0,0,0,0.05)',
-          position:'relative',
           minHeight:`${receiptHeight}px`,
           transition:'min-height 0.1s linear',
           clipPath: printingDone
@@ -252,6 +336,12 @@ export default function CartPage() {
         }}>
           <div style={{ padding:'24px 24px 36px', fontFamily:MONO }}>
             {lines.slice(0, visibleLines).map((line, i) => renderLine(line, i))}
+
+            {/* close the nextsteps box bottom border */}
+            {visibleLines > lines.findIndex(l => l.type === 'nextsteps') &&
+             visibleLines <= lines.findIndex(l => l.type === 'nextsteps') + 3 && (
+              <div style={{ background:'#FFF8E1', border:'1.5px solid #F5A623', borderTop:'none', borderRadius:'0 0 8px 8px', height:'6px', marginTop:'-1px', marginBottom:'0' }}/>
+            )}
           </div>
         </div>
 
@@ -274,7 +364,6 @@ export default function CartPage() {
 
       <style>{`
         @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0.2; } }
-        @keyframes stamp { 0% { transform:scale(1.8) rotate(-3deg); opacity:0; } 100% { transform:scale(1) rotate(0deg); opacity:1; } }
       `}</style>
     </div>
   );
