@@ -5,20 +5,20 @@ const DS = "Dancing Script, cursive";
 const PD = "Playfair Display, Georgia, serif";
 
 const POLAROIDS = [
-  { id:1, rotation:-12, top:'2%',  left:'5%',  width:170, imgHeight:165, delay:0.05, tape:{ top:'-11px', left:'50%',  transform:'translateX(-50%) rotate(-3deg)' }, caption:'France, 2023',   bg:'#D6E8F5', zIndex:3 },
-  { id:2, rotation:8,   top:'3%',  left:'44%', width:155, imgHeight:150, delay:0.2,  tape:{ top:'-10px', right:'14px', transform:'rotate(7deg)' },                  caption:'First day abroad', bg:'#E8D5F5', zIndex:4 },
-  { id:3, rotation:-5,  top:'36%', left:'0%',  width:145, imgHeight:140, delay:0.38, tape:{ top:'-9px',  left:'12px',  transform:'rotate(-6deg)' },                 caption:'Always lost',     bg:'#FFF3D6', zIndex:2 },
-  { id:4, rotation:10,  top:'32%', left:'36%', width:175, imgHeight:170, delay:0.15, tape:{ top:'-11px', left:'50%',  transform:'translateX(-50%) rotate(4deg)' },  caption:'The big idea',    bg:'#F5E6D5', zIndex:5 },
-  { id:5, rotation:-7,  top:'65%', left:'18%', width:160, imgHeight:155, delay:0.45, tape:{ top:'-10px', right:'16px', transform:'rotate(-5deg)' },                 caption:'What The Grad',   bg:'#D6F0E8', zIndex:3 },
+  { id:1, rotation:-12, top:'2%',  left:'5%',  width:170, imgHeight:165, delay:0.05, tape:{ top:'-11px', left:'50%',  transform:'translateX(-50%) rotate(-3deg)' }, caption:'France, 2019',   bg:'#D6E8F5', zIndex:3, image:'/images/about-1.jpg' },
+  { id:2, rotation:8,   top:'3%',  left:'44%', width:155, imgHeight:150, delay:0.2,  tape:{ top:'-10px', right:'14px', transform:'rotate(7deg)' },                  caption:'First day abroad', bg:'#E8D5F5', zIndex:4, image:'/images/about-2.jpg' },
+  { id:3, rotation:-5,  top:'36%', left:'0%',  width:145, imgHeight:140, delay:0.38, tape:{ top:'-9px',  left:'12px',  transform:'rotate(-6deg)' },                 caption:'Always lost',     bg:'#FFF3D6', zIndex:2, image:'/images/about-3.jpg' },
+  { id:4, rotation:10,  top:'32%', left:'36%', width:175, imgHeight:170, delay:0.15, tape:{ top:'-11px', left:'50%',  transform:'translateX(-50%) rotate(4deg)' },  caption:'The big idea',    bg:'#F5E6D5', zIndex:5, image:'/images/about-4.jpg' },
+  { id:5, rotation:-7,  top:'65%', left:'18%', width:160, imgHeight:155, delay:0.45, tape:{ top:'-10px', right:'16px', transform:'rotate(-5deg)' },                 caption:'What The Grad',   bg:'#D6F0E8', zIndex:3, image:'/images/about-5.jpg' },
 ];
 
 // Mobile: 2 rows of polaroids side by side, simpler layout
 const MOBILE_POLAROIDS = [
-  { id:1, rotation:-6,  bg:'#D6E8F5', caption:'France, 2019',    imgHeight:100 },
-  { id:2, rotation:5,   bg:'#E8D5F5', caption:'First day abroad', imgHeight:100 },
-  { id:3, rotation:-4,  bg:'#FFF3D6', caption:'Always lost',      imgHeight:100 },
-  { id:4, rotation:7,   bg:'#F5E6D5', caption:'The big idea',     imgHeight:100 },
-  { id:5, rotation:-5,  bg:'#D6F0E8', caption:'What The Grad',    imgHeight:100 },
+  { id:1, rotation:-6,  bg:'#D6E8F5', caption:'France, 2019',    imgHeight:100, image:'/images/about-1.jpg' },
+  { id:2, rotation:5,   bg:'#E8D5F5', caption:'First day abroad', imgHeight:100, image:'/images/about-2.jpg' },
+  { id:3, rotation:-4,  bg:'#FFF3D6', caption:'Always lost',      imgHeight:100, image:'/images/about-3.jpg' },
+  { id:4, rotation:7,   bg:'#F5E6D5', caption:'The big idea',     imgHeight:100, image:'/images/about-4.jpg' },
+  { id:5, rotation:-5,  bg:'#D6F0E8', caption:'What The Grad',    imgHeight:100, image:'/images/about-5.jpg' },
 ];
 
 export default function AboutSection() {
@@ -87,8 +87,16 @@ export default function AboutSection() {
                 filter: 'drop-shadow(0 4px 12px rgba(44,24,16,0.15))',
               }}>
                 <div style={{ background:'white', padding:'7px 7px 22px', borderRadius:'1px', boxShadow:'0 2px 8px rgba(0,0,0,0.1)' }}>
-                  <div style={{ width:'100%', height:`${pol.imgHeight}px`, background:pol.bg, display:'flex', alignItems:'center', justifyContent:'center' }}>
-                    <span style={{ fontSize:'24px', opacity:0.45 }}>📸</span>
+                  <div style={{ width:'100%', height:`${pol.imgHeight}px`, background:pol.bg, display:'flex', alignItems:'center', justifyContent:'center', overflow:'hidden' }}>
+                    <img
+                      src={pol.image}
+                      alt={pol.caption}
+                      style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }}
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'none';
+                        (e.target as HTMLImageElement).parentElement!.innerHTML += '<span style="font-size:24px;opacity:0.45">📸</span>';
+                      }}
+                    />
                   </div>
                   <p style={{ fontFamily:DS, fontSize:'11px', color:'#5C4A3A', textAlign:'center', marginTop:'4px' }}>{pol.caption}</p>
                 </div>
@@ -159,7 +167,15 @@ export default function AboutSection() {
                   <div style={{ position:'absolute', width:'44px', height:'16px', background:'rgba(30,20,10,0.22)', borderRadius:'2px', zIndex:10, ...pol.tape }}/>
                   <div style={{ background:'white', padding:'9px 9px 30px', borderRadius:'1px', boxShadow:'0 2px 8px rgba(0,0,0,0.12)' }}>
                     <div style={{ width:'100%', height:`${pol.imgHeight}px`, background:pol.bg, display:'flex', alignItems:'center', justifyContent:'center', overflow:'hidden' }}>
-                      <span style={{ fontSize:'36px', opacity:0.45 }}>📸</span>
+                      <img
+                        src={pol.image}
+                        alt={pol.caption}
+                        style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }}
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).style.display = 'none';
+                          (e.target as HTMLImageElement).parentElement!.innerHTML += '<span style="font-size:36px;opacity:0.45">📸</span>';
+                        }}
+                      />
                     </div>
                     <p style={{ fontFamily:DS, fontSize:'13px', color:'#5C4A3A', textAlign:'center', marginTop:'5px' }}>{pol.caption}</p>
                   </div>
