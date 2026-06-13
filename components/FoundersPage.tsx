@@ -17,9 +17,8 @@ const FOUNDERS = [
     ],
     image: '/images/founder-sakshi.jpg',
     imageBg: '#E8D5F5',
-    leftText: "[Placeholder — something about Sakshi's journey before What The Grad. What she was doing, what she was feeling, what made her say yes to France.]",
-    rightText: '[Placeholder — what Sakshi brings to the table. Her perspective, her superpower, the way she sees students and their potential.]',
-    quote: '"[A line that sounds like Sakshi — her voice, her energy, something she actually says.]"',
+    leftText: "I've always found it interesting how life connects dots that don't seem related at first. My journey began with a Bachelor's degree in Agriculture, took me to France for a Master's in Global Management, and eventually led me into consulting. Along the way, I had the opportunity to work across very different environments — from the wine industry and digital marketing to strategy and public sector consulting. On paper, it may seem like an unusual combination. But each experience introduced me to new perspectives, industries, and ways of thinking. Consulting, in particular, gave me a seat at tables where I was often the youngest person in the room — a reminder that some of the greatest learning happens when you're willing to step into unfamiliar spaces. Looking back, the most valuable opportunities in my journey came from staying curious and being open to paths I hadn't originally considered. That's what inspired us to create What The Grad — where students can explore possibilities, gain perspective, and make informed decisions.",
+    rightText: "What excites me most about career guidance is that there has never been a more interesting time to be a student. Today, opportunities exist across industries, countries, and fields that many of us were never exposed to while growing up. Some of the most rewarding careers are often the ones students haven't even discovered yet. As a Certified Career Analyst and a Diploma holder in Educational Consulting, I enjoy helping students explore these possibilities, understand where their strengths lie, and make choices that feel both ambitious and authentic to them. Every student's journey is different, and that's what makes this work meaningful.",
   },
   {
     id: 2,
@@ -31,9 +30,8 @@ const FOUNDERS = [
     ],
     image: '/images/founder-nupoor.jpg',
     imageBg: '#D6E8F5',
-    leftText: "[Placeholder — something about Nupoor's path. Design school, the leap to Europe, what shifted in her thinking when she got there.]",
-    rightText: '[Placeholder — what Nupoor brings. Her design eye, her instinct for people, the way she connects with students on a personal level.]',
-    quote: '"[A line that sounds like Nupoor — warm, real, maybe a little funny.]"',
+    leftText: "I didn't take the straight road, and honestly, I'm glad I didn't. I started at NIFT Gandhinagar, where design wasn't just a subject, it was a way of seeing the world. Then came two master's degrees — one from NEOMA Business School, one from Polimi Graduate School of Design — because apparently I don't believe in doing things halfway. Sprinkle in internships across industries, cities, and time zones, and what you get is someone who's sat in enough rooms, made enough mistakes, and asked enough uncomfortable questions to actually know what she's talking about. I've always believed that careers aren't straight lines — they're living, breathing things that evolve as you do. The world keeps changing, new fields keep emerging, and the worst thing you can do is box yourself in at 17. That's not a résumé. That's a point of view. And that point of view is exactly what built What The Grad.",
+    rightText: "Over the years, I've come to realise that meaningful career decisions don't begin with choosing a course or a profession — they begin with understanding yourself. Every student brings a unique combination of strengths, interests, motivations, and aspirations to the table. When students take the time to recognise these qualities, career decisions often become less about following a predefined path and more about creating one that feels genuinely their own. What I enjoy most is helping students develop that self-awareness, ask the right questions, and approach their future with greater confidence and intention. Because the better you understand yourself, the easier it becomes to make decisions that align with the life you want to build.",
   },
 ];
 
@@ -143,17 +141,14 @@ function FounderSection({
           </p>
         </div>
 
-        {/* right text + quote */}
+        {/* right text */}
         <div style={{
           opacity: visible ? 1 : 0,
           transform: visible ? 'translateY(0)' : 'translateY(20px)',
           transition: 'opacity 0.7s ease 0.25s, transform 0.7s ease 0.25s',
         }}>
-          <p style={{ fontFamily: PD, fontSize: '14px', color: '#5C4A3A', lineHeight: '1.85', fontStyle: 'italic', marginBottom: '16px' }}>
+          <p style={{ fontFamily: PD, fontSize: '14px', color: '#5C4A3A', lineHeight: '1.85', fontStyle: 'italic' }}>
             {founder.rightText}
-          </p>
-          <p style={{ fontFamily: PD, fontSize: '15px', fontWeight: '700', color: '#E8713A', lineHeight: '1.6', fontStyle: 'italic' }}>
-            {founder.quote}
           </p>
         </div>
       </div>
@@ -236,17 +231,14 @@ function FounderSection({
           }}/>
         </div>
 
-        {/* right text + quote */}
+        {/* right text */}
         <div style={{
           paddingTop: '40px', opacity: visible ? 1 : 0,
           transform: visible ? 'translateX(0)' : 'translateX(40px)',
           transition: 'opacity 0.7s ease 0.25s, transform 0.7s ease 0.25s',
         }}>
-          <p style={{ fontFamily: PD, fontSize: '15px', color: '#5C4A3A', lineHeight: '1.9', fontStyle: 'italic', marginBottom: '24px' }}>
+          <p style={{ fontFamily: PD, fontSize: '15px', color: '#5C4A3A', lineHeight: '1.9', fontStyle: 'italic' }}>
             {founder.rightText}
-          </p>
-          <p style={{ fontFamily: PD, fontSize: '15px', fontWeight: '700', color: '#E8713A', lineHeight: '1.6', fontStyle: 'italic' }}>
-            {founder.quote}
           </p>
         </div>
       </div>
