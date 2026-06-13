@@ -12,154 +12,49 @@ const FOUNDERS = [
     name: 'Sakshi More',
     role: 'Co-founder',
     edu: [
-      'BSc. Agriculture, NMIMS University, India',
-      'Masters in Global Management, NEOMA Business School, France',
+      'BSc. Agriculture — NMIMS University, India',
+      'Masters in Global Management — NEOMA Business School, France',
     ],
     image: '/images/founder-sakshi.jpg',
     imageBg: '#E8D5F5',
-    leftText: "I've always found it interesting how life connects dots that don't seem related at first. My journey began with a Bachelor's degree in Agriculture, took me to France for a Master's in Global Management, and eventually led me into consulting. Along the way, I had the opportunity to work across very different environments, from the wine industry and digital marketing to strategy and public sector consulting. On paper, it may seem like an unusual combination. But each experience introduced me to new perspectives, industries, and ways of thinking. Consulting, in particular, gave me a seat at tables where I was often the youngest person in the room, a reminder that some of the greatest learning happens when you're willing to step into unfamiliar spaces. Looking back, the most valuable opportunities in my journey came from staying curious and being open to paths I hadn't originally considered. That's what inspired us to create What The Grad, where students can explore possibilities, gain perspective, and make informed decisions.",
-    rightText: "What excites me most about career guidance is that there has never been a more interesting time to be a student. Today, opportunities exist across industries, countries, and fields that many of us were never exposed to while growing up. Some of the most rewarding careers are often the ones students haven't even discovered yet. As a Certified Career Analyst and a Diploma holder in Educational Consulting, I enjoy helping students explore these possibilities, understand where their strengths lie, and make choices that feel both ambitious and authentic to them. Every student's journey is different, and that's what makes this work meaningful.",
+    leftText: "I've always found it interesting how life connects dots that don't seem related at first. My journey from agriculture to global management to career counselling is exactly that — dots that only made sense in hindsight. Which is why I believe so deeply in helping students trust their own path, even when it looks unconventional.",
+    rightText: 'What excites me most about career guidance is that there has never been a more interesting time to be a young person in India. The options are genuinely endless. My job is to help students see that — and then figure out which ones are actually theirs.',
+    quote: '"The right question asked at the right time changes everything."',
   },
   {
     id: 2,
     name: 'Nupoor Deore-Katare',
     role: 'Co-founder',
     edu: [
-      'BDes. Accessory Design, NIFT, India',
-      'Masters in Luxury Management, NEOMA BS, France & Politecnico di Milano, Italy',
+      'BDes. Accessory Design — NIFT, India',
+      'Masters in Luxury Management — NEOMA BS, France & Politecnico di Milano, Italy',
     ],
     image: '/images/founder-nupoor.jpg',
     imageBg: '#D6E8F5',
-    leftText: "I didn't take the straight road, and honestly, I'm glad I didn't. I started at NIFT Gandhinagar, where design wasn't just a subject, it was a way of seeing the world. Then came two master's degrees, one from NEOMA Business School, one from Polimi Graduate School of Design, because apparently I don't believe in doing things halfway. Sprinkle in internships across industries, cities, and time zones, and what you get is someone who's sat in enough rooms, made enough mistakes, and asked enough uncomfortable questions to actually know what she's talking about. I've always believed that careers aren't straight lines, they're living, breathing things that evolve as you do. The world keeps changing, new fields keep emerging, and the worst thing you can do is box yourself in at 17. That's not a résumé. That's a point of view. And that point of view is exactly what built What The Grad.",
-    rightText: "Over the years, I've come to realise that meaningful career decisions don't begin with choosing a course or a profession, they begin with understanding yourself. Every student brings a unique combination of strengths, interests, motivations, and aspirations to the table. When students take the time to recognise these qualities, career decisions often become less about following a predefined path and more about creating one that feels genuinely their own. What I enjoy most is helping students develop that self-awareness, ask the right questions, and approach their future with greater confidence and intention. Because the better you understand yourself, the easier it becomes to make decisions that align with the life you want to build.",
+    leftText: '[Placeholder — something about your path. Design school, the leap to Europe, what shifted in your thinking when you got there.]',
+    rightText: '[Placeholder — what you bring. Your design eye, your instinct for people, the way you connect with students on a personal level.]',
+    quote: '"[A line that sounds like you — warm, real, maybe a little funny.]"',
   },
 ];
 
-function FounderSection({
-  founder, index, isMobile,
-}: {
-  founder: typeof FOUNDERS[0]; index: number; isMobile: boolean;
-}) {
+function FounderSection({ founder, index }: { founder: typeof FOUNDERS[0]; index: number }) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) setVisible(true); },
-      { threshold: 0.1 }
+      { threshold: 0.15 }
     );
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
 
-  // ── MOBILE LAYOUT ──
-  if (isMobile) {
-    return (
-      <div
-        ref={sectionRef}
-        style={{
-          padding: '48px 5vw 56px',
-          borderTop: index > 0 ? '1px solid rgba(44,24,16,0.07)' : 'none',
-        }}
-      >
-        {/* label */}
-        <p style={{
-          fontFamily: PD, fontSize: '10px', letterSpacing: '0.2em',
-          textTransform: 'uppercase', color: '#B0A090',
-          marginBottom: '28px', textAlign: 'center',
-          opacity: visible ? 1 : 0, transition: 'opacity 0.6s ease',
-        }}>
-          Co-founder
-        </p>
-
-        {/* photo card, centred, smaller on mobile */}
-        <div style={{
-          display: 'flex', justifyContent: 'center',
-          marginBottom: '32px',
-          opacity: visible ? 1 : 0,
-          transform: visible ? 'translateY(0)' : 'translateY(-40px)',
-          transition: 'opacity 0.6s ease, transform 0.7s cubic-bezier(0.34,1.4,0.64,1)',
-        }}>
-          <div style={{ position: 'relative' }}>
-            {/* tape */}
-            <div style={{
-              position: 'absolute', top: '-11px', left: '50%',
-              transform: 'translateX(-50%) rotate(-1.5deg)',
-              width: '44px', height: '15px',
-              background: 'rgba(44,24,16,0.18)', borderRadius: '2px', zIndex: 11,
-            }}/>
-            {/* polaroid */}
-            <div style={{
-              background: 'white',
-              padding: '8px 8px 44px',
-              boxShadow: '0 16px 48px rgba(44,24,16,0.18), 0 4px 12px rgba(44,24,16,0.08)',
-              borderRadius: '2px',
-              width: '220px',
-            }}>
-              <div style={{
-                width: '204px', height: '248px',
-                background: founder.imageBg,
-                overflow: 'hidden',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-              }}>
-                <img
-                  src={founder.image}
-                  alt={founder.name}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }}
-                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                />
-              </div>
-              <div style={{ paddingTop: '12px', textAlign: 'center' }}>
-                <p style={{ fontFamily: PD, fontSize: '15px', fontWeight: '700', color: '#2C1810', marginBottom: '6px' }}>
-                  {founder.name}
-                </p>
-                {founder.edu.map((line, i) => (
-                  <p key={i} style={{ fontFamily: PD, fontSize: '10px', color: '#9B8B7A', lineHeight: '1.6', fontStyle: 'italic' }}>
-                    {line}
-                  </p>
-                ))}
-              </div>
-            </div>
-            {/* shadow */}
-            <div style={{
-              position: 'absolute', bottom: '-14px', left: '50%',
-              transform: 'translateX(-50%)', width: '200px', height: '16px',
-              background: 'rgba(44,24,16,0.08)', filter: 'blur(12px)', borderRadius: '50%',
-            }}/>
-          </div>
-        </div>
-
-        {/* left text */}
-        <div style={{
-          opacity: visible ? 1 : 0,
-          transform: visible ? 'translateY(0)' : 'translateY(20px)',
-          transition: 'opacity 0.7s ease 0.15s, transform 0.7s ease 0.15s',
-          marginBottom: '20px',
-        }}>
-          <p style={{ fontFamily: PD, fontSize: '14px', color: '#5C4A3A', lineHeight: '1.85', fontStyle: 'italic' }}>
-            {founder.leftText}
-          </p>
-        </div>
-
-        {/* right text */}
-        <div style={{
-          opacity: visible ? 1 : 0,
-          transform: visible ? 'translateY(0)' : 'translateY(20px)',
-          transition: 'opacity 0.7s ease 0.25s, transform 0.7s ease 0.25s',
-        }}>
-          <p style={{ fontFamily: PD, fontSize: '14px', color: '#5C4A3A', lineHeight: '1.85', fontStyle: 'italic' }}>
-            {founder.rightText}
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  // ── DESKTOP LAYOUT (unchanged) ──
   return (
     <div ref={sectionRef} style={{
       padding: '80px 5vw 100px',
       borderTop: index > 0 ? '1px solid rgba(44,24,16,0.07)' : 'none',
+      background: '#ffffff',
     }}>
       <p style={{
         fontFamily: PD, fontSize: '11px', letterSpacing: '0.2em',
@@ -174,9 +69,10 @@ function FounderSection({
         display: 'grid', gridTemplateColumns: '1fr 300px 1fr',
         gap: '56px', maxWidth: '1100px', margin: '0 auto', alignItems: 'start',
       }}>
-        {/* left text */}
+        {/* LEFT */}
         <div style={{
-          paddingTop: '40px', opacity: visible ? 1 : 0,
+          paddingTop: '40px',
+          opacity: visible ? 1 : 0,
           transform: visible ? 'translateX(0)' : 'translateX(-40px)',
           transition: 'opacity 0.7s ease 0.15s, transform 0.7s ease 0.15s',
         }}>
@@ -185,7 +81,7 @@ function FounderSection({
           </p>
         </div>
 
-        {/* photo card */}
+        {/* CENTRE photo */}
         <div style={{
           position: 'relative', zIndex: 10,
           opacity: visible ? 1 : 0,
@@ -197,7 +93,7 @@ function FounderSection({
             transform: 'translateX(-50%) rotate(-1.5deg)',
             width: '54px', height: '18px',
             background: 'rgba(44,24,16,0.18)', borderRadius: '2px', zIndex: 11,
-          }}/>
+          }} />
           <div style={{
             background: 'white', padding: '10px 10px 52px',
             boxShadow: '0 20px 60px rgba(44,24,16,0.2), 0 4px 12px rgba(44,24,16,0.08)',
@@ -228,17 +124,21 @@ function FounderSection({
             position: 'absolute', bottom: '-18px', left: '50%',
             transform: 'translateX(-50%)', width: '260px', height: '20px',
             background: 'rgba(44,24,16,0.08)', filter: 'blur(14px)', borderRadius: '50%',
-          }}/>
+          }} />
         </div>
 
-        {/* right text */}
+        {/* RIGHT */}
         <div style={{
-          paddingTop: '40px', opacity: visible ? 1 : 0,
+          paddingTop: '40px',
+          opacity: visible ? 1 : 0,
           transform: visible ? 'translateX(0)' : 'translateX(40px)',
           transition: 'opacity 0.7s ease 0.25s, transform 0.7s ease 0.25s',
         }}>
-          <p style={{ fontFamily: PD, fontSize: '15px', color: '#5C4A3A', lineHeight: '1.9', fontStyle: 'italic' }}>
+          <p style={{ fontFamily: PD, fontSize: '15px', color: '#5C4A3A', lineHeight: '1.9', fontStyle: 'italic', marginBottom: '24px' }}>
             {founder.rightText}
+          </p>
+          <p style={{ fontFamily: PD, fontSize: '15px', fontWeight: '700', color: '#E8713A', lineHeight: '1.6', fontStyle: 'italic' }}>
+            {founder.quote}
           </p>
         </div>
       </div>
@@ -247,94 +147,130 @@ function FounderSection({
 }
 
 export default function FoundersPage() {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
-  }, []);
-
   return (
     <div style={{ minHeight: '100vh', fontFamily: PD }}>
       <Nav />
 
-      {/* hero header */}
-      <div style={{
-        background: '#D6E8F5',
-        minHeight: isMobile ? '40vh' : '52vh',
-        display: 'flex', flexDirection: 'column',
-        alignItems: 'center', justifyContent: 'center',
-        padding: isMobile ? '60px 24px 48px' : '80px 24px',
-        position: 'relative', overflow: 'hidden',
-      }}>
-        <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', opacity:0.4, pointerEvents:'none' }}
-          viewBox="0 0 1440 500" preserveAspectRatio="xMidYMid slice">
+      {/* ── HERO ── */}
+      <div style={{ background: '#D6E8F5', position: 'relative', overflow: 'hidden' }}>
+
+        {/* Wavy lines */}
+        <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.4, pointerEvents: 'none' }}
+          viewBox="0 0 1440 600" preserveAspectRatio="xMidYMid slice">
           <path d="M-100 150 C200 80 420 260 720 150 S1120 40 1540 180" stroke="#96BDD6" strokeWidth="1.8" fill="none"/>
           <path d="M-100 300 C160 220 460 380 760 280 S1160 160 1540 320" stroke="#96BDD6" strokeWidth="1.8" fill="none"/>
-          <path d="M-100 420 C200 340 500 500 800 390 S1200 270 1540 440" stroke="#96BDD6" strokeWidth="1.8" fill="none"/>
+          <path d="M-100 450 C200 370 500 530 800 420 S1200 300 1540 470" stroke="#96BDD6" strokeWidth="1.8" fill="none"/>
         </svg>
 
+        {/* Sparkles */}
         {[
-          { top:'15%', left:'8%',  color:'#F5A623', size:16 },
-          { top:'70%', left:'5%',  color:'#E8837A', size:12 },
-          { top:'20%', right:'7%', color:'#F5A623', size:14 },
-          { top:'65%', right:'5%', color:'#E8837A', size:18 },
+          { top: '15%', left: '4%',   color: '#F5A623', size: 14 },
+          { top: '60%', left: '3%',   color: '#E8837A', size: 11 },
+          { top: '20%', right: '4%',  color: '#F5A623', size: 13 },
+          { top: '65%', right: '3%',  color: '#E8837A', size: 16 },
+          { top: '40%', left: '10%',  color: '#F5A623', size: 9  },
+          { top: '35%', right: '9%',  color: '#E8837A', size: 10 },
         ].map((sp, i) => (
           <div key={i} style={{
-            position:'absolute', top:sp.top,
-            left:(sp as any).left, right:(sp as any).right,
-            color:sp.color, fontSize:sp.size, pointerEvents:'none',
-            animation:`throb ${2 + i * 0.3}s ease-in-out ${i * 0.5}s infinite`,
+            position: 'absolute', top: sp.top,
+            left: (sp as any).left, right: (sp as any).right,
+            color: sp.color, fontSize: sp.size, pointerEvents: 'none', zIndex: 2,
+            animation: `throb ${2 + i * 0.3}s ease-in-out ${i * 0.5}s infinite`,
           }}>✦</div>
         ))}
 
-        <div style={{ position:'relative', zIndex:2, textAlign:'center', padding: '0 16px' }}>
+        {/* Horizontal founders photo — full width, contained */}
+        <div style={{
+          position: 'relative', zIndex: 1,
+          width: '100%',
+          maxHeight: '420px',
+          overflow: 'hidden',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          {/* Photo */}
+          <img
+            src="/images/founders-banner.jpg"
+            alt="Sakshi and Nupoor"
+            style={{
+              width: '100%',
+              maxHeight: '420px',
+              objectFit: 'cover',
+              objectPosition: 'center top',
+              display: 'block',
+              // Fade bottom of photo into the blue background
+              maskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)',
+            }}
+            onError={(e) => {
+              // If no photo yet — show placeholder
+              (e.target as HTMLImageElement).style.display = 'none';
+            }}
+          />
+
+          {/* Placeholder if no photo uploaded yet */}
+          <div style={{
+            position: 'absolute', inset: 0,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            flexDirection: 'column', gap: '12px',
+            background: 'rgba(214,232,245,0.6)',
+          }}>
+            <span style={{ fontSize: '48px', opacity: 0.4 }}>📸</span>
+            <p style={{ fontFamily: PD, fontSize: '13px', color: '#9B8B7A', fontStyle: 'italic' }}>
+              Upload founders-banner.jpg to public/images/
+            </p>
+          </div>
+        </div>
+
+        {/* Heading — sits below photo, no overlap */}
+        <div style={{
+          position: 'relative', zIndex: 3,
+          textAlign: 'center',
+          padding: '48px 24px 64px',
+        }}>
           <p style={{
-            fontFamily:PD, fontSize: isMobile ? '10px' : '13px',
-            letterSpacing:'0.2em', textTransform:'uppercase',
-            color:'rgba(44,24,16,0.4)', marginBottom:'16px',
-            animation:'fadeUp 0.8s ease both',
+            fontFamily: PD, fontSize: '13px', letterSpacing: '0.2em',
+            textTransform: 'uppercase', color: 'rgba(44,24,16,0.4)',
+            marginBottom: '16px', animation: 'fadeUp 0.8s ease both',
           }}>
             The people behind What The Grad
           </p>
           <h1 style={{
-            fontFamily:PD,
-            fontSize: isMobile ? 'clamp(32px, 9vw, 52px)' : 'clamp(40px, 6vw, 80px)',
-            fontWeight:'700', color:'#2C1810',
-            letterSpacing:'-0.02em', lineHeight:'1.1',
-            animation:'glow 2.8s ease-in-out infinite, fadeUp 1s ease 0.2s both',
+            fontFamily: PD,
+            fontSize: 'clamp(40px, 6vw, 80px)',
+            fontWeight: '700', color: '#2C1810',
+            letterSpacing: '-0.02em', lineHeight: '1.1',
+            animation: 'glow 2.8s ease-in-out infinite, fadeUp 1s ease 0.2s both',
           }}>
             Meet our Founders
           </h1>
           <p style={{
-            fontFamily:PD,
-            fontSize: isMobile ? '14px' : 'clamp(15px, 1.8vw, 20px)',
-            fontStyle:'italic', color:'#5B8FA8',
-            margin:'16px auto 0', maxWidth:'560px',
-            animation:'fadeUp 1s ease 0.4s both',
-            lineHeight: '1.6',
+            fontFamily: PD, fontSize: 'clamp(15px, 1.8vw, 20px)',
+            fontStyle: 'italic', color: '#5B8FA8',
+            margin: '20px auto 0', maxWidth: '560px',
+            animation: 'fadeUp 1s ease 0.4s both',
           }}>
             Two friends. One leap. A whole lot of clarity to give.
           </p>
         </div>
 
+        {/* Fade to white at bottom */}
         <div style={{
-          position:'absolute', bottom:0, left:0, right:0, height:'80px',
-          background:'linear-gradient(to bottom, transparent, #ffffff)',
-          pointerEvents:'none',
-        }}/>
+          position: 'absolute', bottom: 0, left: 0, right: 0, height: '60px',
+          background: 'linear-gradient(to bottom, transparent, #ffffff)',
+          pointerEvents: 'none', zIndex: 4,
+        }} />
       </div>
 
-      {/* founder sections */}
+      {/* Founder sections */}
       <div style={{ background: '#ffffff' }}>
         {FOUNDERS.map((founder, i) => (
-          <FounderSection key={founder.id} founder={founder} index={i} isMobile={isMobile}/>
+          <FounderSection key={founder.id} founder={founder} index={i} />
         ))}
       </div>
 
-      <Footer/>
+      <Footer />
 
       <style>{`
         @keyframes glow {
