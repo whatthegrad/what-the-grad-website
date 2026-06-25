@@ -7,3 +7,7 @@
 html {
   scroll-behavior: smooth;
 }
+#psychometric {
+  margin-top: -2px;
+  box-shadow: 0 -60px 80px #FFF8EC inset;
+}
