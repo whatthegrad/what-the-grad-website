@@ -56,6 +56,14 @@ export default function Nav({ transparent = false }: { transparent?: boolean }) 
             <span onClick={() => navigate('/#services')} style={linkStyle}>Services</span>
             <span onClick={() => navigate('/#about')} style={linkStyle}>About</span>
             <span onClick={() => navigate('/contact')} style={linkStyle}>Contact</span>
+            <a
+              href="https://careertest.edumilestones.com/student-dashboard/?channel_id=NDk2MQ=="
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ ...linkStyle, textDecoration: 'none' }}
+            >
+              Student Dashboard
+            </a>
             <span onClick={() => navigate('/cart')} style={{ ...linkStyle, position: 'relative' }}>
               Cart
               {totalItems > 0 && (
@@ -179,6 +187,21 @@ export default function Nav({ transparent = false }: { transparent?: boolean }) 
                 {link.label}
               </button>
             ))}
+
+            {/* Student Dashboard external link */}
+            <a
+              href="https://careertest.edumilestones.com/student-dashboard/?channel_id=NDk2MQ=="
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                fontFamily: PD, fontSize: '17px', fontWeight: '700',
+                color: '#2C1810', textDecoration: 'none',
+                padding: '12px 0', display: 'block',
+                borderBottom: '1px solid rgba(44,24,16,0.06)',
+              }}
+            >
+              Student Dashboard
+            </a>
 
             {/* Book now CTA */}
             <button
