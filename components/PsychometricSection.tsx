@@ -428,9 +428,10 @@ export default function PsychometricSection() {
         // top + bottom fades to blend with neighbouring sections
       }}
     >
-      {/* blend fades */}
-      <div style={{ position:'absolute', top:0, left:0, right:0, height:80, background:'linear-gradient(to bottom, #FFF8EC, transparent)', pointerEvents:'none', zIndex:1 }}/>
-      <div style={{ position:'absolute', bottom:0, left:0, right:0, height:80, background:'linear-gradient(to top, #FFF8EC, transparent)', pointerEvents:'none', zIndex:1 }}/>
+      {/* top fade — blends from hero/services blue into gingham */}
+      <div style={{ position:'absolute', top:0, left:0, right:0, height:160, background:'linear-gradient(to bottom, #D6E8F5 0%, rgba(214,232,245,0) 100%)', pointerEvents:'none', zIndex:4 }}/>
+      {/* bottom fade — blends gingham back into services blue */}
+      <div style={{ position:'absolute', bottom:0, left:0, right:0, height:160, background:'linear-gradient(to top, #D6E8F5 0%, rgba(214,232,245,0) 100%)', pointerEvents:'none', zIndex:4 }}/>
 
       {/* sparkle canvas */}
       <canvas ref={canvasRef} style={{ position:'absolute', inset:0, pointerEvents:'none', zIndex:2 }}/>
