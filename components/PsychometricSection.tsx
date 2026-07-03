@@ -221,33 +221,44 @@ export default function PsychometricSection() {
   // ── helpers ──────────────────────────────────────────────────────────────
   const getTargetOffset = useCallback((index: number) => {
     const vw = viewportRef.current?.offsetWidth ?? 0;
-    return vw / 2 - CARD_W / 2 - CARD_MX - index * CARD_STEP;
+    // centre of viewport minus centre of target card
+    return vw / 2 - (CARD_MX + index * CARD_STEP + CARD_W / 2);
   }, []);
 
   const updateCardScales = useCallback(() => {
     const vw = viewportRef.current?.offsetWidth ?? 0;
-    const viewCentre = -currentOffsetRef.current + vw / 2 - CARD_MX;
+    const viewCentre = vw / 2 - currentOffsetRef.current;
     ASSESSMENTS.forEach((_, i) => {
       const el = document.getElementById(`wtg-card-${i}`);
       if (!el) return;
-      const cardCentre = i * CARD_STEP + CARD_W / 2;
-      const dist = Math.abs(cardCentre - viewCentre);
-      const t = Math.min(dist / (CARD_STEP * 1.5), 1);
-      el.style.transform = `scale(${1 - t * 0.18}) rotateZ(${(cardCentre - viewCentre) * 0.006}deg)`;
-      el.style.opacity   = String(1 - t * 0.5);
-      el.style.filter    = t > 0.1 ? `blur(${t * 1.8}px) brightness(${1 - t * 0.06})` : 'none';
+      const cardCentre = CARD_MX + i * CARD_STEP + CARD_W / 2;
+      const dist = cardCentre - viewCentre;
+      const absDist = Math.abs(dist);
+      const t = Math.min(absDist / (CARD_STEP * 1.4), 1);
+      const scale = 1 - t * 0.18;
+      const rotate = dist * 0.005;
+      const opacity = 1 - t * 0.5;
+      const blur = t > 0.08 ? t * 1.6 : 0;
+      el.style.transform = `scale(${scale}) rotateZ(${rotate}deg)`;
+      el.style.opacity = String(opacity);
+      el.style.filter = blur > 0 ? `blur(${blur}px)` : 'none';
     });
   }, []);
 
   const startRaf = useCallback(() => {
     if (rafIdRef.current) return;
     const animate = () => {
-      currentOffsetRef.current += (targetOffsetRef.current - currentOffsetRef.current) * 0.1;
-      if (trackRef.current) trackRef.current.style.transform = `translateX(${currentOffsetRef.current}px)`;
+      const diff = targetOffsetRef.current - currentOffsetRef.current;
+      currentOffsetRef.current += diff * 0.085;
+      if (trackRef.current) {
+        trackRef.current.style.transform = `translateX(${currentOffsetRef.current}px)`;
+      }
       updateCardScales();
-      if (Math.abs(targetOffsetRef.current - currentOffsetRef.current) < 0.05) {
+      if (Math.abs(diff) < 0.3) {
         currentOffsetRef.current = targetOffsetRef.current;
-        if (trackRef.current) trackRef.current.style.transform = `translateX(${currentOffsetRef.current}px)`;
+        if (trackRef.current) {
+          trackRef.current.style.transform = `translateX(${currentOffsetRef.current}px)`;
+        }
         updateCardScales();
         rafIdRef.current = null;
       } else {
@@ -290,9 +301,10 @@ export default function PsychometricSection() {
       const now = Date.now(), dt = now - lastTimeRef.current;
       if (dt > 0) velocityRef.current = (e.clientX - lastXRef.current) / dt * 16;
       lastXRef.current = e.clientX; lastTimeRef.current = now;
-      currentOffsetRef.current = dragStartOffRef.current + (e.clientX - dragStartXRef.current);
-      targetOffsetRef.current  = currentOffsetRef.current;
-      if (trackRef.current) trackRef.current.style.transform = `translateX(${currentOffsetRef.current}px)`;
+      const newOffset = dragStartOffRef.current + (e.clientX - dragStartXRef.current);
+      currentOffsetRef.current = newOffset;
+      targetOffsetRef.current  = newOffset;
+      if (trackRef.current) trackRef.current.style.transform = `translateX(${newOffset}px)`;
       updateCardScales();
     };
     const onMouseUp = () => {
@@ -315,9 +327,10 @@ export default function PsychometricSection() {
       const now = Date.now(), dt = now - lastTimeRef.current;
       if (dt > 0) velocityRef.current = (e.touches[0].clientX - lastXRef.current) / dt * 16;
       lastXRef.current = e.touches[0].clientX; lastTimeRef.current = now;
-      currentOffsetRef.current = dragStartOffRef.current + (e.touches[0].clientX - dragStartXRef.current);
-      targetOffsetRef.current  = currentOffsetRef.current;
-      if (trackRef.current) trackRef.current.style.transform = `translateX(${currentOffsetRef.current}px)`;
+      const newOffset = dragStartOffRef.current + (e.touches[0].clientX - dragStartXRef.current);
+      currentOffsetRef.current = newOffset;
+      targetOffsetRef.current  = newOffset;
+      if (trackRef.current) trackRef.current.style.transform = `translateX(${newOffset}px)`;
       updateCardScales();
     };
     const onTouchEnd = () => {
