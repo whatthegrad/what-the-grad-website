@@ -18,6 +18,8 @@ interface Assessment {
   tag: string;
   tagColor: string;
   scene: string;
+  testUrl: string;
+  btnLabel: string;
 }
 
 const ASSESSMENTS: Assessment[] = [
@@ -28,6 +30,8 @@ const ASSESSMENTS: Assessment[] = [
     title: 'Career Analysis for Classes 2 to 7',
     desc: "Discover your child's natural strengths through Multiple Intelligence mapping — before the world tells them who to be.",
     tag: 'Multiple Intelligence Assessment', tagColor: '#E8735A',
+    testUrl: 'https://careertest.edumilestones.com/student-dashboard/suitability-registration/login/NDk2MQ==/as11',
+    btnLabel: 'Feels familiar? Take the test →',
     scene: `<svg viewBox="0 0 230 172" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
       <rect width="230" height="172" fill="#FEF6EE"/>
       <circle cx="40" cy="60" r="28" fill="#F5C842" opacity="0.35"/>
@@ -48,6 +52,8 @@ const ASSESSMENTS: Assessment[] = [
     title: 'Career Analysis for Classes 8, 9 & 10',
     desc: 'Find the most suitable career path and subjects before the board exam pressure sets in — with data, not guesswork.',
     tag: 'Career Path + Subject Mapping', tagColor: '#5C3D6B',
+    testUrl: 'https://careertest.edumilestones.com/student-dashboard/suitability-registration/login/NDk2MQ==/as12',
+    btnLabel: 'Sounds like me? Take the test →',
     scene: `<svg viewBox="0 0 230 172" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
       <rect width="230" height="172" fill="#F5F0FC"/>
       <rect x="18" y="100" width="22" height="55" rx="2" fill="#5C3D6B" opacity="0.5"/>
@@ -74,6 +80,8 @@ const ASSESSMENTS: Assessment[] = [
     title: 'Career Analysis for Classes 11 & 12',
     desc: 'Your stream is chosen — now chart the full road map. Career path, college options, and a step-by-step execution plan.',
     tag: 'Career Road Map + Execution Plan', tagColor: '#D4A843',
+    testUrl: 'https://careertest.edumilestones.com/student-dashboard/suitability-registration/login/NDk2MQ==/as13',
+    btnLabel: 'Explore this further →',
     scene: `<svg viewBox="0 0 230 172" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
       <rect width="230" height="172" fill="#FFFBEE"/>
       <rect x="0" y="130" width="230" height="42" fill="#C8DFC8" opacity="0.5"/>
@@ -96,6 +104,8 @@ const ASSESSMENTS: Assessment[] = [
     title: 'Career Analysis for Graduates',
     desc: 'Degree in hand, direction unclear? Map the most suitable career path and get a detailed execution plan built around you.',
     tag: 'Career Road Map + Execution Plan', tagColor: '#2E7D32',
+    testUrl: 'https://careertest.edumilestones.com/student-dashboard/suitability-registration/login/NDk2MQ==/as14',
+    btnLabel: 'Feels familiar? Take the test →',
     scene: `<svg viewBox="0 0 230 172" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
       <rect width="230" height="172" fill="#F0F8F0"/>
       <circle cx="48" cy="86" r="42" fill="#A8D8A8" opacity="0.3"/>
@@ -116,6 +126,8 @@ const ASSESSMENTS: Assessment[] = [
     title: 'Career Analysis for Professionals',
     desc: 'Early or mid-career and feeling stuck? Get counselling built for professionals — with a clear, actionable execution plan.',
     tag: 'Early & Mid-Career Counselling', tagColor: '#E8735A',
+    testUrl: 'https://careertest.edumilestones.com/student-dashboard/suitability-registration/login/NDk2MQ==/as204',
+    btnLabel: 'Sounds like me? Take the test →',
     scene: `<svg viewBox="0 0 230 172" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
       <rect width="230" height="172" fill="#FEF3EE"/>
       <rect x="25" y="55" width="80" height="95" rx="4" fill="#E8735A" opacity="0.2"/>
@@ -140,6 +152,8 @@ const ASSESSMENTS: Assessment[] = [
     title: 'Career Assessment for Professionals',
     desc: 'Industry-specific and multi-dimensional. Discover the best opportunities within your current field — or find your path to a new one.',
     tag: 'Industry-Specific · Recommended ✦', tagColor: '#5C3D6B',
+    testUrl: 'https://careertest.edumilestones.com/student-dashboard/suitability-registration/login/NDk2MQ==/pt15',
+    btnLabel: 'Explore this further →',
     scene: `<svg viewBox="0 0 230 172" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
       <rect width="230" height="172" fill="#F2EEF8"/>
       <circle cx="115" cy="86" r="60" fill="none" stroke="#5C3D6B" strokeWidth="1" opacity="0.15"/>
@@ -166,6 +180,8 @@ const ASSESSMENTS: Assessment[] = [
     title: 'Career Assessment for Graduates',
     desc: 'Course-specific and multi-dimensional. Identify careers aligned with your degree — or discover how to transition into something entirely new.',
     tag: 'Course-Specific · Recommended ✦', tagColor: '#D4A843',
+    testUrl: 'https://careertest.edumilestones.com/student-dashboard/suitability-registration/login/NDk2MQ==/grd18',
+    btnLabel: 'Feels familiar? Take the test →',
     scene: `<svg viewBox="0 0 230 172" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
       <rect width="230" height="172" fill="#FFFBEE"/>
       <rect x="18" y="30" width="58" height="78" rx="3" fill="#D4A843" opacity="0.18"/>
@@ -493,7 +509,7 @@ export default function PsychometricSection() {
                 padding: '14px 14px 54px',
                 boxShadow: '0 4px 10px rgba(80,50,10,0.10), 0 16px 40px rgba(80,50,10,0.12), 0 2px 4px rgba(80,50,10,0.06)',
                 userSelect: 'none',
-                pointerEvents: 'none',
+                pointerEvents: 'none',  // card itself blocks drag interference
                 transition: 'box-shadow 0.3s',
               }}
             >
@@ -531,6 +547,42 @@ export default function PsychometricSection() {
                 <div style={{ fontFamily:SANS, fontSize:8.5, fontWeight:600, letterSpacing:'0.04em', textTransform:'uppercase', display:'flex', alignItems:'center', justifyContent:'center', gap:4, color: a.tagColor }}>
                   ✦ {a.tag}
                 </div>
+
+                {/* test button */}
+                <a
+                  href={a.testUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={e => e.stopPropagation()}
+                  style={{
+                    display: 'block',
+                    marginTop: 12,
+                    padding: '9px 14px',
+                    background: '#E8735A',
+                    color: '#FFFFFF',
+                    borderRadius: 100,
+                    fontFamily: PD,
+                    fontSize: 11,
+                    fontWeight: 700,
+                    textAlign: 'center',
+                    textDecoration: 'none',
+                    letterSpacing: '0.02em',
+                    transition: 'background 0.2s, transform 0.15s',
+                    pointerEvents: 'all',
+                  }}
+                  onMouseEnter={e => {
+                    const el = e.currentTarget as HTMLAnchorElement;
+                    el.style.background = '#C4562A';
+                    el.style.transform = 'scale(1.03)';
+                  }}
+                  onMouseLeave={e => {
+                    const el = e.currentTarget as HTMLAnchorElement;
+                    el.style.background = '#E8735A';
+                    el.style.transform = 'scale(1)';
+                  }}
+                >
+                  {a.btnLabel}
+                </a>
               </div>
 
               {/* polaroid caption */}
