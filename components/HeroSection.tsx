@@ -528,7 +528,7 @@ export default function HeroSection() {
 
             <div style={{ display:'flex', justifyContent: isMobile ? 'center' : 'flex-start' }}>
            <button
-            onClick={() => window.open('https://whatthegrad.edumilestones.com/career-counsellor/What-The-Grad', '_blank')}
+            onClick={() => (window as any).Calendly.initPopupWidget({ url: 'https://calendly.com/whatthegrad-in' })}
             className="learn-btn"
             style={{ cursor: 'pointer' }}
            >
