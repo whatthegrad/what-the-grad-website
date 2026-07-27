@@ -528,7 +528,7 @@ export default function HeroSection() {
 
             <div style={{ display:'flex', justifyContent: isMobile ? 'center' : 'flex-start' }}>
            <button
-            onClick={() => window.location.href = '/contact'}
+            onClick={() => window.open('https://whatthegrad.edumilestones.com/career-counsellor/What-The-Grad', '_blank')}
             className="learn-btn"
             style={{ cursor: 'pointer' }}
            >
