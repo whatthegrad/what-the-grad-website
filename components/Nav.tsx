@@ -52,7 +52,6 @@ export default function Nav({ transparent = false }: { transparent?: boolean }) 
         {/* Desktop links */}
         {!isMobile && (
           <div style={{ display: 'flex', gap: '28px', alignItems: 'center' }}>
-            <span onClick={() => navigate('/founders')} style={linkStyle}>Meet our Founders</span>
             <span onClick={() => navigate('/#services')} style={linkStyle}>Services</span>
             <span onClick={() => navigate('/#about')} style={linkStyle}>About</span>
             <span onClick={() => navigate('/contact')} style={linkStyle}>Contact</span>
@@ -165,7 +164,6 @@ export default function Nav({ transparent = false }: { transparent?: boolean }) 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
             {[
               { label: 'About', path: '/#about' },
-              { label: 'Meet our Founders', path: '/founders' },
               { label: 'Services', path: '/#services' },
               { label: 'Contact', path: '/contact' },
               { label: 'Cart', path: '/cart' },
