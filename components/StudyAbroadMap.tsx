@@ -16,26 +16,27 @@ interface Country {
 }
 
 // ── COORDINATES ───────────────────────────────────────────────────────────
-// Calibrated to the exact world-map.png (2000x1143, equirectangular)
-// using real lat/lon converted to pixel percentages
+// Visually calibrated against the actual map image + screenshot
+// 0° meridian sits at ~47.2% on this map, 1° longitude ≈ 0.215% width
+// 70°N sits at ~13% height, 1° latitude ≈ 0.516% height
 const COUNTRIES: Country[] = [
-  { id: 'uk',          name: 'United Kingdom',  slug: 'uk',          px: 49.9, py: 23.1, flag: '🇬🇧' },
-  { id: 'ireland',     name: 'Ireland',         slug: 'ireland',     px: 48.2, py: 21.8, flag: '🇮🇪' },
-  { id: 'france',      name: 'France',          slug: 'france',      px: 50.6, py: 24.9, flag: '🇫🇷' },
-  { id: 'spain',       name: 'Spain',           slug: 'spain',       px: 48.9, py: 30.7, flag: '🇪🇸' },
-  { id: 'germany',     name: 'Germany',         slug: 'germany',     px: 53.7, py: 22.4, flag: '🇩🇪' },
-  { id: 'netherlands', name: 'Netherlands',     slug: 'netherlands', px: 51.3, py: 22.5, flag: '🇳🇱' },
-  { id: 'finland',     name: 'Finland',         slug: 'finland',     px: 56.9, py: 17.1, flag: '🇫🇮' },
-  { id: 'hungary',     name: 'Hungary',         slug: 'hungary',     px: 55.3, py: 25.8, flag: '🇭🇺' },
-  { id: 'malta',       name: 'Malta',           slug: 'malta',       px: 54.0, py: 33.8, flag: '🇲🇹' },
-  { id: 'armenia',     name: 'Armenia',         slug: 'armenia',     px: 62.3, py: 30.9, flag: '🇦🇲' },
-  { id: 'uae',         name: 'Dubai, UAE',      slug: 'dubai',       px: 65.3, py: 41.1, flag: '🇦🇪' },
-  { id: 'australia',   name: 'Australia',       slug: 'australia',   px: 87.2, py: 75.8, flag: '🇦🇺' },
-  { id: 'new-zealand', name: 'New Zealand',     slug: 'new-zealand', px: 98.5, py: 87.0, flag: '🇳🇿' },
+  { id: 'uk',          name: 'United Kingdom',  slug: 'uk',          px: 47.2, py: 22.5, flag: '🇬🇧' },
+  { id: 'ireland',     name: 'Ireland',         slug: 'ireland',     px: 45.8, py: 21.6, flag: '🇮🇪' },
+  { id: 'france',      name: 'France',          slug: 'france',      px: 47.7, py: 23.9, flag: '🇫🇷' },
+  { id: 'spain',       name: 'Spain',           slug: 'spain',       px: 46.4, py: 28.3, flag: '🇪🇸' },
+  { id: 'germany',     name: 'Germany',         slug: 'germany',     px: 50.1, py: 22.0, flag: '🇩🇪' },
+  { id: 'netherlands', name: 'Netherlands',     slug: 'netherlands', px: 48.3, py: 22.1, flag: '🇳🇱' },
+  { id: 'finland',     name: 'Finland',         slug: 'finland',     px: 52.6, py: 18.1, flag: '🇫🇮' },
+  { id: 'hungary',     name: 'Hungary',         slug: 'hungary',     px: 51.3, py: 24.6, flag: '🇭🇺' },
+  { id: 'malta',       name: 'Malta',           slug: 'malta',       px: 50.3, py: 30.6, flag: '🇲🇹' },
+  { id: 'armenia',     name: 'Armenia',         slug: 'armenia',     px: 56.8, py: 28.4, flag: '🇦🇲' },
+  { id: 'uae',         name: 'Dubai, UAE',      slug: 'dubai',       px: 59.1, py: 36.1, flag: '🇦🇪' },
+  { id: 'australia',   name: 'Australia',       slug: 'australia',   px: 76.0, py: 62.0, flag: '🇦🇺' },
+  { id: 'new-zealand', name: 'New Zealand',     slug: 'new-zealand', px: 84.8, py: 70.4, flag: '🇳🇿' },
 ];
 
-// India — calibrated to 78°E, 21°N on this map
-const INDIA = { px: 71.6, py: 44.1 };
+// India — central position (78°E, 21°N)
+const INDIA = { px: 64.0, py: 38.3 };
 
 // generate a curved SVG path between two percentage points
 // the curve bows upward for visual elegance
