@@ -15,24 +15,27 @@ interface Country {
   flag: string;
 }
 
+// ── COORDINATES ───────────────────────────────────────────────────────────
+// Calibrated to the exact world-map.png (2000x1143, equirectangular)
+// using real lat/lon converted to pixel percentages
 const COUNTRIES: Country[] = [
-  { id: 'uk',          name: 'United Kingdom',  slug: 'uk',          px: 46.5, py: 27,   flag: '🇬🇧' },
-  { id: 'ireland',     name: 'Ireland',         slug: 'ireland',     px: 44,   py: 28,   flag: '🇮🇪' },
-  { id: 'france',      name: 'France',          slug: 'france',      px: 47.5, py: 34,   flag: '🇫🇷' },
-  { id: 'spain',       name: 'Spain',           slug: 'spain',       px: 45.5, py: 38,   flag: '🇪🇸' },
-  { id: 'germany',     name: 'Germany',         slug: 'germany',     px: 50,   py: 29,   flag: '🇩🇪' },
-  { id: 'netherlands', name: 'Netherlands',     slug: 'netherlands', px: 48.5, py: 27.5, flag: '🇳🇱' },
-  { id: 'finland',     name: 'Finland',         slug: 'finland',     px: 53,   py: 18,   flag: '🇫🇮' },
-  { id: 'hungary',     name: 'Hungary',         slug: 'hungary',     px: 52,   py: 33,   flag: '🇭🇺' },
-  { id: 'malta',        name: 'Malta',           slug: 'malta',       px: 50.5, py: 39,   flag: '🇲🇹' },
-  { id: 'armenia',     name: 'Armenia',         slug: 'armenia',     px: 58,   py: 35,   flag: '🇦🇲' },
-  { id: 'uae',         name: 'Dubai, UAE',      slug: 'dubai',       px: 61,   py: 44,   flag: '🇦🇪' },
-  { id: 'australia',   name: 'Australia',       slug: 'australia',   px: 82,   py: 72,   flag: '🇦🇺' },
-  { id: 'new-zealand', name: 'New Zealand',     slug: 'new-zealand', px: 89,   py: 80,   flag: '🇳🇿' },
+  { id: 'uk',          name: 'United Kingdom',  slug: 'uk',          px: 49.9, py: 23.1, flag: '🇬🇧' },
+  { id: 'ireland',     name: 'Ireland',         slug: 'ireland',     px: 48.2, py: 21.8, flag: '🇮🇪' },
+  { id: 'france',      name: 'France',          slug: 'france',      px: 50.6, py: 24.9, flag: '🇫🇷' },
+  { id: 'spain',       name: 'Spain',           slug: 'spain',       px: 48.9, py: 30.7, flag: '🇪🇸' },
+  { id: 'germany',     name: 'Germany',         slug: 'germany',     px: 53.7, py: 22.4, flag: '🇩🇪' },
+  { id: 'netherlands', name: 'Netherlands',     slug: 'netherlands', px: 51.3, py: 22.5, flag: '🇳🇱' },
+  { id: 'finland',     name: 'Finland',         slug: 'finland',     px: 56.9, py: 17.1, flag: '🇫🇮' },
+  { id: 'hungary',     name: 'Hungary',         slug: 'hungary',     px: 55.3, py: 25.8, flag: '🇭🇺' },
+  { id: 'malta',       name: 'Malta',           slug: 'malta',       px: 54.0, py: 33.8, flag: '🇲🇹' },
+  { id: 'armenia',     name: 'Armenia',         slug: 'armenia',     px: 62.3, py: 30.9, flag: '🇦🇲' },
+  { id: 'uae',         name: 'Dubai, UAE',      slug: 'dubai',       px: 65.3, py: 41.1, flag: '🇦🇪' },
+  { id: 'australia',   name: 'Australia',       slug: 'australia',   px: 87.2, py: 75.8, flag: '🇦🇺' },
+  { id: 'new-zealand', name: 'New Zealand',     slug: 'new-zealand', px: 98.5, py: 87.0, flag: '🇳🇿' },
 ];
 
-// India position (percentage)
-const INDIA = { px: 66, py: 45 };
+// India — calibrated to 78°E, 21°N on this map
+const INDIA = { px: 71.6, py: 44.1 };
 
 // generate a curved SVG path between two percentage points
 // the curve bows upward for visual elegance
@@ -173,8 +176,9 @@ export default function StudyAbroadMap() {
                 width: '100%',
                 height: 'auto',
                 display: 'block',
-                opacity: 0.35,
-                filter: 'brightness(1.8) contrast(0.6)',
+                opacity: 0.5,
+                filter: 'brightness(2.5) contrast(0.5) invert(0)',
+                mixBlendMode: 'screen',
               }}
               onError={(e) => {
                 // fallback: hide image and show a subtle placeholder
