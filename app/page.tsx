@@ -1,5 +1,6 @@
 import HeroSection from '@/components/HeroSection';
 import PsychometricSection from '@/components/PsychometricSection';
+import StudyAbroadMap from '@/components/StudyAbroadMap';
 import ServicesSection from '@/components/ServicesSection';
 // import VideoSection from '@/components/VideoSection';
 import CTASection from '@/components/CTASection';
@@ -14,6 +15,7 @@ export default function Home() {
     <main>
       <HeroSection />
       <PsychometricSection />
+      <StudyAbroadMap />
       <ServicesSection />
       {/* <VideoSection /> */}
       <CTASection />
