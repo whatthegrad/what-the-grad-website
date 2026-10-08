@@ -66,7 +66,7 @@ export const COUNTRIES: CountryData[] = [
   {
     key: 'usa', name: 'USA', full: 'United States', from: 'the US', slug: 'usa',
     intro: 'Big campuses, in demand courses and real work experience after you graduate. Here is the honest version of what studying in the United States looks like, from people who have walked students through it.',
-    img: '/images/countries/usa.png',
+    img: '/images/usa.png',
     tags: ['Masters', 'Bachelors', 'STEM friendly'],
     stats: [
       { big: '[XX%]', label: 'Admit rate' },
