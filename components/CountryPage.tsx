@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { getCountryBySlug, COUNTRIES, STEPS } from '@/lib/countryData';
 
 /* ------------------------------------------------------------------ */
@@ -117,8 +118,12 @@ export default function CountryPage({ slug }: { slug: string }) {
 
           {/* NAV */}
           <div style={{ maxWidth: 1280, margin: '0 auto', padding: '22px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24 }}>
-            <Link href="/" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', background: '#FFE9E4', border: '2px solid #E8B4A8', borderRadius: 16, padding: '7px 20px' }}>
-              <span style={{ fontFamily: "'Playfair Display', serif", fontWeight: 900, fontSize: 25, color: '#1a1020', letterSpacing: '-0.5px' }}>What the grad</span>
+            <Link href="/" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center' }}>
+              <img
+                src="/images/logo.png"
+                alt="What The Grad"
+                style={{ height: isMobile ? 48 : 70 }}
+              />
             </Link>
             <div className="cp-nav-links">
               <a href="#facts" style={{ textDecoration: 'none', fontWeight: 600, fontSize: 14, color: '#2f2210' }}>The real deal</a>
@@ -417,10 +422,12 @@ export default function CountryPage({ slug }: { slug: string }) {
           {/* FOOTER */}
           <div style={{
             maxWidth: 1280, margin: '0 auto', padding: '28px 32px 48px',
-            display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'space-between',
+            display: 'flex', flexWrap: 'wrap', gap: 16, justifyContent: 'space-between', alignItems: 'center',
             fontSize: 13, color: '#6b5a3a', borderTop: '1px solid #E1CFA0',
           }}>
-            <div style={{ fontFamily: "'Playfair Display', serif", fontWeight: 900, fontSize: 20, color: '#1a1020' }}>What the grad</div>
+            <Link href="/" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center' }}>
+              <img src="/images/logo.png" alt="What The Grad" style={{ height: 44 }} />
+            </Link>
             <div>Career counselling and international education. whatthegrad.com</div>
           </div>
 

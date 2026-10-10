@@ -15,28 +15,53 @@ interface Country {
   flag: string;
 }
 
-// ── COORDINATES ───────────────────────────────────────────────────────────
-// Visually calibrated against the actual map image + screenshot
-// 0° meridian sits at ~47.2% on this map, 1° longitude ≈ 0.215% width
-// 70°N sits at ~13% height, 1° latitude ≈ 0.516% height
+// ── COORDINATE CALIBRATION ───────────────────────────────────────────────
+// Instead of hand-plotting every dot, we convert real lat/lon through
+// four anchor constants that match YOUR world-map image.
+//
+// HOW TO RECALIBRATE if dots are still slightly off:
+//   1. Open localhost, right-click the map → Inspect.
+//   2. Find India's dot (78°E, 21°N) — note where it sits on the image.
+//   3. Find UK's dot (0°W, 51.5°N) — note where it sits.
+//   4. Adjust MAP_X0, MAP_Y0, DX, DY below until both land correctly.
+//      Every other marker shifts with them automatically.
+//
+const MAP_X0 = 49.5;  // where the 0° meridian (Greenwich) sits — % from left
+const MAP_Y0 = 49.0;  // where the equator sits — % from top
+const DX     = 0.215;  // map-% per degree of longitude
+const DY     = 0.516;  // map-% per degree of latitude
+
+function geoToMap(lat: number, lon: number): { px: number; py: number } {
+  return {
+    px: parseFloat((MAP_X0 + lon * DX).toFixed(1)),
+    py: parseFloat((MAP_Y0 - lat * DY).toFixed(1)),
+  };
+}
+
+// Real geographic centres → map positions
 const COUNTRIES: Country[] = [
-  { id: 'uk',          name: 'United Kingdom',  slug: 'uk',          px: 47.2, py: 22.5, flag: '🇬🇧' },
-  { id: 'ireland',     name: 'Ireland',         slug: 'ireland',     px: 45.8, py: 21.6, flag: '🇮🇪' },
-  { id: 'france',      name: 'France',          slug: 'france',      px: 47.7, py: 23.9, flag: '🇫🇷' },
-  { id: 'spain',       name: 'Spain',           slug: 'spain',       px: 46.4, py: 28.3, flag: '🇪🇸' },
-  { id: 'germany',     name: 'Germany',         slug: 'germany',     px: 50.1, py: 22.0, flag: '🇩🇪' },
-  { id: 'netherlands', name: 'Netherlands',     slug: 'netherlands', px: 48.3, py: 22.1, flag: '🇳🇱' },
-  { id: 'finland',     name: 'Finland',         slug: 'finland',     px: 52.6, py: 18.1, flag: '🇫🇮' },
-  { id: 'hungary',     name: 'Hungary',         slug: 'hungary',     px: 51.3, py: 24.6, flag: '🇭🇺' },
-  { id: 'malta',       name: 'Malta',           slug: 'malta',       px: 50.3, py: 30.6, flag: '🇲🇹' },
-  { id: 'armenia',     name: 'Armenia',         slug: 'armenia',     px: 56.8, py: 28.4, flag: '🇦🇲' },
-  { id: 'uae',         name: 'Dubai, UAE',      slug: 'dubai',       px: 59.1, py: 36.1, flag: '🇦🇪' },
-  { id: 'australia',   name: 'Australia',       slug: 'australia',   px: 76.0, py: 62.0, flag: '🇦🇺' },
-  { id: 'new-zealand', name: 'New Zealand',     slug: 'new-zealand', px: 84.8, py: 70.4, flag: '🇳🇿' },
+  // --- Americas ---
+  { id: 'usa',         name: 'United States',   slug: 'usa',         ...geoToMap(39.0, -97.0),   flag: '🇺🇸' },
+  // --- Europe ---
+  { id: 'uk',          name: 'United Kingdom',  slug: 'uk',          ...geoToMap(51.5, -0.1),    flag: '🇬🇧' },
+  { id: 'ireland',     name: 'Ireland',         slug: 'ireland',     ...geoToMap(53.3, -6.3),    flag: '🇮🇪' },
+  { id: 'france',      name: 'France',          slug: 'france',      ...geoToMap(48.9, 2.3),     flag: '🇫🇷' },
+  { id: 'spain',       name: 'Spain',           slug: 'spain',       ...geoToMap(40.4, -3.7),    flag: '🇪🇸' },
+  { id: 'germany',     name: 'Germany',         slug: 'germany',     ...geoToMap(51.2, 10.5),    flag: '🇩🇪' },
+  { id: 'netherlands', name: 'Netherlands',     slug: 'netherlands', ...geoToMap(52.1, 5.3),     flag: '🇳🇱' },
+  { id: 'finland',     name: 'Finland',         slug: 'finland',     ...geoToMap(61.9, 25.7),    flag: '🇫🇮' },
+  { id: 'hungary',     name: 'Hungary',         slug: 'hungary',     ...geoToMap(47.2, 19.1),    flag: '🇭🇺' },
+  { id: 'malta',       name: 'Malta',           slug: 'malta',       ...geoToMap(35.9, 14.5),    flag: '🇲🇹' },
+  // --- Middle East / Caucasus ---
+  { id: 'armenia',     name: 'Armenia',         slug: 'armenia',     ...geoToMap(40.1, 44.5),    flag: '🇦🇲' },
+  { id: 'uae',         name: 'Dubai, UAE',      slug: 'dubai',       ...geoToMap(25.2, 55.3),    flag: '🇦🇪' },
+  // --- Oceania ---
+  { id: 'australia',   name: 'Australia',       slug: 'australia',   ...geoToMap(-25.3, 133.8),  flag: '🇦🇺' },
+  { id: 'new-zealand', name: 'New Zealand',     slug: 'new-zealand', ...geoToMap(-40.9, 174.9),  flag: '🇳🇿' },
 ];
 
-// India — central position (78°E, 21°N)
-const INDIA = { px: 64.0, py: 38.3 };
+// India — home base (21°N, 78°E)
+const INDIA = geoToMap(21.0, 78.0);
 
 // generate a curved SVG path between two percentage points
 // the curve bows upward for visual elegance
@@ -432,7 +457,7 @@ export default function StudyAbroadMap() {
             fontStyle: 'italic', color: 'rgba(255,248,236,0.5)',
             marginBottom: 14,
           }}>
-            Don't see your country? We probably cover it. Just ask.
+            Don&apos;t see your country? We probably cover it. Just ask.
           </p>
           <button
             onClick={() => router.push('/contact')}
