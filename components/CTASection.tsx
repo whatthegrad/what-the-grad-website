@@ -34,7 +34,7 @@ export default function CTASection() {
       {/* background image — zoomed out on mobile */}
       <div style={{
         position: 'absolute', inset: 0,
-        backgroundImage: 'url(/images/contact-bg.png)',
+        backgroundImage: 'url(/images/contact-bg.jpg)',
         backgroundSize: 'cover',
         backgroundPosition: 'center center',
         backgroundRepeat: 'no-repeat',

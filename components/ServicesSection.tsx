@@ -10,7 +10,7 @@ const PACKAGES = [
   {
     id: 'discovery-call', slug: 'discovery-call', name: 'Discovery Call',
     tagline: 'Not sure where to start? Start here.', price: '₹499', priceNum: 499,
-    badge: null, color: '#D6E8F5', image: '/images/pkg-discovery-call.png', emoji: '🔍',
+    badge: null, color: '#D6E8F5', image: '/images/pkg-discovery-call.jpg', emoji: '🔍',
     for: 'Any student, any stage',
     shortDesc: 'A short, honest 1:1 conversation to figure out exactly where you are and what you need.',
     includes: ['20–30 min 1:1 conversation', 'Quick assessment of where you are', 'Verbal direction + recommended next step', 'Honest conversation — no hard sell'],
@@ -19,7 +19,7 @@ const PACKAGES = [
   {
     id: 'streamsense', slug: 'streamsense', name: 'StreamSense',
     tagline: "Science, Commerce, or Arts — let's figure it out.", price: '₹1,499', priceNum: 1499,
-    badge: null, color: '#E8D5F5', image: '/images/pkg-streamsense.png', emoji: '🎯',
+    badge: null, color: '#E8D5F5', image: '/images/pkg-streamsense.jpg', emoji: '🎯',
     for: 'Class 9–10 students choosing stream after 10th',
     shortDesc: 'Choosing the right stream after 10th is your first big decision. Make it the right one.',
     includes: ['28-question diagnostic questionnaire', 'Interest and aptitude mapping', '1:1 guidance session (45–60 min)', 'Personalised stream recommendation', 'Written summary document', '1 month WhatsApp support'],
@@ -28,7 +28,7 @@ const PACKAGES = [
   {
     id: 'core-package', slug: 'core-package', name: 'Core Package',
     tagline: 'The full picture, start to finish.', price: '₹3,499', priceNum: 3499,
-    badge: 'Most popular', color: '#F5A623', image: '/images/pkg-core-package.png', emoji: '⭐',
+    badge: 'Most popular', color: '#F5A623', image: '/images/pkg-core-package.jpg', emoji: '⭐',
     for: 'Any student confused about direction',
     shortDesc: 'Deep diagnostic + session + written summary. The complete What The Grad experience.',
     includes: ['28-question diagnostic questionnaire', 'Full pattern analysis before session', '1:1 deep-dive session (75 min)', 'Top 2–3 career directions with reasoning', "Elimination of paths that don't fit", 'Written personalised summary (48 hrs)', '1 month WhatsApp support'],
@@ -37,7 +37,7 @@ const PACKAGES = [
   {
     id: 'ug-pathway', slug: 'ug-pathway', name: 'UG Pathway',
     tagline: 'Post-12th college & course guidance.', price: '₹2,999', priceNum: 2999,
-    badge: null, color: '#D6F0E8', image: '/images/pkg-ug-pathway.png', emoji: '🎓',
+    badge: null, color: '#D6F0E8', image: '/images/pkg-ug-pathway.jpg', emoji: '🎓',
     for: 'Class 12 students and gap year students',
     shortDesc: 'Top 3–5 course and college matches for India and abroad, with a real application plan.',
     includes: ['28-question diagnostic questionnaire', '1:1 guidance session (60–75 min)', 'Top 3–5 course and college matches', 'Basic SOP/resume direction', 'Application timeline guidance', 'Written summary document'],
@@ -46,7 +46,7 @@ const PACKAGES = [
   {
     id: 'gradglow', slug: 'gradglow', name: 'GradGlow',
     tagline: 'UG to PG transition — done right.', price: '₹7,999', priceNum: 7999,
-    badge: null, color: '#FFF3D6', image: '/images/pkg-gradglow.png', emoji: '✨',
+    badge: null, color: '#FFF3D6', image: '/images/pkg-gradglow.jpg', emoji: '✨',
     for: "Undergrads deciding between master's, job, or career switch",
     shortDesc: "MS vs MBA vs job — mapped out clearly with a written roadmap you can actually follow.",
     includes: ['1:1 career mapping session', 'MS vs MBA vs job pathway analysis', 'Course and university shortlisting', 'CV/resume feedback', 'SOP structure and review support', 'Written roadmap document'],
@@ -55,7 +55,7 @@ const PACKAGES = [
   {
     id: 'total-admit', slug: 'total-admit', name: 'Total Admit',
     tagline: 'Full application support, start to submission.', price: '₹13,999', priceNum: 13999,
-    badge: 'Premium', color: '#2C1810', image: '/images/pkg-total-admit.png', emoji: '🏆',
+    badge: 'Premium', color: '#2C1810', image: '/images/pkg-total-admit.jpg', emoji: '🏆',
     for: "Students applying to master's or competitive UG programs",
     shortDesc: "Everything from university selection to final review — we're with you the whole way.",
     includes: ['University selection (3–5 programs)', 'SOP writing support — brainstorm + 2 rounds of editing', 'CV formatting and editing', 'LOR strategy and template', 'Application calendar and checklist', 'WhatsApp/email support for 1 month', 'Final review before submission'],
@@ -77,7 +77,7 @@ function PackageImageBand({ pkg, height }: { pkg: typeof PACKAGES[0]; height: nu
   return (
     <div style={{ height, flexShrink: 0, position: 'relative', overflow: 'hidden', background: pkg.color }}>
       <img
-        src={pkg.image} alt={pkg.name}
+        src={pkg.image} alt={pkg.name} loading="lazy"
         style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }}
         onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
       />

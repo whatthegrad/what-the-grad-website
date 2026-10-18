@@ -33,12 +33,23 @@ export default function ContactPage() {
   // The form unmounts after a successful send, so render a fresh widget each time it shows.
   useEffect(() => {
     if (!scriptReady || sent || !turnstileRef.current || !window.turnstile) return;
-    const id = window.turnstile.render(turnstileRef.current, {
-      sitekey: TURNSTILE_SITE_KEY,
-      callback: (t: string) => setToken(t),
-      'expired-callback': () => setToken(''),
-      'error-callback': () => setToken(''),
-    });
+    // Turnstile throws without a site key, which would crash the whole page.
+    if (!TURNSTILE_SITE_KEY) {
+      console.warn('NEXT_PUBLIC_TURNSTILE_SITE_KEY is not set; contact form cannot be submitted.');
+      return;
+    }
+    let id: string;
+    try {
+      id = window.turnstile.render(turnstileRef.current, {
+        sitekey: TURNSTILE_SITE_KEY,
+        callback: (t: string) => setToken(t),
+        'expired-callback': () => setToken(''),
+        'error-callback': () => setToken(''),
+      });
+    } catch (err) {
+      console.warn('Turnstile failed to render', err);
+      return;
+    }
     widgetId.current = id;
     return () => {
       window.turnstile?.remove(id);
@@ -101,7 +112,7 @@ export default function ContactPage() {
             </a>
           </div>
           <div style={{ borderRadius: '16px', overflow: 'hidden', boxShadow: '0 8px 32px rgba(44,24,16,0.1)' }}>
-            <img src="/images/contact-bg.png" alt="reach out" style={{ width: '100%', display: 'block', objectFit: 'cover' }} />
+            <img src="/images/contact-bg.jpg" alt="reach out" loading="lazy" style={{ width: '100%', display: 'block', objectFit: 'cover' }} />
           </div>
         </div>
 

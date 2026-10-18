@@ -87,7 +87,7 @@ function SocialCard({ social, isMobile }: { social: typeof SOCIALS[0]; isMobile:
           overflow: 'hidden', position: 'relative', background: '#D6E8F5',
         }}>
           <img
-            src={social.image} alt={social.name}
+            src={social.image} alt={social.name} loading="lazy"
             style={{
               width: '100%', height: '100%', objectFit: 'cover',
               transform: hovered ? 'scale(1.06)' : 'scale(1)',

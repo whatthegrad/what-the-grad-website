@@ -104,7 +104,7 @@ function FounderSection({ founder, index }: { founder: typeof FOUNDERS[0]; index
               overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>
               <img
-                src={founder.image} alt={founder.name}
+                src={founder.image} alt={founder.name} loading="lazy"
                 style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }}
                 onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
               />
