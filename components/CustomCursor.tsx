@@ -79,8 +79,9 @@ export default function CustomCursor() {
   // Fade out sparkles
   useEffect(() => {
     const fade = () => {
+      // Return the same array when idle so React skips the re-render.
       setSparkles(prev =>
-        prev
+        prev.length === 0 ? prev : prev
           .map(s => ({ ...s, opacity: s.opacity - 0.055, size: s.size * 0.97 }))
           .filter(s => s.opacity > 0.05)
       );

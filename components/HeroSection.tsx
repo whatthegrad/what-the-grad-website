@@ -322,7 +322,6 @@ export default function HeroSection() {
             borderBottom: isMobile ? '1.5px solid rgba(26,26,26,0.15)' : 'none',
             overflowX:'auto',
           }}>
-            <a href="#about"    className="nav-link">About us</a>
             <a href="/founders" className="nav-link">Meet our founders</a>
             <a href="/contact"  className="nav-link">Contact</a>
             <a href="/cart"     className="nav-link">Cart</a>
