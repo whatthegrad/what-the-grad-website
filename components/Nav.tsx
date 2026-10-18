@@ -53,6 +53,7 @@ export default function Nav({ transparent = false }: { transparent?: boolean }) 
         {!isMobile && (
           <div style={{ display: 'flex', gap: '28px', alignItems: 'center' }}>
             <span onClick={() => navigate('/#services')} style={linkStyle}>Services</span>
+            <span onClick={() => navigate('/#study-abroad')} style={linkStyle}>Study abroad</span>
             <span onClick={() => navigate('/contact')} style={linkStyle}>Contact</span>
             <a
               href="https://careertest.edumilestones.com/student-dashboard/?channel_id=NDk2MQ=="
@@ -163,6 +164,7 @@ export default function Nav({ transparent = false }: { transparent?: boolean }) 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
             {[
               { label: 'Services', path: '/#services' },
+              { label: 'Study abroad', path: '/#study-abroad' },
               { label: 'Contact', path: '/contact' },
               { label: 'Cart', path: '/cart' },
             ].map(link => (
