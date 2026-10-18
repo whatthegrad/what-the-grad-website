@@ -81,7 +81,7 @@ export default function Footer() {
                 Rooting for you,<br/>always.
               </h2>
               <p style={{ fontFamily:PD, fontSize:'17px', fontWeight:'700', fontStyle:'italic', color:'#E8713A' }}>
-                — Team What the Grad.
+                - Team What the Grad.
               </p>
             </div>
 
