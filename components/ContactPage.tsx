@@ -1,9 +1,21 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import Script from 'next/script';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 
 const PD = "Playfair Display, Georgia, serif";
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? '';
+
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (el: HTMLElement, opts: Record<string, unknown>) => string;
+      reset: (widgetId: string) => void;
+      remove: (widgetId: string) => void;
+    };
+  }
+}
 
 export default function ContactPage() {
   const [firstName, setFirstName] = useState('');
@@ -12,6 +24,28 @@ export default function ContactPage() {
   const [message, setMessage]     = useState('');
   const [focused, setFocused]     = useState('');
   const [status, setStatus]       = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [token, setToken]         = useState('');
+  const [scriptReady, setScriptReady] = useState(false);
+  const turnstileRef = useRef<HTMLDivElement>(null);
+  const widgetId     = useRef<string | null>(null);
+  const sent = status === 'success';
+
+  // The form unmounts after a successful send, so render a fresh widget each time it shows.
+  useEffect(() => {
+    if (!scriptReady || sent || !turnstileRef.current || !window.turnstile) return;
+    const id = window.turnstile.render(turnstileRef.current, {
+      sitekey: TURNSTILE_SITE_KEY,
+      callback: (t: string) => setToken(t),
+      'expired-callback': () => setToken(''),
+      'error-callback': () => setToken(''),
+    });
+    widgetId.current = id;
+    return () => {
+      window.turnstile?.remove(id);
+      widgetId.current = null;
+      setToken('');
+    };
+  }, [scriptReady, sent]);
 
   const inputStyle = (field: string): React.CSSProperties => ({
     width: '100%', padding: '12px 16px', borderRadius: '10px',
@@ -21,24 +55,28 @@ export default function ContactPage() {
   });
 
   async function handleSubmit() {
-    if (!firstName || !lastName || !email || !message) return;
+    if (!firstName || !lastName || !email || !message || !token) return;
     setStatus('loading');
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ firstName, lastName, email, message }),
+        body: JSON.stringify({ firstName, lastName, email, message, turnstileToken: token }),
       });
       if (!res.ok) throw new Error();
       setStatus('success');
       setFirstName(''); setLastName(''); setEmail(''); setMessage('');
     } catch {
       setStatus('error');
+      // Tokens are single-use, so get a new one before the retry.
+      setToken('');
+      if (widgetId.current) window.turnstile?.reset(widgetId.current);
     }
   }
 
   return (
     <div style={{ minHeight: '100vh', background: '#FFF8EC', fontFamily: PD }}>
+      <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" onReady={() => setScriptReady(true)} />
       <Nav />
 
       <div style={{
@@ -99,16 +137,17 @@ export default function ContactPage() {
                 <p style={{ fontFamily: PD, fontSize: '12px', color: '#9B8B7A', marginBottom: '6px' }}>A short description will help us get to know you.</p>
                 <textarea value={message} onChange={e => setMessage(e.target.value)} onFocus={() => setFocused('msg')} onBlur={() => setFocused('')} rows={4} style={{ ...inputStyle('msg'), resize: 'vertical', minHeight: '100px' }} />
               </div>
+              <div ref={turnstileRef} style={{ marginBottom: '16px' }} />
               {status === 'error' && (
                 <p style={{ fontFamily: PD, fontSize: '13px', color: '#E8713A', marginBottom: '12px' }}>Something went wrong. Please try again.</p>
               )}
               <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                 <button
                   onClick={handleSubmit}
-                  disabled={status === 'loading'}
-                  style={{ padding: '14px 48px', background: status === 'loading' ? '#9B8B7A' : '#2C1810', color: '#FFF8EC', border: 'none', borderRadius: '100px', fontFamily: PD, fontSize: '15px', fontWeight: '700', cursor: status === 'loading' ? 'not-allowed' : 'pointer', transition: 'background 0.2s' }}
-                  onMouseEnter={e => { if (status !== 'loading') e.currentTarget.style.background = '#E8713A'; }}
-                  onMouseLeave={e => { if (status !== 'loading') e.currentTarget.style.background = '#2C1810'; }}>
+                  disabled={status === 'loading' || !token}
+                  style={{ padding: '14px 48px', background: status === 'loading' || !token ? '#9B8B7A' : '#2C1810', color: '#FFF8EC', border: 'none', borderRadius: '100px', fontFamily: PD, fontSize: '15px', fontWeight: '700', cursor: status === 'loading' || !token ? 'not-allowed' : 'pointer', transition: 'background 0.2s' }}
+                  onMouseEnter={e => { if (status !== 'loading' && token) e.currentTarget.style.background = '#E8713A'; }}
+                  onMouseLeave={e => { if (status !== 'loading' && token) e.currentTarget.style.background = '#2C1810'; }}>
                   {status === 'loading' ? 'Sending…' : 'Send'}
                 </button>
               </div>

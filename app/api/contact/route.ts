@@ -1,11 +1,34 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { google } from 'googleapis';
 
+async function verifyTurnstile(token: unknown, ip: string | null) {
+  if (typeof token !== 'string' || !token) return false;
+
+  const body = new URLSearchParams({
+    secret: process.env.TURNSTILE_SECRET_KEY ?? '',
+    response: token,
+  });
+  if (ip) body.append('remoteip', ip);
+
+  const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+    method: 'POST',
+    body,
+  });
+  if (!res.ok) return false;
+
+  const data: { success?: boolean } = await res.json();
+  return data.success === true;
+}
+
 export async function POST(req: NextRequest) {
-  const { firstName, lastName, email, message } = await req.json();
+  const { firstName, lastName, email, message, turnstileToken } = await req.json();
 
   if (!firstName || !lastName || !email || !message) {
     return NextResponse.json({ error: 'All fields are required' }, { status: 400 });
+  }
+
+  if (!(await verifyTurnstile(turnstileToken, req.headers.get('cf-connecting-ip')))) {
+    return NextResponse.json({ error: 'Verification failed' }, { status: 403 });
   }
 
   const auth = new google.auth.GoogleAuth({
