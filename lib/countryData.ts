@@ -134,7 +134,7 @@ export const COUNTRIES: CountryData[] = [
       { pill: 'BOTH LEVELS', icon: ICONS.work, big: '1 to 2 year APS permit', small: 'After a masters you can apply for the APS (temporary residence permit) to stay and look for work or start a business.', cap: 'WORK AFTER STUDY' },
       { pill: 'MASTERS', icon: ICONS.scholarships, big: 'Eiffel, Charpak, Erasmus+', small: 'The Eiffel Excellence Scholarship is fully funded. Charpak is from the French Embassy in India. Many schools also offer their own awards.', cap: 'SCHOLARSHIPS' },
       { pill: 'MASTERS', icon: ICONS.budget, big: 'Rs 3 to 25 lakh a year (tuition)', small: 'Public unis charge about Rs 2.5 to 3.5 lakh. Private and Grande École programs go up to Rs 20 to 25 lakh. Living costs are Rs 8 to 15 lakh on top.', cap: 'BUDGET' },
-      { pill: 'BOTH LEVELS', icon: ICONS.fields, big: 'Business, AI/Data Science, Engineering, Fashion', small: 'Grande École MBAs, tech and luxury brand management are France's standout programs.', cap: 'POPULAR FIELDS' },
+      { pill: 'BOTH LEVELS', icon: ICONS.fields, big: 'Business, AI/Data Science, Engineering, Fashion', small: 'Grande École MBAs, tech and luxury brand management are France\'s standout programs.', cap: 'POPULAR FIELDS' },
     ],
     bachelorsFacts: [
       { pill: 'BACHELORS', icon: ICONS.intakes, big: 'Mainly September', small: 'September is the standard start. A few private schools offer January entry.', cap: 'INTAKES' },
@@ -372,7 +372,7 @@ export const COUNTRIES: CountryData[] = [
       { pill: 'BOTH LEVELS', icon: ICONS.work, big: '2-year Stamp 1G (masters)', small: 'Masters graduates get a 24-month Stamp 1G visa to work up to 40 hours a week. Bachelors graduates get 12 months.', cap: 'WORK AFTER STUDY' },
       { pill: 'MASTERS', icon: ICONS.scholarships, big: 'Govt of Ireland, Trinity, UCD awards', small: 'Government of Ireland Scholarship offers full tuition + stipend (very competitive, about 60 awards). Trinity and UCD offer merit reductions.', cap: 'SCHOLARSHIPS' },
       { pill: 'MASTERS', icon: ICONS.budget, big: 'Rs 20 to 33 lakh a year (tuition)', small: 'Tuition for non-EU masters runs €19,000 to €30,000 depending on the program. Add Rs 10 to 14 lakh for living.', cap: 'BUDGET' },
-      { pill: 'BOTH LEVELS', icon: ICONS.fields, big: 'CS, Data Science, Business, Engineering', small: 'Ireland is Europe's tech capital. CS, data analytics, fintech and pharma are strong. Trinity, UCD and UCC are the top picks.', cap: 'POPULAR FIELDS' },
+      { pill: 'BOTH LEVELS', icon: ICONS.fields, big: 'CS, Data Science, Business, Engineering', small: 'Ireland is Europe\'s tech capital. CS, data analytics, fintech and pharma are strong. Trinity, UCD and UCC are the top picks.', cap: 'POPULAR FIELDS' },
     ],
     bachelorsFacts: [
       { pill: 'BACHELORS', icon: ICONS.intakes, big: 'Mainly September', small: 'September is the standard start. A few programs offer January entry.', cap: 'INTAKES' },
@@ -382,7 +382,7 @@ export const COUNTRIES: CountryData[] = [
       { pill: 'BOTH LEVELS', icon: ICONS.work, big: '1-year Stamp 1G (bachelors)', small: 'Bachelors graduates get a 12-month Stamp 1G visa. Masters graduates get 24 months. During studies you can work 20 hours a week.', cap: 'WORK AFTER STUDY' },
       { pill: 'BACHELORS', icon: ICONS.scholarships, big: 'Govt of Ireland, uni merit awards', small: 'Government of Ireland Scholarship is available but competitive. Universities offer merit-based tuition reductions.', cap: 'SCHOLARSHIPS' },
       { pill: 'BACHELORS', icon: ICONS.budget, big: 'Rs 22 to 33 lakh a year (tuition)', small: 'Non-EU undergraduate tuition runs €22,000 to €30,000 for STEM. Arts and business are slightly lower. Add Rs 10 to 14 lakh for living.', cap: 'BUDGET' },
-      { pill: 'BOTH LEVELS', icon: ICONS.fields, big: 'CS, Data Science, Business, Engineering', small: 'Ireland is Europe's tech capital. CS, data analytics, fintech and pharma are strong. Trinity, UCD and UCC are the top picks.', cap: 'POPULAR FIELDS' },
+      { pill: 'BOTH LEVELS', icon: ICONS.fields, big: 'CS, Data Science, Business, Engineering', small: 'Ireland is Europe\'s tech capital. CS, data analytics, fintech and pharma are strong. Trinity, UCD and UCC are the top picks.', cap: 'POPULAR FIELDS' },
     ],
   },
 
@@ -404,7 +404,7 @@ export const COUNTRIES: CountryData[] = [
       { pill: 'MASTERS', icon: ICONS.tests, big: 'IELTS 6.0–6.5', small: 'IELTS 6.0 for most programs, 6.5 for medical programs. TOEFL is also accepted. No GRE required.', cap: 'TESTS' },
       { pill: 'BOTH LEVELS', icon: ICONS.visa, big: 'Type D student visa', small: 'Long-stay visa applied at the Hungarian embassy. Processing takes 30 to 60 days. You need to show about €6,000 per year in funds.', cap: 'VISA' },
       { pill: 'BOTH LEVELS', icon: ICONS.work, big: '9-month job-search permit', small: 'After graduating you get a 9-month residence permit to find a job. Once employed, you switch to a work permit.', cap: 'WORK AFTER STUDY' },
-      { pill: 'MASTERS', icon: ICONS.scholarships, big: 'Stipendium Hungaricum (fully funded)', small: 'Covers full tuition, a monthly stipend of about €580 and free university housing. Applications go through India's Ministry of Education by January.', cap: 'SCHOLARSHIPS' },
+      { pill: 'MASTERS', icon: ICONS.scholarships, big: 'Stipendium Hungaricum (fully funded)', small: 'Covers full tuition, a monthly stipend of about €580 and free university housing. Applications go through India\'s Ministry of Education by January.', cap: 'SCHOLARSHIPS' },
       { pill: 'MASTERS', icon: ICONS.budget, big: 'Rs 3 to 15 lakh a year (tuition)', small: 'Tuition runs €4,000 to €17,000 depending on the field. Living costs in Budapest are about €500 to €750 a month (Rs 5 to 8 lakh a year).', cap: 'BUDGET' },
       { pill: 'BOTH LEVELS', icon: ICONS.fields, big: 'Medicine, Engineering, IT, Business', small: 'Hungary is well known for medicine (Semmelweis is a top choice). Engineering, IT and business at Debrecen and BME are also strong.', cap: 'POPULAR FIELDS' },
     ],
