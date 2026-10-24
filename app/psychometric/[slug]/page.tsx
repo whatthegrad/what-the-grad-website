@@ -6,16 +6,13 @@ const PD  = "'Playfair Display', Georgia, serif";
 const SANS = "'DM Sans', system-ui, sans-serif";
 
 /* ── WhatsApp link ──────────────────────────────────────────────────
-   wa.me/message/ links use a pre-set greeting from WhatsApp Business
-   and can't carry a custom per-test message through the URL.
-
-   ➜  If you want per-test pre-filled messages like
-      "I have completed the payment for Career Analysis for Classes 2 to 7",
-      replace WA_BASE below with:
-        const WA_BASE = 'https://wa.me/91XXXXXXXXXX';   // your number
-      and uncomment the ?text= line in the button's onClick.
+   Uses wa.me with pre-filled message per test name.
    ────────────────────────────────────────────────────────────────── */
-const WA_LINK = 'https://wa.me/message/UEHPFI2PY3ZGM1';
+const WA_NUMBER = '919172771653';
+const buildWaUrl = (testTitle: string) => {
+  const msg = `Hi What the Grad team! 👋\n\nI've just completed the payment for the ${testTitle} on your website. Could you please share the test link with me?\n\nExcited to get started! 😊`;
+  return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+};
 
 /* ── QR image path ──────────────────────────────────────────────────
    Drop your UPI / bank QR code image into  public/qr-payment.png
@@ -177,9 +174,7 @@ export default function PsychometricPaymentPage() {
   const test = TESTS[slug];
   if (!test) { notFound(); return null; }
 
-  const waUrl = WA_LINK;
-  // ➜  To use per-test pre-filled messages, replace the line above with:
-  //    const waUrl = `https://wa.me/91XXXXXXXXXX?text=${encodeURIComponent(`Hi! I have completed the payment for ${test.title}. Please share the test link.`)}`;
+  const waUrl = buildWaUrl(test.title);
 
   return (
     <div style={{ minHeight: '100vh', background: '#FFF8EC', fontFamily: PD }}>
