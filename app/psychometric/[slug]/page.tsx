@@ -15,18 +15,15 @@ const buildWaUrl = (testTitle: string) => {
 };
 
 /* ── QR image path ──────────────────────────────────────────────────
-   Drop your UPI / bank QR code image into  public/qr-payment.png
-   and update the path below.
+   Drop your UPI / bank QR code image into  public/images/qr-payment.png
    ────────────────────────────────────────────────────────────────── */
-const QR_IMAGE = '/qr-payment.png';
-
-/* ── price shown on the payment page (change once) ─────────────── */
-const PRICE = '₹999';
+const QR_IMAGE = '/images/qr-payment.png';
 
 // ── test data ──────────────────────────────────────────────────────
 interface TestData {
   title: string;
   label: string;
+  price: string;
   forWhom: string;
   shortDesc: string;
   longDesc: string;
@@ -41,6 +38,7 @@ const TESTS: Record<string, TestData> = {
   'class-2-7': {
     title: 'Career Analysis for Classes 2 to 7',
     label: 'Class 2 – 7',
+    price: '₹1,999',
     forWhom: 'Students in Classes 2 to 7 and their parents',
     shortDesc: "Discover your child's natural strengths through Multiple Intelligence mapping — before the world tells them who to be.",
     longDesc: "This assessment uses the theory of Multiple Intelligences to identify your child's natural cognitive strengths. Rather than waiting for board exams to define their path, it helps parents and educators understand how a child learns best — and what kind of career direction fits them early on.",
@@ -59,6 +57,7 @@ const TESTS: Record<string, TestData> = {
   'class-8-10': {
     title: 'Career Analysis for Classes 8, 9 & 10',
     label: 'Class 8 – 10',
+    price: '₹2,999',
     forWhom: 'Students in Classes 8 to 10 choosing subjects and streams',
     shortDesc: 'Find the most suitable career path and subjects before the board exam pressure sets in — with data, not guesswork.',
     longDesc: 'This test maps your aptitudes and interests to the right stream and subject combination before you lock in for boards. It includes a career path analysis so you know where each choice actually leads — not just for Class 11, but for college and beyond.',
@@ -77,6 +76,7 @@ const TESTS: Record<string, TestData> = {
   'class-11-12': {
     title: 'Career Analysis for Classes 11 & 12',
     label: 'Class 11 – 12',
+    price: '₹3,999',
     forWhom: 'Students in Classes 11 and 12 planning college and career',
     shortDesc: 'Your stream is chosen — now chart the full road map. Career path, college options, and a step-by-step execution plan.',
     longDesc: "You've already picked your stream. Now it's about choosing the right college, the right course, and building a plan that actually gets you there. This assessment maps your strengths to specific career paths and gives you a detailed execution plan — entrance exams, application timelines, and backup options included.",
@@ -95,6 +95,7 @@ const TESTS: Record<string, TestData> = {
   'graduates': {
     title: 'Career Analysis for Graduates',
     label: 'Graduates',
+    price: '₹4,999',
     forWhom: 'Recent graduates and final-year students unsure about next steps',
     shortDesc: 'Degree in hand, direction unclear? Map the most suitable career path and get a detailed execution plan built around you.',
     longDesc: "You've finished your degree — or you're about to — and you're not sure what comes next. This assessment identifies career paths aligned with your strengths, interests and qualifications, and gives you a concrete plan: what to apply for, where to upskill, and how to position yourself in the job market.",
@@ -113,6 +114,7 @@ const TESTS: Record<string, TestData> = {
   'professionals': {
     title: 'Career Analysis for Professionals',
     label: 'Professionals',
+    price: '₹6,999',
     forWhom: 'Early and mid-career professionals feeling stuck or considering a switch',
     shortDesc: 'Early or mid-career and feeling stuck? Get counselling built for professionals — with a clear, actionable execution plan.',
     longDesc: "You're working, but something feels off. Maybe you're bored, burnt out, or just not sure this is the right career for you. This assessment is designed specifically for working professionals — it maps where you are, identifies what would suit you better, and gives you a plan to get there without starting from scratch.",
@@ -131,6 +133,7 @@ const TESTS: Record<string, TestData> = {
   'professionals-industry': {
     title: 'Career Assessment for Professionals',
     label: 'Professionals · Industry',
+    price: '₹6,999',
     forWhom: 'Professionals seeking industry-specific, multi-dimensional career guidance',
     shortDesc: 'Industry-specific and multi-dimensional. Discover the best opportunities within your current field — or find your path to a new one.',
     longDesc: "This is the most comprehensive professional assessment we offer. It goes beyond general career mapping and digs into your specific industry — the roles that fit your profile, the gaps you need to close, and whether pivoting to a different sector is worth it. Multi-dimensional and data-driven.",
@@ -149,6 +152,7 @@ const TESTS: Record<string, TestData> = {
   'graduates-course': {
     title: 'Career Assessment for Graduates',
     label: 'Graduates · Course',
+    price: '₹4,999',
     forWhom: 'Graduates looking for course-specific, multi-dimensional career guidance',
     shortDesc: 'Course-specific and multi-dimensional. Identify careers aligned with your degree — or discover how to transition into something entirely new.',
     longDesc: "This assessment is tailored to your specific degree and coursework. It identifies careers you're already qualified for, highlights where your skills transfer to unexpected fields, and maps out exactly how to get from where you are to where you want to be — whether that's within your discipline or outside it.",
@@ -317,7 +321,7 @@ export default function PsychometricPaymentPage() {
 
           <div style={{ marginBottom: '20px' }}>
             <span style={{ fontSize: '36px', fontWeight: '700', color: '#2C1810', fontFamily: PD }}>
-              {PRICE}
+              {test.price}
             </span>
             <span style={{ fontSize: '14px', color: '#9B8B7A', marginLeft: '8px', fontFamily: PD }}>
               one-time
