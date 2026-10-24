@@ -9,6 +9,7 @@ const HAND = 'Caveat, cursive';                     // handwritten (kept)
 
 // ── card data (exact from HTML) ────────────────────────────────────────────
 interface Assessment {
+  slug: string;
   label: string;
   labelBg: string;
   labelColor: string;
@@ -24,6 +25,7 @@ interface Assessment {
 
 const ASSESSMENTS: Assessment[] = [
   {
+    slug: 'class-2-7',
     label: 'Class 2 – 7',
     labelBg: '#FDE8D8', labelColor: '#C4562A',
     washiColor: 'rgba(232,115,90,0.5)',
@@ -46,6 +48,7 @@ const ASSESSMENTS: Assessment[] = [
     </svg>`,
   },
   {
+    slug: 'class-8-10',
     label: 'Class 8 – 10',
     labelBg: '#EDE8F6', labelColor: '#3D1F6E',
     washiColor: 'rgba(92,61,107,0.45)',
@@ -74,6 +77,7 @@ const ASSESSMENTS: Assessment[] = [
     </svg>`,
   },
   {
+    slug: 'class-11-12',
     label: 'Class 11 – 12',
     labelBg: '#FFF4E0', labelColor: '#9A6800',
     washiColor: 'rgba(212,168,67,0.55)',
@@ -98,6 +102,7 @@ const ASSESSMENTS: Assessment[] = [
     </svg>`,
   },
   {
+    slug: 'graduates',
     label: 'Graduates',
     labelBg: '#E8F5E9', labelColor: '#1B5E20',
     washiColor: 'rgba(46,125,50,0.38)',
@@ -120,6 +125,7 @@ const ASSESSMENTS: Assessment[] = [
     </svg>`,
   },
   {
+    slug: 'professionals',
     label: 'Professionals',
     labelBg: '#FDE8D8', labelColor: '#8B2500',
     washiColor: 'rgba(232,115,90,0.48)',
@@ -146,6 +152,7 @@ const ASSESSMENTS: Assessment[] = [
     </svg>`,
   },
   {
+    slug: 'professionals-industry',
     label: 'Professionals · Industry',
     labelBg: '#EDE8F6', labelColor: '#3D1F6E',
     washiColor: 'rgba(92,61,107,0.5)',
@@ -174,6 +181,7 @@ const ASSESSMENTS: Assessment[] = [
     </svg>`,
   },
   {
+    slug: 'graduates-course',
     label: 'Graduates · Course',
     labelBg: '#FFF4E0', labelColor: '#9A6800',
     washiColor: 'rgba(212,168,67,0.5)',
@@ -550,9 +558,7 @@ export default function PsychometricSection() {
 
                 {/* test button */}
                 <a
-                  href={a.testUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={`/psychometric/${a.slug}`}
                   onClick={e => e.stopPropagation()}
                   style={{
                     display: 'block',
