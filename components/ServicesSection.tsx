@@ -13,16 +13,16 @@ const PACKAGES = [
     badge: null, color: '#D6E8F5', emoji: '🔍',
     for: 'Any student, any stage',
     shortDesc: 'A short, honest 1:1 conversation to figure out exactly where you are and what you need.',
-    includes: ['20–30 min 1:1 conversation', 'Quick assessment of where you are', 'Verbal direction + recommended next step', 'Honest conversation — no hard sell'],
+    includes: ['20-30 min 1:1 conversation', 'Quick assessment of where you are', 'Verbal direction + recommended next step', 'Honest conversation - no hard sell'],
     btnLabel: 'Save my spot',
   },
   {
     id: 'streamsense', slug: 'streamsense', name: 'StreamSense',
-    tagline: "Science, Commerce, or Arts — let's figure it out.", price: '₹1,499', priceNum: 1499,
+    tagline: "Science, Commerce, or Arts - let's figure it out.", price: '₹1,499', priceNum: 1499,
     badge: null, color: '#E8D5F5', emoji: '🎯',
-    for: 'Class 9–10 students choosing stream after 10th',
+    for: 'Class 9-10 students choosing stream after 10th',
     shortDesc: 'Choosing the right stream after 10th is your first big decision. Make it the right one.',
-    includes: ['28-question diagnostic questionnaire', 'Interest and aptitude mapping', '1:1 guidance session (45–60 min)', 'Personalised stream recommendation', 'Written summary document', '1 month WhatsApp support'],
+    includes: ['28-question diagnostic questionnaire', 'Interest and aptitude mapping', '1:1 guidance session (45-60 min)', 'Personalised stream recommendation', 'Written summary document', '1 month WhatsApp support'],
     btnLabel: 'Count me in',
   },
   {
@@ -30,16 +30,16 @@ const PACKAGES = [
     tagline: 'Post-12th college & course guidance.', price: '₹5,000', priceNum: 5000,
     badge: null, color: '#D6F0E8', emoji: '🎓',
     for: 'Class 12 students and gap year students',
-    shortDesc: 'Top 3–5 course and college matches for India and abroad, with a real application plan.',
-    includes: ['28-question diagnostic questionnaire', '1:1 guidance session (60–75 min)', 'Top 3–5 course and college matches', 'Basic SOP/resume direction', 'Application timeline guidance', 'Written summary document'],
+    shortDesc: 'Top 3-5 course and college matches for India and abroad, with a real application plan.',
+    includes: ['28-question diagnostic questionnaire', '1:1 guidance session (60-75 min)', 'Top 3-5 course and college matches', 'Basic SOP/resume direction', 'Application timeline guidance', 'Written summary document'],
     btnLabel: 'Find my path',
   },
   {
     id: 'beyondgrad', slug: 'beyondgrad', name: 'Beyond Grad',
-    tagline: 'UG to PG transition — done right.', price: '₹7,999', priceNum: 7999,
+    tagline: 'UG to PG transition - done right.', price: '₹7,999', priceNum: 7999,
     badge: null, color: '#FFF3D6', emoji: '✨',
     for: "Undergrads deciding between master's, job, or career switch",
-    shortDesc: "MS vs MBA vs job — mapped out clearly with a written roadmap you can actually follow.",
+    shortDesc: "MS vs MBA vs job - mapped out clearly with a written roadmap you can actually follow.",
     includes: ['1:1 career mapping session', 'MS vs MBA vs job pathway analysis', 'Course and university shortlisting', 'CV/resume feedback', 'SOP structure and review support', 'Written roadmap document'],
     btnLabel: "Let's go",
   },
@@ -48,8 +48,8 @@ const PACKAGES = [
     tagline: 'Full application support, start to submission.', price: 'callback', priceNum: 0,
     badge: 'Premium', color: '#2C1810', emoji: '🏆',
     for: "Students applying to master's or competitive UG programs",
-    shortDesc: "Everything from university selection to final review — we're with you the whole way.",
-    includes: ['University selection (3–5 programs)', 'SOP writing support — brainstorm + 2 rounds of editing', 'CV formatting and editing', 'LOR strategy and template', 'Application calendar and checklist', 'WhatsApp/email support for 1 month', 'Final review before submission'],
+    shortDesc: "Everything from university selection to final review - we're with you the whole way.",
+    includes: ['University selection (3-5 programs)', 'SOP writing support - brainstorm + 2 rounds of editing', 'CV formatting and editing', 'LOR strategy and template', 'Application calendar and checklist', 'WhatsApp/email support for 1 month', 'Final review before submission'],
     btnLabel: 'Get me in',
   },
 ];
@@ -469,7 +469,7 @@ export default function ServicesSection() {
                             onMouseEnter={e => { if (!justAdded) (e.target as HTMLButtonElement).style.transform = 'scale(1.02)'; }}
                             onMouseLeave={e => { (e.target as HTMLButtonElement).style.transform = 'scale(1)'; }}
                           >
-                            {justAdded ? 'Added to cart!' : `Add to cart — ${pkg.btnLabel}`}
+                            {justAdded ? 'Added to cart!' : `Add to cart - ${pkg.btnLabel}`}
                           </button>
                         </>
                       )}
