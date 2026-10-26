@@ -10,7 +10,7 @@ const PACKAGES = [
   {
     id: 'discovery-call', slug: 'discovery-call', name: 'Discovery Call',
     tagline: 'Not sure where to start? Start here.', price: '₹499', priceNum: 499,
-    badge: null, color: '#D6E8F5', image: '/images/pkg-discovery-call.jpg', emoji: '🔍',
+    badge: null, color: '#D6E8F5', emoji: '🔍',
     for: 'Any student, any stage',
     shortDesc: 'A short, honest 1:1 conversation to figure out exactly where you are and what you need.',
     includes: ['20–30 min 1:1 conversation', 'Quick assessment of where you are', 'Verbal direction + recommended next step', 'Honest conversation — no hard sell'],
@@ -19,43 +19,34 @@ const PACKAGES = [
   {
     id: 'streamsense', slug: 'streamsense', name: 'StreamSense',
     tagline: "Science, Commerce, or Arts — let's figure it out.", price: '₹1,499', priceNum: 1499,
-    badge: null, color: '#E8D5F5', image: '/images/pkg-streamsense.jpg', emoji: '🎯',
+    badge: null, color: '#E8D5F5', emoji: '🎯',
     for: 'Class 9–10 students choosing stream after 10th',
     shortDesc: 'Choosing the right stream after 10th is your first big decision. Make it the right one.',
     includes: ['28-question diagnostic questionnaire', 'Interest and aptitude mapping', '1:1 guidance session (45–60 min)', 'Personalised stream recommendation', 'Written summary document', '1 month WhatsApp support'],
     btnLabel: 'Count me in',
   },
   {
-    id: 'core-package', slug: 'core-package', name: 'Core Package',
-    tagline: 'The full picture, start to finish.', price: '₹3,499', priceNum: 3499,
-    badge: 'Most popular', color: '#F5A623', image: '/images/pkg-core-package.jpg', emoji: '⭐',
-    for: 'Any student confused about direction',
-    shortDesc: 'Deep diagnostic + session + written summary. The complete What The Grad experience.',
-    includes: ['28-question diagnostic questionnaire', 'Full pattern analysis before session', '1:1 deep-dive session (75 min)', 'Top 2–3 career directions with reasoning', "Elimination of paths that don't fit", 'Written personalised summary (48 hrs)', '1 month WhatsApp support'],
-    btnLabel: 'Get started',
-  },
-  {
-    id: 'ug-pathway', slug: 'ug-pathway', name: 'UG Pathway',
-    tagline: 'Post-12th college & course guidance.', price: '₹2,999', priceNum: 2999,
-    badge: null, color: '#D6F0E8', image: '/images/pkg-ug-pathway.jpg', emoji: '🎓',
+    id: 'ug-pathway', slug: 'ug-pathway', name: 'UG Pathway + Psychometric Evaluation',
+    tagline: 'Post-12th college & course guidance.', price: '₹5,000', priceNum: 5000,
+    badge: null, color: '#D6F0E8', emoji: '🎓',
     for: 'Class 12 students and gap year students',
     shortDesc: 'Top 3–5 course and college matches for India and abroad, with a real application plan.',
     includes: ['28-question diagnostic questionnaire', '1:1 guidance session (60–75 min)', 'Top 3–5 course and college matches', 'Basic SOP/resume direction', 'Application timeline guidance', 'Written summary document'],
     btnLabel: 'Find my path',
   },
   {
-    id: 'gradglow', slug: 'gradglow', name: 'GradGlow',
+    id: 'beyondgrad', slug: 'beyondgrad', name: 'Beyond Grad',
     tagline: 'UG to PG transition — done right.', price: '₹7,999', priceNum: 7999,
-    badge: null, color: '#FFF3D6', image: '/images/pkg-gradglow.jpg', emoji: '✨',
+    badge: null, color: '#FFF3D6', emoji: '✨',
     for: "Undergrads deciding between master's, job, or career switch",
     shortDesc: "MS vs MBA vs job — mapped out clearly with a written roadmap you can actually follow.",
     includes: ['1:1 career mapping session', 'MS vs MBA vs job pathway analysis', 'Course and university shortlisting', 'CV/resume feedback', 'SOP structure and review support', 'Written roadmap document'],
-    btnLabel: 'Glow up',
+    btnLabel: 'Let's go',
   },
   {
     id: 'total-admit', slug: 'total-admit', name: 'Total Admit',
-    tagline: 'Full application support, start to submission.', price: '₹13,999', priceNum: 13999,
-    badge: 'Premium', color: '#2C1810', image: '/images/pkg-total-admit.jpg', emoji: '🏆',
+    tagline: 'Full application support, start to submission.', price: 'callback', priceNum: 0,
+    badge: 'Premium', color: '#2C1810', emoji: '🏆',
     for: "Students applying to master's or competitive UG programs",
     shortDesc: "Everything from university selection to final review — we're with you the whole way.",
     includes: ['University selection (3–5 programs)', 'SOP writing support — brainstorm + 2 rounds of editing', 'CV formatting and editing', 'LOR strategy and template', 'Application calendar and checklist', 'WhatsApp/email support for 1 month', 'Final review before submission'],
@@ -73,15 +64,10 @@ const ADDONS = [
   { id: 'visa-qa',        name: 'Visa & Scholarship Q&A',  desc: '30 min session',          price: '₹699'   },
 ];
 
-function PackageImageBand({ pkg, height }: { pkg: typeof PACKAGES[0]; height: number }) {
+function PackageEmojiBand({ pkg, height }: { pkg: typeof PACKAGES[0]; height: number }) {
   return (
-    <div style={{ height, flexShrink: 0, position: 'relative', overflow: 'hidden', background: pkg.color }}>
-      <img
-        src={pkg.image} alt={pkg.name} loading="lazy"
-        style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }}
-        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-      />
-      <span style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: height > 150 ? '52px' : '40px', pointerEvents: 'none' }}>
+    <div style={{ height, flexShrink: 0, position: 'relative', overflow: 'hidden', background: pkg.color, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <span style={{ fontSize: height > 150 ? '52px' : '40px', pointerEvents: 'none' }}>
         {pkg.emoji}
       </span>
     </div>
@@ -357,23 +343,31 @@ export default function ServicesSection() {
             return (
               <div key={pkg.id} style={{ background: '#FFFEF9', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 4px 20px rgba(44,24,16,0.08)', border: pkg.badge ? '2px solid #F5A623' : '1.5px solid rgba(44,24,16,0.07)', position: 'relative' }}>
                 {pkg.badge && <div style={{ position: 'absolute', top: '12px', left: '12px', background: '#F5A623', color: '#2C1810', fontFamily: PD, fontSize: '10px', fontWeight: '700', letterSpacing: '0.08em', textTransform: 'uppercase', padding: '4px 10px', borderRadius: '100px', zIndex: 2 }}>★ {pkg.badge}</div>}
-                <PackageImageBand pkg={pkg} height={180} />
+                <PackageEmojiBand pkg={pkg} height={180} />
                 <div style={{ padding: '20px 20px 24px' }}>
                   <h3 style={{ fontFamily: PD, fontSize: '20px', fontWeight: '700', color: '#2C1810', marginBottom: '4px' }}>{pkg.name}</h3>
                   <p style={{ fontFamily: PD, fontSize: '12px', color: '#9B8B7A', fontStyle: 'italic', marginBottom: '8px' }}>{pkg.tagline}</p>
                   <p style={{ fontFamily: PD, fontSize: '13px', color: '#5C4A3A', lineHeight: '1.6', marginBottom: '14px' }}>{pkg.shortDesc}</p>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
-                    <span style={{ fontFamily: PD, fontSize: '24px', fontWeight: '700', color: '#2C1810' }}>{pkg.price}</span>
-                    <span style={{ fontFamily: PD, fontSize: '11px', color: '#9B8B7A' }}>one-time</span>
-                  </div>
-                  <div style={{ display: 'flex', gap: '10px' }}>
-                    <button onClick={(e) => handleAddToCart(e, pkg)} style={{ flex: 1, padding: '12px', background: justAdded ? '#22C55E' : (pkg.badge === 'Most popular' ? '#F5A623' : '#2C1810'), color: justAdded ? 'white' : (pkg.badge === 'Most popular' ? '#2C1810' : '#FFFEF9'), border: 'none', borderRadius: '100px', fontFamily: PD, fontSize: '13px', fontWeight: '700', cursor: 'pointer', transition: 'background 0.3s' }}>
-                      {justAdded ? 'Added!' : 'Add to cart'}
+                  {pkg.price === 'callback' ? (
+                    <button onClick={() => router.push('/contact')} style={{ width: '100%', padding: '14px', background: '#E8735A', color: '#FFF8EC', border: 'none', borderRadius: '100px', fontFamily: PD, fontSize: '14px', fontWeight: '700', cursor: 'pointer', transition: 'background 0.3s', marginBottom: '10px' }}>
+                      Request a call back
                     </button>
-                    <button onClick={() => router.push(`/services/${pkg.slug}`)} style={{ flex: 1, padding: '12px', background: 'transparent', color: '#2C1810', border: '1.5px solid rgba(44,24,16,0.2)', borderRadius: '100px', fontFamily: PD, fontSize: '13px', fontWeight: '700', cursor: 'pointer' }}>
-                      View details
-                    </button>
-                  </div>
+                  ) : (
+                    <>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
+                        <span style={{ fontFamily: PD, fontSize: '24px', fontWeight: '700', color: '#2C1810' }}>{pkg.price}</span>
+                        <span style={{ fontFamily: PD, fontSize: '11px', color: '#9B8B7A' }}>one-time</span>
+                      </div>
+                      <div style={{ display: 'flex', gap: '10px' }}>
+                        <button onClick={(e) => handleAddToCart(e, pkg)} style={{ flex: 1, padding: '12px', background: justAdded ? '#22C55E' : '#2C1810', color: justAdded ? 'white' : '#FFFEF9', border: 'none', borderRadius: '100px', fontFamily: PD, fontSize: '13px', fontWeight: '700', cursor: 'pointer', transition: 'background 0.3s' }}>
+                          {justAdded ? 'Added!' : 'Add to cart'}
+                        </button>
+                        <button onClick={() => router.push(`/services/${pkg.slug}`)} style={{ flex: 1, padding: '12px', background: 'transparent', color: '#2C1810', border: '1.5px solid rgba(44,24,16,0.2)', borderRadius: '100px', fontFamily: PD, fontSize: '13px', fontWeight: '700', cursor: 'pointer' }}>
+                          View details
+                        </button>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             );
@@ -446,7 +440,7 @@ export default function ServicesSection() {
                     <div style={{ position: 'absolute', top: '14px', left: '14px', background: '#F5A623', color: '#2C1810', fontFamily: PD, fontSize: '10px', fontWeight: '700', letterSpacing: '0.1em', textTransform: 'uppercase', padding: '4px 10px', borderRadius: '100px', zIndex: 2 }}>★ {pkg.badge}</div>
                   )}
 
-                  <PackageImageBand pkg={pkg} height={200} />
+                  <PackageEmojiBand pkg={pkg} height={200} />
 
                   <div style={{ padding: '22px 22px 24px', display: 'flex', flexDirection: 'column', flex: 1 }}>
                     <h3 style={{ fontFamily: PD, fontSize: '20px', fontWeight: '700', color: '#2C1810', marginBottom: '4px' }}>{pkg.name}</h3>
@@ -464,18 +458,31 @@ export default function ServicesSection() {
                     </div>
 
                     <div style={{ marginTop: 'auto' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
-                        <span style={{ fontFamily: PD, fontSize: '24px', fontWeight: '700', color: '#2C1810' }}>{pkg.price}</span>
-                        <span style={{ fontFamily: PD, fontSize: '11px', color: '#9B8B7A' }}>one-time</span>
-                      </div>
-                      <button
-                        onClick={(e) => handleAddToCart(e, pkg)}
-                        style={{ width: '100%', padding: '13px', background: justAdded ? '#22C55E' : (pkg.badge === 'Most popular' ? '#F5A623' : '#2C1810'), color: justAdded ? 'white' : (pkg.badge === 'Most popular' ? '#2C1810' : '#FFFEF9'), border: 'none', borderRadius: '100px', fontFamily: PD, fontSize: '13px', fontWeight: '700', letterSpacing: '0.04em', cursor: 'pointer', transition: 'background 0.3s, transform 0.2s', marginBottom: '10px' }}
-                        onMouseEnter={e => { if (!justAdded) (e.target as HTMLButtonElement).style.transform = 'scale(1.02)'; }}
-                        onMouseLeave={e => { (e.target as HTMLButtonElement).style.transform = 'scale(1)'; }}
-                      >
-                        {justAdded ? 'Added to cart!' : `Add to cart — ${pkg.btnLabel}`}
-                      </button>
+                      {pkg.price === 'callback' ? (
+                        <button
+                          onClick={(e) => { e.stopPropagation(); router.push('/contact'); }}
+                          style={{ width: '100%', padding: '14px', background: '#E8735A', color: '#FFF8EC', border: 'none', borderRadius: '100px', fontFamily: PD, fontSize: '14px', fontWeight: '700', cursor: 'pointer', transition: 'background 0.3s, transform 0.2s', marginBottom: '10px' }}
+                          onMouseEnter={e => { (e.target as HTMLButtonElement).style.background = '#C9604A'; (e.target as HTMLButtonElement).style.transform = 'scale(1.02)'; }}
+                          onMouseLeave={e => { (e.target as HTMLButtonElement).style.background = '#E8735A'; (e.target as HTMLButtonElement).style.transform = 'scale(1)'; }}
+                        >
+                          Request a call back
+                        </button>
+                      ) : (
+                        <>
+                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
+                            <span style={{ fontFamily: PD, fontSize: '24px', fontWeight: '700', color: '#2C1810' }}>{pkg.price}</span>
+                            <span style={{ fontFamily: PD, fontSize: '11px', color: '#9B8B7A' }}>one-time</span>
+                          </div>
+                          <button
+                            onClick={(e) => handleAddToCart(e, pkg)}
+                            style={{ width: '100%', padding: '13px', background: justAdded ? '#22C55E' : '#2C1810', color: justAdded ? 'white' : '#FFFEF9', border: 'none', borderRadius: '100px', fontFamily: PD, fontSize: '13px', fontWeight: '700', letterSpacing: '0.04em', cursor: 'pointer', transition: 'background 0.3s, transform 0.2s', marginBottom: '10px' }}
+                            onMouseEnter={e => { if (!justAdded) (e.target as HTMLButtonElement).style.transform = 'scale(1.02)'; }}
+                            onMouseLeave={e => { (e.target as HTMLButtonElement).style.transform = 'scale(1)'; }}
+                          >
+                            {justAdded ? 'Added to cart!' : `Add to cart — ${pkg.btnLabel}`}
+                          </button>
+                        </>
+                      )}
                       <p
                         onClick={(e) => { e.stopPropagation(); router.push(`/services/${pkg.slug}`); }}
                         style={{ textAlign: 'center', fontFamily: PD, fontSize: '11px', color: '#9B8B7A', textDecoration: 'underline', cursor: 'pointer', margin: 0 }}
