@@ -373,7 +373,25 @@ export default function PsychometricPaymentPage() {
             <div style={{ flex: 1, height: '1px', background: 'rgba(44,24,16,0.08)' }} />
           </div>
 
-          {/* ── I have paid button ── */}
+          {/* ── payment warning ── */}
+          <div style={{
+            background: '#FFF4E0',
+            border: '1px solid #D4A843',
+            borderRadius: '12px',
+            padding: '12px 16px',
+            marginBottom: '16px',
+            display: 'flex',
+            gap: '10px',
+            alignItems: 'flex-start',
+            textAlign: 'left',
+          }}>
+            <span style={{ fontSize: '16px', flexShrink: 0 }}>⚠️</span>
+            <p style={{ fontFamily: PD, fontSize: '12px', color: '#5C4A3A', lineHeight: '1.5', margin: 0 }}>
+              Please complete your payment using the QR code above <strong>before</strong> clicking the button below. Our team verifies every transaction — the test link will only be shared after successful payment confirmation.
+            </p>
+          </div>
+
+          {/* ── confirm payment button ── */}
           <a
             href={waUrl}
             target="_blank"
@@ -404,7 +422,7 @@ export default function PsychometricPaymentPage() {
               (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1)';
             }}
           >
-            I have paid! →
+            Confirm payment on WhatsApp →
           </a>
 
           <p style={{
