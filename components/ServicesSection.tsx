@@ -64,15 +64,6 @@ const ADDONS = [
   { id: 'visa-qa',        name: 'Visa & Scholarship Q&A',  desc: '30 min session',          price: '₹699'   },
 ];
 
-function PackageEmojiBand({ pkg, height }: { pkg: typeof PACKAGES[0]; height: number }) {
-  return (
-    <div style={{ height, flexShrink: 0, position: 'relative', overflow: 'hidden', background: pkg.color, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <span style={{ fontSize: height > 150 ? '52px' : '40px', pointerEvents: 'none' }}>
-        {pkg.emoji}
-      </span>
-    </div>
-  );
-}
 
 // ── STAMP SHAPE ──────────────────────────────────────────────────────────────
 function StampBox({ addon, justAdded, onAdd, visible, delay }: {
@@ -343,7 +334,7 @@ export default function ServicesSection() {
             return (
               <div key={pkg.id} style={{ background: '#FFFEF9', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 4px 20px rgba(44,24,16,0.08)', border: pkg.badge ? '2px solid #F5A623' : '1.5px solid rgba(44,24,16,0.07)', position: 'relative' }}>
                 {pkg.badge && <div style={{ position: 'absolute', top: '12px', left: '12px', background: '#F5A623', color: '#2C1810', fontFamily: PD, fontSize: '10px', fontWeight: '700', letterSpacing: '0.08em', textTransform: 'uppercase', padding: '4px 10px', borderRadius: '100px', zIndex: 2 }}>★ {pkg.badge}</div>}
-                <PackageEmojiBand pkg={pkg} height={180} />
+
                 <div style={{ padding: '20px 20px 24px' }}>
                   <h3 style={{ fontFamily: PD, fontSize: '20px', fontWeight: '700', color: '#2C1810', marginBottom: '4px' }}>{pkg.name}</h3>
                   <p style={{ fontFamily: PD, fontSize: '12px', color: '#9B8B7A', fontStyle: 'italic', marginBottom: '8px' }}>{pkg.tagline}</p>
@@ -440,7 +431,6 @@ export default function ServicesSection() {
                     <div style={{ position: 'absolute', top: '14px', left: '14px', background: '#F5A623', color: '#2C1810', fontFamily: PD, fontSize: '10px', fontWeight: '700', letterSpacing: '0.1em', textTransform: 'uppercase', padding: '4px 10px', borderRadius: '100px', zIndex: 2 }}>★ {pkg.badge}</div>
                   )}
 
-                  <PackageEmojiBand pkg={pkg} height={200} />
 
                   <div style={{ padding: '22px 22px 24px', display: 'flex', flexDirection: 'column', flex: 1 }}>
                     <h3 style={{ fontFamily: PD, fontSize: '20px', fontWeight: '700', color: '#2C1810', marginBottom: '4px' }}>{pkg.name}</h3>
