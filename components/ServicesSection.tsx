@@ -41,7 +41,7 @@ const PACKAGES = [
     for: "Undergrads deciding between master's, job, or career switch",
     shortDesc: "MS vs MBA vs job — mapped out clearly with a written roadmap you can actually follow.",
     includes: ['1:1 career mapping session', 'MS vs MBA vs job pathway analysis', 'Course and university shortlisting', 'CV/resume feedback', 'SOP structure and review support', 'Written roadmap document'],
-    btnLabel: 'Let's go',
+    btnLabel: "Let's go",
   },
   {
     id: 'total-admit', slug: 'total-admit', name: 'Total Admit',
